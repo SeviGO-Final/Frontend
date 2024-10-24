@@ -1,18 +1,18 @@
-import backgroundImage from "../../assets/image/section1-bg.jpg";
 import Navbar from "../layout/Navbar";
 import FeatureSection from "../layout/FeatSect";
 import InfoSection from "../layout/InfoSect";
 import AmountSection from "../layout/AmountSection.tsx";
+import backgroundImage from "../../assets/image/section1-bg.jpg";
 
 const LandingPage = () => {
   return (
     <>
+      <div className="absolute inset-0 bg-black opacity-50" />
       <div
         className="flex items-center justify-center h-screen bg-cover bg-center "
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 text-center text-white font-Poopins">
+        <div className="relative flex flex-col items-center text-center text-white">
           <h1 className="text-5xl font-bold mb-4">SeviGo</h1>
           <p className="text-lg mb-8 max-w-xl mx-auto">
             Kami hadir untuk memudahkan masyarakat dalam menyampaikan keluhan

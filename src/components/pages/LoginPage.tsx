@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import backgroundImage from "../../assets/image/login-bg.jpg";
-import 'boxicons/css/boxicons.min.css';
+import "boxicons/css/boxicons.min.css";
 import logoSevigo from "../../assets/image/logo SeviGO.png";
 
 interface FormData {
@@ -10,15 +10,15 @@ interface FormData {
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -26,18 +26,21 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     try {
       // Handle login logic here
-      console.log('Login submitted:', formData);
+      console.log("Login submitted:", formData);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen" style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
+    <div
+      className="flex items-center justify-center h-screen"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Container untuk logo dan card */}
       <div className="flex flex-col items-center">
         {/* ini untuk Logo */}
@@ -46,15 +49,22 @@ const LoginPage: React.FC = () => {
             src={logoSevigo}
             alt="Sevigo Logo"
             className="mb-2"
-            style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+            style={{ width: "60px", height: "60px", borderRadius: "50%" }}
           />
-          <h1 className="mb-2 ml-4 text-2xl font-bold " style={{ color: "white", fontSize: '50px' }}>SeviGo</h1>
+          <h1
+            className="mb-2 ml-4 text-2xl font-bold "
+            style={{ color: "white", fontSize: "50px" }}
+          >
+            SeviGo
+          </h1>
         </div>
 
         {/* ini untuk Card container */}
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
           {/* Form Title */}
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+            Login
+          </h2>
 
           {/* ini untuk Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -95,11 +105,11 @@ const LoginPage: React.FC = () => {
               <i className="bx bx-right-arrow-alt text-xl transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </form>
-          <div class="w-full h-[1px] bg-gray-200 mt-9 mb-0"></div>
+          <div className="w-full h-[1px] bg-gray-200 mt-9 mb-0"></div>
 
           {/* Sign up link */}
           <p className="text-center mt-6 text-gray-600">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <a
               href="#"
               className="text-orange-500 hover:text-orange-600 font-medium transition-colors duration-300 inline-flex items-center gap-1"
