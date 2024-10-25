@@ -26,27 +26,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-<<<<<<< HEAD
-    console.log('Login submitted:', formData);
-  };
-
-  return (
-    <div className="flex items-center justify-center h-screen" style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
-      <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
-
-      <div className="flex flex-col items-center z-10">
-        <div className="flex flex-row items-center mb-6">
-=======
-    try {
-      // Handle login logic here
-      console.log("Login submitted:", formData);
-    } catch (error) {
-      console.error("Login error:", error);
-    }
+    console.log("Login submitted:", formData);
   };
 
   return (
@@ -58,11 +38,10 @@ const LoginPage: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      {/* Container untuk logo dan card */}
-      <div className="flex flex-col items-center">
-        {/* ini untuk Logo */}
-        <div className="flex flex-row items-center mb-4">
->>>>>>> 4e61bac512a8d9bb90dda4e33d793031f75943f3
+      <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
+
+      <div className="flex flex-col items-center z-10">
+        <div className="flex flex-row items-center mb-6">
           <img
             src={logoSevigo}
             alt="Sevigo Logo"
@@ -78,14 +57,9 @@ const LoginPage: React.FC = () => {
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
-<<<<<<< HEAD
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
-=======
-          {/* Form Title */}
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
             Login
           </h2>
->>>>>>> 4e61bac512a8d9bb90dda4e33d793031f75943f3
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
@@ -112,20 +86,10 @@ const LoginPage: React.FC = () => {
               <i className="bx bx-right-arrow-alt text-xl" />
             </button>
           </form>
-<<<<<<< HEAD
-          <p className="text-center mt-6 text-gray-600">
-            Don't have an account?{' '}
-            <Link
-              to="/register" // Tautan ke halaman register
-=======
-          <div className="w-full h-[1px] bg-gray-200 mt-9 mb-0"></div>
-
-          {/* Sign up link */}
           <p className="text-center mt-6 text-gray-600">
             Don't have an account?{" "}
-            <a
-              href="#"
->>>>>>> 4e61bac512a8d9bb90dda4e33d793031f75943f3
+            <Link
+              to="/register" // Tautan ke halaman register
               className="text-orange-500 hover:text-orange-600 font-medium transition-colors duration-300 inline-flex items-center gap-1"
               aria-label="Sign up"
             >

@@ -29,7 +29,7 @@ const Navbar = () => {
             </a>
           </Link>
           <Link to="/login">
-            <button className="bg-orange-500 font-bold text-lg text-black w-full px-4 rounded-lg hover:bg-orange-600 hover:text-slate-50 duration-700 ">
+            <button className="bg-orange-500 font-bold text-lg text-slate-100 w-full px-4 rounded-lg hover:bg-orange-600 hover:text-slate-50 duration-700 ">
               Login
             </button>
           </Link>
