@@ -10,6 +10,7 @@ import ErrorMessage from "../components/forms/ErrorMessage"; // Import ErrorMess
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);  //handle error dari backend
   const [loading, setLoading] = useState<boolean>(false); // State untuk loading
   const navigate = useNavigate();
 
@@ -36,7 +37,12 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("token", response.data.data.token);
       navigate("/dashboard"); // Arahkan ke dashboard setelah berhasil login
     } catch (err: any) {
+      console.log(err)
       setError(err.response?.data?.message || "Login failed");
+      const errorMessages = Array.isArray(err.response.data.errors)
+          ? err.response.data.errors
+          : [err.response.data.message || "Login failed"];
+        setErrors(errorMessages);
     } finally {
       setLoading(false); // Reset loading setelah pengiriman selesai
     }
@@ -69,7 +75,7 @@ const LoginPage: React.FC = () => {
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
 
-          {error && <ErrorMessage messages={[error]} />} {/* Tampilkan pesan error */}
+          {errors.length > 0 && <ErrorMessage messages={errors} />} {/* Menampilkan pesan error */}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
