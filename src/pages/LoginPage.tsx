@@ -3,18 +3,15 @@ import backgroundImage from "../assets/image/login-bg.jpg";
 import "boxicons/css/boxicons.min.css";
 import logoSevigo from "../assets/image/logo-SeviGO.png";
 import InputField from "./InputField";
-import { Link } from "react-router-dom";
-
-interface FormData {
-  email: string;
-  password: string;
-}
+import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api"; // Import API
+import ErrorMessage from "../components/forms/ErrorMessage"; // Import ErrorMessage
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false); // State untuk loading
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -26,7 +23,23 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    console.log("Login submitted:", formData);
+    setError(null); // Reset error sebelum pengiriman
+
+    // Validasi input
+    if (!formData.email || !formData.password) {
+      setError("Email dan Password harus diisi.");
+      return;
+    }
+    setLoading(true); // Set loading true saat mengirimkan form
+    try {
+      const response = await api.post("/users/login", formData);
+      localStorage.setItem("token", response.data.data.token);
+      navigate("/dashboard"); // Arahkan ke dashboard setelah berhasil login
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false); // Reset loading setelah pengiriman selesai
+    }
   };
 
   return (
@@ -48,18 +61,15 @@ const LoginPage: React.FC = () => {
             className="mb-2"
             style={{ width: "60px", height: "60px", borderRadius: "50%" }}
           />
-          <h1
-            className="mb-2 ml-4 text-2xl font-bold "
-            style={{ color: "white", fontSize: "50px" }}
-          >
+          <h1 className="mb-2 ml-4 text-2xl font-bold" style={{ color: "white", fontSize: "50px" }}>
             SeviGo
           </h1>
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Login
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
+
+          {error && <ErrorMessage messages={[error]} />} {/* Tampilkan pesan error */}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
@@ -80,16 +90,17 @@ const LoginPage: React.FC = () => {
             />
             <button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2"
+              disabled={loading} // Disable tombol saat loading
+              className={`w-full ${loading ? "bg-gray-400" : "bg-orange-500"} text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2`}
             >
-              LOGIN
+              {loading ? "Loading..." : "LOGIN"}
               <i className="bx bx-right-arrow-alt text-xl" />
             </button>
           </form>
           <p className="text-center mt-6 text-gray-600">
             Don't have an account?{" "}
             <Link
-              to="/register" // Tautan ke halaman register
+              to="/register"
               className="text-orange-500 hover:text-orange-600 font-medium transition-colors duration-300 inline-flex items-center gap-1"
               aria-label="Sign up"
             >
