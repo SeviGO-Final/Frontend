@@ -1,4 +1,4 @@
-import CardFeat from "../elements/cardfeat";
+import CardFeat from "../components/cardfeat";
 import "boxicons/css/boxicons.min.css";
 
 const FeatureSection = () => {

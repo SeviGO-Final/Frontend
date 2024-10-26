@@ -1,5 +1,5 @@
-import Logo from "../../../assets/image/logo SeviGO.png";
-import AdminSideBar from "./admin";
+import Logo from "../../assets/image/logo-SeviGO.png";
+import AdminSideBar from "./Admin";
 const SideBar = () => {
   return (
     <>

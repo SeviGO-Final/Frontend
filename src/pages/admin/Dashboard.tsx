@@ -1,4 +1,4 @@
-import SideBar from "../../elements/sidebar/sidebar";
+import SideBar from "../../components/sidebar/sidebar";
 
 const DashboardAdmin = () => {
   return (

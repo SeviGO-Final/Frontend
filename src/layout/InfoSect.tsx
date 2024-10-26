@@ -1,4 +1,4 @@
-import CardInfo from "../elements/cardinfo";
+import CardInfo from "../components/cardinfo";
 
 const InfoSection = () => {
   return (

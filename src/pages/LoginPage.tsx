@@ -1,21 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import backgroundImage from "../../assets/image/login-bg.jpg";
+import backgroundImage from "../assets/image/login-bg.jpg";
 import "boxicons/css/boxicons.min.css";
-import logoSevigo from "../../assets/image/logo SeviGO.png";
+import logoSevigo from "../assets/image/logo-SeviGO.png";
 import InputField from "./InputField";
 import { Link } from "react-router-dom";
 
 interface FormData {
-  nik: string;
-  fullname: string;
   email: string;
   password: string;
 }
 
-const RegisterPage: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    nik: "",
-    fullname: "",
     email: "",
     password: "",
   });
@@ -67,45 +63,20 @@ const RegisterPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
-              type="text"
-              name="nik"
-              value={formData.nik}
-              onChange={handleChange}
-              placeholder="NIK"
-              icon="bx bx-id-card"
-              required
-              aria-label="NIK"
-            />
-            <InputField
-              type="text"
-              name="fullname"
-              value={formData.fullname}
-              onChange={handleChange}
-              placeholder="Full Name"
-              icon="bx-user"
-              required
-              aria-label="Full name"
-            />
-            <InputField
-              type="email"
               name="email"
+              type="email"
               value={formData.email}
               placeholder="Email"
               icon="bx-envelope"
               onChange={handleChange}
-              required
-              aria-label="email"
             />
-
             <InputField
-              type="password"
               name="password"
+              type="password"
               value={formData.password}
               placeholder="Password"
               icon="bx-lock-alt"
               onChange={handleChange}
-              required
-              aria-label="password"
             />
             <button
               type="submit"
@@ -132,4 +103,4 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

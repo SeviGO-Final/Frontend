@@ -2,7 +2,7 @@ import Navbar from "../layout/Navbar";
 import FeatureSection from "../layout/FeatSect";
 import InfoSection from "../layout/InfoSect";
 import AmountSection from "../layout/AmountSection.tsx";
-import backgroundImage from "../../assets/image/section1-bg.jpg";
+import backgroundImage from "../assets/image/section1-bg.jpg";
 
 const LandingPage = () => {
   return (
