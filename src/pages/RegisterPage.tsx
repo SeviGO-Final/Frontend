@@ -37,21 +37,23 @@ const RegisterPage: React.FC = () => {
     setErrors([]); // Reset errors
 
     try {
-      const response = await api.post("/users/register", formData);
-      alert(`Hai: ${response.data.data.name}, Registration successful`);
-      navigate("/login");
+      const response = await api.post("/users/login", formData);
+      localStorage.setItem("token", response.data.data.token);
+      navigate("/dashboard");
     } catch (err: any) {
       console.log(err);
       if (err.response && err.response.data.errors) {
+        // Menggunakan array errors dari response
         const errorMessages = Array.isArray(err.response.data.errors)
-          ? err.response.data.errors.map((error: any) => error.message)
-          : [err.response.data.message || "An unexpected error occurred"];
+          ? err.response.data.errors
+          : [err.response.data.message || "Login failed"];
         setErrors(errorMessages);
       } else {
         setErrors(["An unexpected error occurred"]);
       }
     }
   };
+  
 
   return (
     <div
