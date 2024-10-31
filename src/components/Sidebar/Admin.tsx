@@ -10,8 +10,13 @@ const AdminSideBar = () => {
       <LinkSideBar label="Dashboard" to="/dashboard" icon="bx bxs-dashboard" />
       <LinkSideBar
         label="User Management"
-        to="/user-management"
+        to="/admin-panel/user-management"
         icon="bx bxs-user"
+      />
+      <LinkSideBar
+        label="Complaint List"
+        to="/complaint-list"
+        icon="bx bx-list-ul"
       />
     </>
   );

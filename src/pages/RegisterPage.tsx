@@ -35,13 +35,13 @@ const RegisterPage: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setErrors([]); // Reset errors
-  
+
     try {
       const response = await api.post("/users/register", formData);
       alert(`Hai: ${response.data.data.name}, Registration successful`);
       navigate("/login");
     } catch (err: any) {
-      console.log(err)
+      console.log(err);
       if (err.response && err.response.data.errors) {
         const errorMessages = Array.isArray(err.response.data.errors)
           ? err.response.data.errors.map((error: any) => error.message)
@@ -84,9 +84,8 @@ const RegisterPage: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
             Register
           </h2>
-
-          {errors.length > 0 && <ErrorMessage messages={errors} />} {/* Menampilkan pesan error */}
-
+          {errors.length > 0 && <ErrorMessage messages={errors} />}{" "}
+          {/* Menampilkan pesan error */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
               type="text"
