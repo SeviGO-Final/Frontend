@@ -1,6 +1,10 @@
+import { useLocation } from "react-router-dom";
 import Logo from "../../assets/image/logo-SeviGO.png";
 import AdminSideBar from "../Sidebar/Admin";
+import UserSidebar from "./User";
 const SideBar = () => {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin-panel");
   return (
     <>
       <div className="bg-orange-400 flex flex-col justify-start w-1/5 h-screen text-white">
@@ -12,7 +16,7 @@ const SideBar = () => {
           />
           <h1 className="text-4xl font-bold">SeviGo</h1>
         </div>
-        <AdminSideBar />
+        {isAdmin ? <AdminSideBar /> : <UserSidebar />}
       </div>
     </>
   );

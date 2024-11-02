@@ -10,7 +10,7 @@ import ErrorMessage from "../components/forms/ErrorMessage"; // Import ErrorMess
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
-  const [errors, setErrors] = useState<string[]>([]);  //handle error dari backend
+  const [errors, setErrors] = useState<string[]>([]); //handle error dari backend
   const [loading, setLoading] = useState<boolean>(false); // State untuk loading
   const navigate = useNavigate();
 
@@ -33,16 +33,23 @@ const LoginPage: React.FC = () => {
     }
     setLoading(true); // Set loading true saat mengirimkan form
     try {
-      const response = await api.post("/users/login", formData);
-      localStorage.setItem("token", response.data.data.token);
-      navigate("/dashboard"); // Arahkan ke dashboard setelah berhasil login
+      // const response = await api.post("/users/login", formData);
+      // localStorage.setItem("token", response.data.data.token);
+      if (
+        formData.email === "admin@example.com" &&
+        formData.password === "123"
+      ) {
+        navigate("/admin-panel"); // Arahkan ke halaman admin
+      } else {
+        navigate("/dashboard"); // Arahkan ke dashboard untuk user biasa
+      } // Arahkan ke dashboard setelah berhasil login
     } catch (err: any) {
-      console.log(err)
+      console.log(err);
       setError(err.response?.data?.message || "Login failed");
       const errorMessages = Array.isArray(err.response.data.errors)
-          ? err.response.data.errors
-          : [err.response.data.message || "Login failed"];
-        setErrors(errorMessages);
+        ? err.response.data.errors
+        : [err.response.data.message || "Login failed"];
+      setErrors(errorMessages);
     } finally {
       setLoading(false); // Reset loading setelah pengiriman selesai
     }
@@ -67,16 +74,20 @@ const LoginPage: React.FC = () => {
             className="mb-2"
             style={{ width: "60px", height: "60px", borderRadius: "50%" }}
           />
-          <h1 className="mb-2 ml-4 text-2xl font-bold" style={{ color: "white", fontSize: "50px" }}>
+          <h1
+            className="mb-2 ml-4 text-2xl font-bold"
+            style={{ color: "white", fontSize: "50px" }}
+          >
             SeviGo
           </h1>
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
-
-          {errors.length > 0 && <ErrorMessage messages={errors} />} {/* Menampilkan pesan error */}
-
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+            Login
+          </h2>
+          {errors.length > 0 && <ErrorMessage messages={errors} />}{" "}
+          {/* Menampilkan pesan error */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
               name="email"
@@ -97,7 +108,9 @@ const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading} // Disable tombol saat loading
-              className={`w-full ${loading ? "bg-gray-400" : "bg-orange-500"} text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2`}
+              className={`w-full ${
+                loading ? "bg-gray-400" : "bg-orange-500"
+              } text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2`}
             >
               {loading ? "Loading..." : "LOGIN"}
               <i className="bx bx-right-arrow-alt text-xl" />
