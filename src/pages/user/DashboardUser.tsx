@@ -1,6 +1,6 @@
-import SideBar from "../../components/Sidebar/sidebar";
+import SideBar from "../../components/elements/Sidebar/sidebar";
 import { Link } from "react-router-dom";
-import Table from "../../components/table/user/table";
+import Table from "../../components/elements/table/user/table";
 const DashboardUser = () => {
   return (
     <>

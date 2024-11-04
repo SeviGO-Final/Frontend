@@ -5,7 +5,7 @@ import logoSevigo from "../assets/image/logo-SeviGO.png";
 import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
-import ErrorMessage from "../components/forms/ErrorMessage"; // Import ErrorMessage
+import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import ErrorMessage
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });

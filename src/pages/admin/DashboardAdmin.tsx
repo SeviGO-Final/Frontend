@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "../../components/Sidebar/sidebar.tsx";
+import SideBar from "../../components/elements/Sidebar/sidebar.tsx";
 
 const DashboardAdmin: React.FC = () => {
   return (

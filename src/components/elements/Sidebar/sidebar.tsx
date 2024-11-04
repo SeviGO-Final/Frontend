@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import Logo from "../../assets/image/logo-SeviGO.png";
+import Logo from "../../../assets/image/logo-SeviGO.png";
 import AdminSideBar from "../Sidebar/Admin";
 import UserSidebar from "./User";
 const SideBar = () => {
@@ -12,9 +12,9 @@ const SideBar = () => {
           <img
             src={Logo}
             alt=""
-            className="border border-yellow-400 rounded-full w-20"
+            className="border border-yellow-400 rounded-full w-12"
           />
-          <h1 className="text-4xl font-bold">SeviGo</h1>
+          <h1 className="text-3xl font-bold">SeviGo</h1>
         </div>
         {isAdmin ? <AdminSideBar /> : <UserSidebar />}
       </div>

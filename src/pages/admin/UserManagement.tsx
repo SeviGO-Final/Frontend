@@ -1,5 +1,5 @@
-import SideBar from "../../components/Sidebar/sidebar";
-import Table from "../../components/table/admin/table";
+import SideBar from "../../components/elements/Sidebar/sidebar";
+import Table from "../../components/elements/table/admin/table";
 
 const UserManagement = () => {
   return (
