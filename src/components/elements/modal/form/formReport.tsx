@@ -99,12 +99,18 @@ const FormReport = () => {
               value={formData.location}
               onChange={handleChange}
             />
-            <TextInput
+            <select
               name="category"
-              placeholder="Pilih kategori laporan"
               value={formData.category}
               onChange={handleChange}
-            />
+            >
+              <option value="" disabled>
+                Pilih kategori laporan
+              </option>
+              <option value="pelayanan">Pelayanan Publik</option>
+              <option value="transportasi">Transportasi</option>
+              <option value="kebersihan">Kebersihan</option>
+            </select>
           </div>
           <label className="w-1/2 flex flex-col items-center cursor-pointer">
             <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-md p-16 mt-4 text-gray-300">
@@ -130,8 +136,6 @@ const FormReport = () => {
           >
             CANCEL
           </Button>
-
-          {/* Tombol SUBMIT */}
           <Button type="submit" className="bg-green-500 hover:bg-green-600">
             SUBMIT
           </Button>
