@@ -15,7 +15,7 @@ const AdminSideBar = () => {
       />
       <LinkSideBar
         label="Complaint List"
-        to="/complaint-list"
+        to="/admin-panel/complaint-list"
         icon="bx bx-list-ul"
       />
     </>

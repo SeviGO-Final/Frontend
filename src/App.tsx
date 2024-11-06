@@ -6,6 +6,7 @@ import DashboardAdmin from "./pages/admin/DashboardAdmin";
 import UserManagement from "./pages/admin/UserManagement";
 import DashboardUser from "./pages/user/DashboardUser";
 import NewReport from "./pages/user/NewReport";
+import ComplaintList from "./pages/admin/ComplainList";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             path="/admin-panel/user-management"
             element={<UserManagement />}
           />
+          <Route path="admin-panel/complaint-list" element={<ComplaintList />} />
           {/* User Page */}
           <Route path="/dashboard" element={<DashboardUser />} />
           <Route path="/dashboard/new-report" element={<NewReport />} />

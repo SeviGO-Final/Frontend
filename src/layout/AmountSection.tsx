@@ -1,4 +1,5 @@
 const AmountSection = () => {
+
   return (
     <div className="flex flex-col justify-center items-center pt-8">
       <h1 className="text-4xl font-bold text-center mb-4">

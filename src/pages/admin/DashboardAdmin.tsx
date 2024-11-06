@@ -8,7 +8,7 @@ const DashboardAdmin: React.FC = () => {
         <SideBar />
         <div className="m-4">
           <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-          <div className="flex space-x-4">
+          <div className="flex space-x-8">
             <div className="bg-slate-50 shadow-md flex items-center p-4 rounded-lg ">
               <i className="bx bxs-user text-6xl text-orange-400"></i>
               <div className="ml-12 pr-8">

@@ -9,5 +9,10 @@ export default {
     },
     extend: {},
   },
-  plugins: [],
-};
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light"], // Ini akan menggunakan tema light sebagai default
+    // atau bisa juga seperti ini untuk multiple themes:
+    // themes: ["light", "dark", "cupcake"]
+  },
+}
