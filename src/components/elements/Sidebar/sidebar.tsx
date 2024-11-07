@@ -8,7 +8,7 @@ const SideBar = () => {
   return (
     <>
       <div className="bg-orange-400 flex flex-col justify-start w-1/5 h-screen text-white">
-        <div className="flex flex-row items-center space-x-4 mt-4 ml-4">
+        <div className="flex flex-row items-center space-x-4 mt-4 ml-8">
           <img
             src={Logo}
             alt=""

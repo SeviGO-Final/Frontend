@@ -1,4 +1,4 @@
-import FormReport from "../../components/elements/modal/form/formReport";
+import FormReport from "../../components/elements/forms/formReport";
 import SideBar from "../../components/elements/Sidebar/sidebar";
 
 const NewReport = () => {
