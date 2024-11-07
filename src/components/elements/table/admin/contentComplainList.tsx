@@ -14,28 +14,27 @@ const ComplaintList: React.FC = () => {
     const complaints: Complaint[] = [
         { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
 
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        { id: '8522246001570940', type: 'Layanan', name: 'randi', phone: '081234567890' },
-        // Tambahkan data lainnya sesuai kebutuhan
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'lebron', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
+        { id: '8522246001570940', type: 'Layanan', name: 'jhon doe', phone: '081234567890' },
     ];
 
     const filteredComplaints = complaints.filter(
@@ -52,13 +51,14 @@ const ComplaintList: React.FC = () => {
                 <h2>Admin2</h2>
             </div>
             <div className="mb-8">
-                <div className='flex items-center'>
-                    <h1 className="text-3xl text-black font-bold mb-2">Complaint List</h1>
-                    <div className="border-t border-gray-800 w-full ml-4"></div>
+                <div className="flex items-center gap-4">
+                    <h1 className="text-3xl text-black font-bold mb-2 whitespace-nowrap">Complaint List</h1>
+                    <div className="w-full h-px bg-gray-800"></div>
                 </div>
 
                 <p className="text-gray-600">Report feed</p>
             </div>
+
 
             {/* Content */}
             <div className="bg-[#C5C5C5] bg-opacity-30 p-6 rounded-lg max-h-[75vh]">
