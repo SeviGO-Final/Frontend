@@ -10,6 +10,7 @@ import ComplaintList from "./pages/admin/ComplainList";
 import HistoryPage from "./pages/user/History";
 import ViewReport from "./pages/user/ViewReport";
 import ProfileUser from "./pages/user/ProfileUser";
+<<<<<<< HEAD
 import DetailComplaintPage from "./pages/admin/DetailComplaint";
 
 function App() {
@@ -40,6 +41,92 @@ function App() {
         </Routes>
       </div>
     </Router>
+=======
+import { AuthProvider } from "./middlewares/AuthContext";
+import ProtectedRoute from "./middlewares/ProtectedRoute";
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="font-Poppins">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+
+            {/* Admin Page - only accessible if logged in */}
+            <Route
+              path="/admin-panel"
+              element={
+                <ProtectedRoute>
+                  <DashboardAdmin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-panel/user-management"
+              element={
+                <ProtectedRoute>
+                  <UserManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-panel/complaint-list"
+              element={
+                <ProtectedRoute>
+                  <ComplaintList />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* User Page - only accessible if logged in */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardUser />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/new-report"
+              element={
+                <ProtectedRoute>
+                  <NewReport />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/history"
+              element={
+                <ProtectedRoute>
+                  <HistoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/view/:id"
+              element={
+                <ProtectedRoute>
+                  <ViewReport />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfileUser />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+>>>>>>> 2ce4e5d52a41155eb1a7366b62bb63b75bcd169b
   );
 }
 

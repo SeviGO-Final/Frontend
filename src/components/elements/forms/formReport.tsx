@@ -112,9 +112,10 @@ const FormReport = () => {
               name="category"
               value={formData.category}
               onChange={handleChange}
+              className="select select-bordered w-full max-w-xs"
             >
-              <option value="" disabled>
-                Pilih kategori laporan
+              <option disabled selected>
+                Pilih Kategori Laporan
               </option>
               <option value="Pelayanan">Pelayanan Publik</option>
               <option value="Transportasi">Transportasi</option>
