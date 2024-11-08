@@ -10,40 +10,9 @@ import ComplaintList from "./pages/admin/ComplainList";
 import HistoryPage from "./pages/user/History";
 import ViewReport from "./pages/user/ViewReport";
 import ProfileUser from "./pages/user/ProfileUser";
-<<<<<<< HEAD
-import DetailComplaintPage from "./pages/admin/DetailComplaint";
-
-function App() {
-  return (
-    <Router>
-      <div className="font-Poppins">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/admin-panel" element={<DashboardAdmin />} />
-          <Route
-            path="/admin-panel/user-management"
-            element={<UserManagement />}
-          />
-          <Route
-            path="admin-panel/complaint-list"
-            element={<ComplaintList />}
-          />
-          <Route path="admin-panel/detail-complaint" element={<DetailComplaintPage />} />
-
-          {/* User Page */}
-          <Route path="/dashboard" element={<DashboardUser />} />
-          <Route path="/dashboard/new-report" element={<NewReport />} />
-          <Route path="/dashboard/history" element={<HistoryPage />} />
-          <Route path="/dashboard/view/:id" element={<ViewReport />} />
-          <Route path="/dashboard/profile" element={<ProfileUser />} />
-        </Routes>
-      </div>
-    </Router>
-=======
 import { AuthProvider } from "./middlewares/AuthContext";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
+import DetailComplaintPage from "./pages/admin/DetailComplaint";
 
 function App() {
   return (
@@ -79,6 +48,10 @@ function App() {
                   <ComplaintList />
                 </ProtectedRoute>
               }
+            />
+            <Route
+              path="admin-panel/detail-complaint"
+              element={<DetailComplaintPage />}
             />
 
             {/* User Page - only accessible if logged in */}
@@ -126,7 +99,6 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
->>>>>>> 2ce4e5d52a41155eb1a7366b62bb63b75bcd169b
   );
 }
 
