@@ -10,6 +10,7 @@ import ComplaintList from "./pages/admin/ComplainList";
 import HistoryPage from "./pages/user/History";
 import ViewReport from "./pages/user/ViewReport";
 import ProfileUser from "./pages/user/ProfileUser";
+import DetailComplaintPage from "./pages/admin/DetailComplaint";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
             path="admin-panel/complaint-list"
             element={<ComplaintList />}
           />
+          <Route path="admin-panel/detail-complaint" element={<DetailComplaintPage />} />
+
           {/* User Page */}
           <Route path="/dashboard" element={<DashboardUser />} />
           <Route path="/dashboard/new-report" element={<NewReport />} />

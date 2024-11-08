@@ -1,66 +1,284 @@
 import React, { useState } from 'react';
+import ComplaintDetail from './contentDetailComplaint';
 
 interface Complaint {
     id: string;
     type: string;
     name: string;
     phone: string;
+    title?: string;
+    description?: string;
+    image?: string;
 }
 
 const ComplaintList: React.FC = () => {
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
 
-    // Sample data
     const complaints: Complaint[] = [
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
-        { id: '8522246001570940', type: 'fasilitas', name: 'sample 123456', phone: '081234567890' },
+        {
+            id: '8522246001570940',
+            type: 'Fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Kursi Patah',
+            description: 'terkena angin topan',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'Fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Jalan rusak',
+            description: 'Jalan rusak di dusun 3',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
+        {
+            id: '8522246001570940',
+            type: 'fasilitas',
+            name: 'sample 123456',
+            phone: '081234567890',
+            title: 'Lampu Penerangan Jalan Padam',
+            description: 'Lampu di jalan utama padam sejak kemarin malam',
+            image: ''
+        },
     ];
 
     const filteredComplaints = complaints.filter(
@@ -84,6 +302,10 @@ const ComplaintList: React.FC = () => {
         setCurrentPage(1);
     };
 
+    const handleViewComplaint = (complaint: Complaint) => {
+        setSelectedComplaint(complaint);
+    };
+
     const renderPaginationButtons = () => {
         const buttons = [];
         for (let i = 1; i <= totalPages; i++) {
@@ -102,6 +324,20 @@ const ComplaintList: React.FC = () => {
         }
         return buttons;
     };
+
+    if (selectedComplaint) {
+        return (
+            <ComplaintDetail
+                initialData={{
+                    id: selectedComplaint.id,
+                    title: selectedComplaint.title || 'No Title',
+                    description: selectedComplaint.description || 'No Description',
+                    image: selectedComplaint.image || ''
+                }}
+                onBack={() => setSelectedComplaint(null)}
+            />
+        );
+    }
 
     return (
         <div className="p-6 flex-1 bg-white">
@@ -167,7 +403,10 @@ const ComplaintList: React.FC = () => {
                                                         <td className="px-6 py-4 text-sm text-gray-900">{complaint.name}</td>
                                                         <td className="px-6 py-4 text-sm text-gray-900">{complaint.phone}</td>
                                                         <td className="px-6 py-4">
-                                                            <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
+                                                            <button
+                                                                onClick={() => handleViewComplaint(complaint)}
+                                                                className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
+                                                            >
                                                                 View
                                                             </button>
                                                         </td>
