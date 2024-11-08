@@ -71,77 +71,86 @@ const FormProfile = () => {
   const closeModal = () => setIsModalOpen(false);
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 p-8 mx-8 h-3/4 w-full bg-gray-100 rounded-lg mt-16"
-      >
-        <div className="flex space-x-4 mt-8">
-          <div className="flex flex-col space-y-4 w-1/2">
-            <TextInput
-              name="nik"
-              placeholder="NIK"
-              value={formData.nik}
-              onChange={handleChange}
-            />
-            <TextInput
-              name="name"
-              placeholder="Nama Lengkap"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <TextInput
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <TextInput
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <TextArea
-              name="address"
-              placeholder="Alamat"
-              value={formData.address}
-              onChange={handleChange}
+      <div className="border border-black flex flex-col w-3/4 ">
+        <div className="flex items-center">
+          <h1 className="text-4xl mx-8 my-8">Profile</h1>
+          <hr className="border border-black w-full" />
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="border border-red-600 bg-gray-100 p-8 mx-8 h-3/4  rounded-lg"
+        >
+          <div className="flex justify-center ">
+            <h1>Header</h1>
+          </div>
+          <div className="flex space-x-4 mt-8">
+            <div className="flex flex-col space-y-4 w-1/2">
+              <TextInput
+                name="nik"
+                placeholder="NIK"
+                value={formData.nik}
+                onChange={handleChange}
+              />
+              <TextInput
+                name="name"
+                placeholder="Nama Lengkap"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <TextInput
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <TextInput
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <TextArea
+                name="address"
+                placeholder="Alamat"
+                value={formData.address}
+                onChange={handleChange}
+              />
+            </div>
+            <label className="w-1/2 flex flex-col items-center cursor-pointer">
+              <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-lg p-16 mt-4 text-gray-300">
+                <i className="bx bx-user text-6xl "></i>
+                <span className="flex flex-col text-xs text-center">
+                  Please upload a JPG, PNG, or JPEG image.{" "}
+                  <span>Keep the file size under 2MB.</span>
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/jpeg, image/png"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+          <div className="flex justify-end space-x-4">
+            <Button
+              type="button"
+              onClick={handleCancel}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              CANCEL
+            </Button>
+            <Button type="submit" className="bg-green-500 hover:bg-green-600">
+              UPDATE
+            </Button>
+            <Alert
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              message="Data telah disimpan ke local storage."
             />
           </div>
-          <label className="w-1/2 flex flex-col items-center cursor-pointer">
-            <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-lg p-16 mt-4 text-gray-300">
-              <i className="bx bx-user text-6xl "></i>
-              <span className="flex flex-col text-xs text-center">
-                Please upload a JPG, PNG, or JPEG image.{" "}
-                <span>Keep the file size under 2MB.</span>
-              </span>
-            </div>
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </label>
-        </div>
-        <div className="flex justify-end space-x-4">
-          <Button
-            type="button"
-            onClick={handleCancel}
-            className="bg-red-500 hover:bg-red-600"
-          >
-            CANCEL
-          </Button>
-          <Button type="submit" className="bg-green-500 hover:bg-green-600">
-            SUBMIT
-          </Button>
-          <Alert
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            message="Data telah disimpan ke local storage."
-          />
-        </div>
-      </form>
+        </form>
+      </div>
     </>
   );
 };

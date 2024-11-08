@@ -6,12 +6,14 @@ import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import ErrorMessage
+import { useAuth } from "../middlewares/AuthContext";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]); //handle error dari backend
   const [loading, setLoading] = useState<boolean>(false); // State untuk loading
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -23,6 +25,7 @@ const LoginPage: React.FC = () => {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    login();
     e.preventDefault();
     setError(null); // Reset error sebelum pengiriman
 
@@ -42,7 +45,7 @@ const LoginPage: React.FC = () => {
         navigate("/admin-panel"); // Arahkan ke halaman admin
       } else {
         navigate("/dashboard"); // Arahkan ke dashboard untuk user biasa
-      } // Arahkan ke dashboard setelah berhasil login
+      }
     } catch (err: any) {
       console.log(err);
       setError(err.response?.data?.message || "Login failed");

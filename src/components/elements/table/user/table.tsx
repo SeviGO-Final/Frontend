@@ -1,28 +1,52 @@
-import { useEffect, useState } from "react";
+import { ReactNode, SetStateAction, useEffect, useState } from "react";
+
+interface ReportItem {
+  id: ReactNode;
+  date: string;
+  title: string;
+  category: string;
+  status: boolean;
+}
 
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [report, setReport] = useState<ReportItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  const loadData = () => {
+    const data = localStorage.getItem("history");
+    if (data) {
+      try {
+        const parsedData: ReportItem[] = JSON.parse(data);
+        setReport(parsedData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
-    fetch("/dataHistory.json")
-      .then((response) => response.json())
-      .then((jsonData) => setData(jsonData))
-      .catch((error) => console.error("Error: ", error));
+    loadData();
   }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = report.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber: SetStateAction<number>) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPage = Math.ceil(report.length / itemsPerPage);
   return (
     <>
-      <div className="bg-gray-50 p-4 rounded-lg shadow ml-4 mt-8 ">
+      <div className="bg-gray-50 h-3/5 p-4 rounded-lg shadow ml-4 mt-4 ">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
             placeholder="Search..."
             className="p-2 border rounded w-1/3"
           />
-          <select className="p-2 border rounded">
-            <option>10</option>
-            <option>20</option>
-            <option>30</option>
-          </select>
         </div>
         <table className="w-full text-left bg-white rounded-lg shadow-md">
           <thead>
@@ -36,12 +60,12 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
-              <tr key={item.id}>
-                <td className="p-2 border-b">{index + 1}</td>
+            {currentItems.map((item, index) => (
+              <tr key={index}>
+                <td className="p-2 border-b">{item.id}</td>
                 <td className="p-2 border-b">{item.date}</td>
                 <td className="p-2 border-b">{item.title}</td>
-                <td className="p-2 border-b">{item.type}</td>
+                <td className="p-2 border-b">{item.category}</td>
                 <td className="p-2 border-b">
                   <span
                     className={
@@ -62,6 +86,22 @@ const Table = () => {
             ))}
           </tbody>
         </table>
+        {/* Pagination */}
+        <div className="flex justify-center items-end mt-4">
+          <div className="btn-group  space-x-4">
+            {[...Array(totalPage)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
+                className={`btn ${
+                  currentPage === i + 1 ? "btn-active" : ""
+                } px-8`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
