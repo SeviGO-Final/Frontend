@@ -56,17 +56,16 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div
-      className="flex items-center justify-center h-screen"
+      className="flex items-center justify-center min-h-screen"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
 
-      <div className="flex flex-col items-center z-10">
-        <div className="flex flex-row items-center mb-6">
+      <div className="flex flex-col items-center z-10 relative mb-4">
+        <div className="flex flex-row items-center">
           <img
             src={logoSevigo}
             alt="Sevigo Logo"
@@ -81,7 +80,7 @@ const RegisterPage: React.FC = () => {
           </h1>
         </div>
 
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all duration-300 hover:scale-105">
+        <div className="bg-white p-8 rounded-lg shadow-lg  lg:w-96 m-3 transform transition-all duration-300 hover:scale-105">
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
             Register
           </h2>
