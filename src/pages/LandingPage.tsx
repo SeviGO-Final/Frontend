@@ -8,11 +8,12 @@ import backgroundImage from "../assets/image/section1-bg.jpg";
 const LandingPage = () => {
   return (
     <>
-      <div className="absolute inset-0 bg-black opacity-50" />
+      <Navbar />
       <div
-        className="flex items-center justify-center h-screen bg-cover bg-center "
+        className="flex items-center justify-center h-screen bg-cover bg-center relative"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
+        <div className="absolute inset-0 bg-black opacity-50" />
         <div className="relative flex flex-col items-center text-center text-white">
           <h1 className="text-5xl font-bold mb-4">SeviGo</h1>
           <p className="text-lg mb-8 max-w-xl mx-auto">
@@ -25,7 +26,6 @@ const LandingPage = () => {
           </button>
         </div>
       </div>
-      <Navbar />
       <AmountSection />
       <FeatureSection />
       <InfoSection />
