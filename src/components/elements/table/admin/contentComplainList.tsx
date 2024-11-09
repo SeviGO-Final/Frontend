@@ -1,300 +1,49 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import ComplaintDetail from './contentDetailComplaint';
 
 interface Complaint {
   id: string;
   type: string;
   name: string;
   phone: string;
+  title?: string;
+  description?: string;
+  image?: string;
 }
 
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
 
-  // Sample data
   const complaints: Complaint[] = [
     {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
+      id: '8522246001570940',
+      type: 'fasilitas',
+      name: 'sample 123456',
+      phone: '081234567890',
+      title: 'Lampu Penerangan Jalan Padam',
+      description: 'Lampu di jalan utama padam sejak kemarin malam',
+      image: ''
     },
     {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
+      id: '8522246001570940',
+      type: 'fasilitas',
+      name: 'sample 123456',
+      phone: '081234567890',
+      title: 'Lampu Penerangan Jalan Padam',
+      description: 'Lampu di jalan utama padam sejak kemarin malam',
+      image: ''
     },
     {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
-    },
-    {
-      id: "8522246001570940",
-      type: "fasilitas",
-      name: "sample 123456",
-      phone: "081234567890",
+      id: '8522246001570940',
+      type: 'Layanan',
+      name: 'sample 123456',
+      phone: '081234567890',
+      title: 'Jalan Rusak ',
+      description: 'Lampu di jalan utama padam sejak kemarin malam',
+      image: ''
     },
   ];
 
@@ -319,6 +68,10 @@ const ComplaintList: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleViewComplaint = (complaint: Complaint) => {
+    setSelectedComplaint(complaint);
+  };
+
   const renderPaginationButtons = () => {
     const buttons = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -326,11 +79,10 @@ const ComplaintList: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-1 mx-1 rounded ${
-            currentPage === i
-              ? "bg-orange-400 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
-          }`}
+          className={`px-3 py-1 mx-1 rounded ${currentPage === i
+            ? 'bg-orange-400 text-white'
+            : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
         >
           {i}
         </button>
@@ -338,6 +90,20 @@ const ComplaintList: React.FC = () => {
     }
     return buttons;
   };
+
+  if (selectedComplaint) {
+    return (
+      <ComplaintDetail
+        initialData={{
+          id: selectedComplaint.id,
+          title: selectedComplaint.title || 'No Title',
+          description: selectedComplaint.description || 'No Description',
+          image: selectedComplaint.image || ''
+        }}
+        onBack={() => setSelectedComplaint(null)}
+      />
+    );
+  }
 
   return (
     <div className="p-6 flex-1 bg-white">
@@ -356,7 +122,7 @@ const ComplaintList: React.FC = () => {
         <p className="text-gray-600">Report feed</p>
       </div>
 
-      <div className="flex flex-col h-[calc(90vh-theme(spacing.32))]">
+      <div className="flex shadow-md rounded-lg flex-col h-[calc(90vh-theme(spacing.32))]">
         <div className="bg-[#C5C5C5] bg-opacity-30 p-6 rounded-lg flex flex-col flex-grow">
           <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
             <input
@@ -370,9 +136,7 @@ const ComplaintList: React.FC = () => {
               <select
                 className="select select-bordered w-24 bg-white"
                 value={entriesPerPage}
-                onChange={(e) =>
-                  handleEntriesPerPageChange(Number(e.target.value))
-                }
+                onChange={(e) => handleEntriesPerPageChange(Number(e.target.value))}
               >
                 <option value={10}>10</option>
                 <option value={25}>25</option>
@@ -382,51 +146,33 @@ const ComplaintList: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex-grow relative rounded-md shadow bg-white">
+          <div className="flex-grow relative rounded-md overflow-hidden shadow bg-white">
             <div className="absolute inset-0 flex flex-col">
               <div className="overflow-x-auto flex-grow">
                 <div className="overflow-y-auto h-full">
                   <table className="w-full">
-                    <thead className="sticky top-0 bg-gray-50 z-10">
+                    <thead className="sticky top-0 bg-gray-300 rounded-t-md z-10">
                       <tr>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                          ID Report
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                          Type
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                          Name
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                          Phone
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                          Detail
-                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">ID Report</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Type</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Name</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Phone</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Detail</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                       {currentComplaints.length > 0 ? (
                         currentComplaints.map((complaint) => (
-                          <tr
-                            key={complaint.id}
-                            className="hover:bg-gray-50 transition-colors duration-150"
-                          >
-                            <td className="px-6 py-4 text-sm text-gray-900">
-                              {complaint.id}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-900">
-                              {complaint.type}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-900">
-                              {complaint.name}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-900">
-                              {complaint.phone}
-                            </td>
+                          <tr key={complaint.id} className="hover:bg-gray-50 transition-colors duration-150">
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.id}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.type}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.name}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.phone}</td>
                             <td className="px-6 py-4">
-                              <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
+                              <button
+                                onClick={() => handleViewComplaint(complaint)}
+                                className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
+                              >
                                 View
                               </button>
                             </td>
@@ -434,10 +180,7 @@ const ComplaintList: React.FC = () => {
                         ))
                       ) : (
                         <tr>
-                          <td
-                            colSpan={5}
-                            className="px-6 py-4 text-center text-gray-500"
-                          >
+                          <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
                             No complaints found
                           </td>
                         </tr>
@@ -451,8 +194,7 @@ const ComplaintList: React.FC = () => {
 
           <div className="mt-4 flex justify-between items-center">
             <div className="text-sm text-gray-700">
-              Showing {startIndex + 1} to{" "}
-              {Math.min(endIndex, filteredComplaints.length)} of{" "}
+              Showing {startIndex + 1} to {Math.min(endIndex, filteredComplaints.length)} of{' '}
               {filteredComplaints.length} entries
             </div>
             <div className="flex space-x-1">

@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "../../components/elements/Sidebar/sidebar";
-import ComplaintDetail from "../../components/elements/table/admin/contentDetailComplaint";
+import ComplaintDetail from "../../components/elements/table/admin/contentDetailComplaint"
 
 const DetailComplaintPage: React.FC = () => {
     return (
