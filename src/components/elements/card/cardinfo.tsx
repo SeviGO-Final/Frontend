@@ -1,7 +1,7 @@
 const CardInfo = () => {
   return (
     <>
-      <ul className="list-none bg-slate-100 w-3/5 flex flex-col space-y-4 p-8 text-left text-md rounded-xl">
+      <ul className="list-none bg-slate-100 m-5 flex flex-col space-y-4 p-8 text-left text-md rounded-xl">
         <li className="flex items-center">
           <i className="bx bx-check-circle text-orange-400 text-4xl mr-4"></i>
           Layanan ini terbuka untuk seluruh masyarakat tanpa terkecuali.

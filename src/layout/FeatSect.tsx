@@ -11,7 +11,7 @@ const FeatureSection = () => {
           Kami menyediakan berbagai fitur yang memudahkan Anda dalam melaporkan
           masalah dan memantau status pengaduan Anda.
         </p>
-        <div className="grid grid-cols-2 gap-4 p-4 w-full max-w-4xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2  gap-4 p-4 w-full max-w-4xl">
           <div className="grid grid-rows-2 gap-4">
             <CardFeat
               icon="bx-error"

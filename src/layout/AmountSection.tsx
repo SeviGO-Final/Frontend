@@ -6,7 +6,7 @@ const AmountSection = () => {
         Total Tindakan Pengaduan
       </h1>
       <hr className="w-2/3 mb-6" />
-      <div className="grid grid-cols-2 gap-4 p-4 w-full max-w-4xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 w-full max-w-4xl">
         <div className="grid grid-rows-2 gap-4">
           <div className="bg-slate-100 flex flex-col justify-center items-center p-4 rounded-lg">
             <h1 className="text-xl font-semibold">Total Pengaduan</h1>

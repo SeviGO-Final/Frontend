@@ -4,9 +4,9 @@ const InfoSection = () => {
   return (
     <>
       <div className="flex flex-col items-center space-y-4 text-center mt-4">
-        <h1 className="text-4xl font-bold">Informasi Tentang Layanan Kami</h1>
+        <h1 className="text-4xl m-2 font-bold">Informasi Tentang Layanan Kami</h1>
         <hr className="w-2/3" />
-        <p className="w-1/2 text-md">
+        <p className="w-full m-10 text-md">
           Layanan Pengaduan Masyarakat ini dirancang untuk memberikan saluran
           yang transparan dan mudah diakses oleh masyarakat.{" "}
         </p>
