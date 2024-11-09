@@ -8,7 +8,7 @@ const FAQSection = () => {
           Pertanyaan yang sering diajukan (FAQ)
         </h1>
         <hr className="w-2/3" />
-        <p className="text-md text-xl">
+        <p className="w-4/5 text-md">
           Berikut adalah beberapa pertanyaan umum terkait penggunaan layanan
           kami.{" "}
         </p>

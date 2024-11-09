@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-md lg:rounded-full">
+      <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-md lg:rounded-full lg:mt-4">
         <div className="flex items-center">
           <img
             src={Logo}
@@ -44,13 +44,15 @@ const Navbar = () => {
             className="text-gray-900"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <i className={`bx ${menuOpen ? 'bx-x' : 'bx-menu'} text-2xl`}></i>
+            <i className={`bx ${menuOpen ? "bx-x" : "bx-menu"} text-2xl`}></i>
           </button>
         </div>
       </nav>
 
       <div
-        className={`md:hidden ${menuOpen ? 'block' : 'hidden'} bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
+        className={`md:hidden ${
+          menuOpen ? "block" : "hidden"
+        } bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
         style={{
           position: "fixed",
           top: "56px",

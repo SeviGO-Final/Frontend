@@ -7,7 +7,7 @@ const FeatureSection = () => {
       <div className="flex flex-col items-center">
         <h1 className="text-4xl font-bold py-4">Fitur Utama Kami</h1>
         <hr className="w-2/3 mb-6" />
-        <p className="text-lg text-center w-1/2 mb-4">
+        <p className=" lg:text-lg text-center lg:w-1/2 px-4 mb-4">
           Kami menyediakan berbagai fitur yang memudahkan Anda dalam melaporkan
           masalah dan memantau status pengaduan Anda.
         </p>
