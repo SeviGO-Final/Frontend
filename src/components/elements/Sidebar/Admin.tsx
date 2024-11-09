@@ -19,7 +19,7 @@ const AdminSideBar = () => {
         <div className="w-full">
           <LinkSideBar
             label="Dashboard"
-            to="/dashboard"
+            to="/admin-panel"
             icon="bx bxs-dashboard"
           />
           <LinkSideBar
