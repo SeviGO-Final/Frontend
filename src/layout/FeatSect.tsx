@@ -1,10 +1,12 @@
 import CardFeat from "../components/elements/card/cardfeat";
 import "boxicons/css/boxicons.min.css";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 const FeatureSection = () => {
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div id="fitur" className="flex flex-col items-center">
         <h1 className="text-4xl font-bold py-4">Fitur Utama Kami</h1>
         <hr className="w-2/3 mb-6" />
         <p className=" lg:text-lg text-center lg:w-1/2 px-4 mb-4">
@@ -12,7 +14,11 @@ const FeatureSection = () => {
           masalah dan memantau status pengaduan Anda.
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2  gap-4 p-4 w-full max-w-4xl">
-          <div className="grid grid-rows-2 gap-4">
+          <div
+            data-aos="fade-right"
+            data-aos-duration="1000"
+            className="grid grid-rows-2 gap-4"
+          >
             <CardFeat
               icon="bx-error"
               title="Pengaduan Cepat dan Mudah"
@@ -24,7 +30,11 @@ const FeatureSection = () => {
               paragraph="Dapatkan pemberitahuan langsung setiap ada pembaruan pada pengaduan Anda."
             />
           </div>
-          <div className="grid grid-rows-2 gap-4">
+          <div
+            data-aos="fade-left"
+            data-aos-duration="1000"
+            className="grid grid-rows-2 gap-4"
+          >
             <CardFeat
               icon="bx-stats"
               title="Pantau Status Pengaduan"

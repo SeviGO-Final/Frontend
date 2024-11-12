@@ -63,7 +63,6 @@ const LoginPage: React.FC = () => {
     <div
       className="flex items-center justify-center h-screen"
       style={{
-
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -73,10 +72,7 @@ const LoginPage: React.FC = () => {
 
       <div className="flex flex-col items-center z-10">
         <div className="flex flex-row items-center mb-6">
-          <Link
-            to="/"
-            className="cursor-pointer flex items-center"
-          >
+          <Link to="/" className="cursor-pointer flex items-center">
             <img
               src={logoSevigo}
               alt="Sevigo Logo"
@@ -118,8 +114,9 @@ const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading} // Disable tombol saat loading
-              className={`w-full ${loading ? "bg-gray-400" : "bg-orange-500"
-                } text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2`}
+              className={`w-full ${
+                loading ? "bg-gray-400" : "bg-orange-500"
+              } text-white py-3 rounded-lg hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex items-center justify-center gap-2`}
             >
               {loading ? "Loading..." : "LOGIN"}
               <i className="bx bx-right-arrow-alt text-xl" />

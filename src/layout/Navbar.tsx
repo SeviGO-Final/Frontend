@@ -18,13 +18,22 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center space-x-5 text-md">
-          <a href="#" className="text-gray-900 hover:text-orange-500">
+          <a
+            href="#"
+            className="text-gray-900 hover:text-orange-500 duration-500"
+          >
             Fitur
           </a>
-          <a href="#" className="text-gray-900 hover:text-orange-500">
+          <a
+            href="#"
+            className="text-gray-900 hover:text-orange-500 duration-500"
+          >
             Informasi
           </a>
-          <a href="#" className="text-gray-900 hover:text-orange-500">
+          <a
+            href="#"
+            className="text-gray-900 hover:text-orange-500 duration-500"
+          >
             FAQ
           </a>
           <Link to={"/register"}>
@@ -50,8 +59,9 @@ const Navbar = () => {
       </nav>
 
       <div
-        className={`md:hidden ${menuOpen ? "block" : "hidden"
-          } bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
+        className={`md:hidden ${
+          menuOpen ? "block" : "hidden"
+        } bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
         style={{
           position: "fixed",
           top: "56px",

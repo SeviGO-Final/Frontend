@@ -4,7 +4,6 @@ import InfoSection from "../layout/InfoSect";
 import FAQSection from "../layout/FAQSect.tsx";
 import AmountSection from "../layout/AmountSection.tsx";
 import backgroundImage from "../assets/image/section1-bg.jpg";
-
 const LandingPage = () => {
   return (
     <>
