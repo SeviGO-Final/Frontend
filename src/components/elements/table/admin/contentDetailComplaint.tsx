@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 interface ComplaintData {
     id: string;
@@ -16,20 +18,27 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
     initialData,
     onBack
 }) => {
-    const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
-    const handleCreateReport = async (): Promise<void> => {
-        try {
-            setLoading(true);
-            // Add your report creation logic here
-            console.log('Creating report for:', initialData);
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            onBack(); // Go back to list after successful creation
-        } catch (error) {
-            console.error('Error creating report:', error);
-        } finally {
+    const handleCreateReport = () => {
+        setLoading(true);
+        Swal.fire({
+            title: 'Sudah Yakin?',
+            text: 'Mau buat Report?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya!, Buat',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate('/admin-panel/create-report');
+            }
+        }).finally(() => {
             setLoading(false);
-        }
+        });
     };
 
     return (
@@ -79,7 +88,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                     id="description"
                                     disabled
                                     value={initialData?.description || ''}
-                                    className="w-full max-w-md p-2 border text-xs  shadow-md border-gray-300 overflow-auto rounded-md bg-gray-50 h-28 resize-none"
+                                    className="w-full max-w-md p-2 border text-xs shadow-md border-gray-300 overflow-auto rounded-md bg-gray-50 h-28 resize-none"
                                 />
                             </div>
 
@@ -111,11 +120,32 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                 </button>
                                 <button
                                     onClick={handleCreateReport}
-                                    className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50 transition-colors"
+                                    className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50 transition-colors flex items-center gap-2"
                                     disabled={loading}
                                     type="button"
                                 >
-                                    {loading ? 'Creating...' : 'CREATE REPORT'}
+                                    {loading ? (
+                                        <>
+                                            <span className="loading loading-spinner loading-sm"></span>
+                                            Loading...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-5 w-5"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                            Create Report
+                                        </>
+                                    )}
                                 </button>
                             </div>
                         </div>

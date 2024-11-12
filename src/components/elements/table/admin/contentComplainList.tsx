@@ -23,8 +23,8 @@ const ComplaintList: React.FC = () => {
       type: 'fasilitas',
       name: 'sample 123456',
       phone: '081234567890',
-      title: 'Lampu Penerangan Jalan Padam',
-      description: 'Lampu di jalan utama padam sejak kemarin malam',
+      title: 'Pembuatan Irigasi',
+      description: 'Aliran Irigasi Tersumbat',
       image: ''
     },
     {

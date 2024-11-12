@@ -5,7 +5,8 @@ import logoSevigo from "../assets/image/logo-SeviGO.png";
 import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
-import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import komponen ErrorMessage
+import ErrorMessage from "../components/elements/forms/ErrorMessage";
+import LandingPage from "./LandingPage";
 
 interface FormData {
   nik: string;
@@ -66,18 +67,24 @@ const RegisterPage: React.FC = () => {
 
       <div className="flex flex-col items-center z-10 relative mb-4">
         <div className="flex flex-row items-center">
-          <img
-            src={logoSevigo}
-            alt="Sevigo Logo"
-            className="mb-2"
-            style={{ width: "60px", height: "60px", borderRadius: "50%" }}
-          />
-          <h1
-            className="mb-2 ml-4 text-2xl font-bold "
-            style={{ color: "white", fontSize: "50px" }}
+          <Link
+            to="/"
+            className="cursor-pointer flex items-center"
           >
-            SeviGo
-          </h1>
+            <img
+              src={logoSevigo}
+              alt="Sevigo Logo"
+              className="mb-2"
+              style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+            />
+            <h1
+              className="mb-2 ml-4 text-2xl font-bold "
+              style={{ color: "white", fontSize: "50px" }}
+            >
+              SeviGo
+            </h1>
+          </Link>
+
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-lg  lg:w-96 m-3 transform transition-all duration-300 hover:scale-105">

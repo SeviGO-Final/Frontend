@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-md lg:rounded-full lg:mt-4">
+      <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-lg lg:rounded-full lg:mt-4">
         <div className="flex items-center">
           <img
             src={Logo}
@@ -17,7 +17,7 @@ const Navbar = () => {
           <span className="text-3xl font-bold text-gray-900">SeviGo</span>
         </div>
 
-        <div className="hidden md:flex items-center space-x-4 text-md">
+        <div className="hidden md:flex items-center space-x-5 text-md">
           <a href="#" className="text-gray-900 hover:text-orange-500">
             Fitur
           </a>
@@ -28,9 +28,9 @@ const Navbar = () => {
             FAQ
           </a>
           <Link to={"/register"}>
-            <a href="#" className="text-gray-900 hover:text-orange-500">
+            <button className="bg-gray-300 shadow-md px-4 py-2 font-bold text-slate-700 rounded-lg active:bg-orange-600 hover:bg-orange-500 hover:text-slate-100 duration-500">
               Register
-            </a>
+            </button>
           </Link>
           <Link to="/login">
             <button className="bg-orange-500 font-bold text-lg text-slate-100 px-4 py-2 rounded-lg hover:bg-orange-600 hover:text-slate-50 duration-700">
@@ -50,9 +50,8 @@ const Navbar = () => {
       </nav>
 
       <div
-        className={`md:hidden ${
-          menuOpen ? "block" : "hidden"
-        } bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
+        className={`md:hidden ${menuOpen ? "block" : "hidden"
+          } bg-white shadow-md py-4 px-8 flex flex-col space-y-4`}
         style={{
           position: "fixed",
           top: "56px",

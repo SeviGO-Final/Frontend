@@ -13,6 +13,7 @@ import ProfileUser from "./pages/user/ProfileUser";
 import { AuthProvider } from "./middlewares/AuthContext";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
 import DetailComplaintPage from "./pages/admin/DetailComplaint";
+import CreateReport from "./pages/admin/CreateReport";
 
 function App() {
   return (
@@ -53,6 +54,12 @@ function App() {
               path="admin-panel/detail-complaint"
               element={<DetailComplaintPage />}
             />
+
+            <Route
+              path="admin-panel/create-report"
+              element={<CreateReport />}
+            />
+
 
             {/* User Page - only accessible if logged in */}
             <Route
