@@ -7,7 +7,11 @@ export default {
       Roboto: ["Roboto", "sans-serif"],
       Montserrat: ["Montserrat", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      height: {
+        132: "33rem",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -15,4 +19,4 @@ export default {
     // atau bisa juga seperti ini untuk multiple themes:
     // themes: ["light", "dark", "cupcake"]
   },
-}
+};

@@ -1,4 +1,5 @@
 import { ReactNode, SetStateAction, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface ReportItem {
   id: ReactNode;
@@ -78,9 +79,11 @@ const Table = () => {
                   </span>
                 </td>
                 <td className="p-2 border-b">
-                  <button className="bg-orange-500 text-white px-4 py-1 rounded">
-                    View
-                  </button>
+                  <Link to={`/dashboard/view/${item.id}`}>
+                    <button className="bg-orange-500 text-white px-4 py-1 rounded">
+                      View
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}

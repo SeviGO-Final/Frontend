@@ -71,19 +71,19 @@ const FormProfile = () => {
   const closeModal = () => setIsModalOpen(false);
   return (
     <>
-      <div className="border border-black flex flex-col w-3/4 ">
+      <div className="flex flex-col w-3/4 ml-8 ">
         <div className="flex items-center">
           <h1 className="text-4xl mx-8 my-8">Profile</h1>
           <hr className="border border-black w-full" />
         </div>
         <form
           onSubmit={handleSubmit}
-          className="border border-red-600 bg-gray-100 p-8 mx-8 h-3/4  rounded-lg"
+          className="bg-gray-100 p-4 mx-8 h-3/4 rounded-lg"
         >
-          <div className="flex justify-center ">
-            <h1>Header</h1>
+          <div className="bg-slate-200 py-2 flex justify-center rounded-lg ">
+            <h1>Your Profile</h1>
           </div>
-          <div className="flex space-x-4 mt-8">
+          <div className="flex space-x-4 mt-4">
             <div className="flex flex-col space-y-4 w-1/2">
               <TextInput
                 name="nik"

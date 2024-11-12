@@ -3,22 +3,23 @@ import TextInput from "../modal/input/TextInput";
 import TextArea from "../modal/input/TextArea";
 import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
+// import api from "../../../services/api";
 interface NewReport {
   title: string;
-  description: string;
+  content: string;
   date: string;
   location: string;
   category: string;
-  attachment: File | null;
+  evidence: File | string;
 }
 const FormReport = () => {
   const [formData, setFormData] = useState<NewReport>({
     title: "",
-    description: "",
+    content: "",
     date: "",
     location: "",
     category: "",
-    attachment: null,
+    evidence: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,19 +35,34 @@ const FormReport = () => {
   const handleCancel = () => {
     setFormData({
       title: "",
-      description: "",
+      content: "",
       date: "",
       location: "",
       category: "",
-      attachment: null,
+      evidence: "",
     });
   };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFormData((prev) => ({
-        ...prev,
-        attachment: e.target.files![0],
-      }));
+      const filesArray = Array.from(e.target.files);
+      const promises = filesArray.map((file) => {
+        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(promises)
+        .then((base64Files) => {
+          setFormData((prev) => ({
+            ...prev,
+            evidence: [...(prev.evidence || []), ...base64Files], // Tambahkan semua base64 files ke evidence array
+          }));
+        })
+        .catch((error) => console.error("Error reading files:", error));
     }
   };
 
@@ -66,11 +82,11 @@ const FormReport = () => {
     setIsModalOpen(true);
     setFormData({
       title: "",
-      description: "",
+      content: "",
       date: "",
       location: "",
       category: "",
-      attachment: null,
+      evidence: "",
     });
   };
 
@@ -90,9 +106,9 @@ const FormReport = () => {
               onChange={handleChange}
             />
             <TextArea
-              name="description"
+              name="content"
               placeholder="Isi laporan anda.."
-              value={formData.description}
+              value={formData.content}
               onChange={handleChange}
             />
             <input
