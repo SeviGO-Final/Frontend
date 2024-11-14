@@ -6,6 +6,7 @@ import UserSidebar from "./User";
 interface SidebarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
+    className?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
