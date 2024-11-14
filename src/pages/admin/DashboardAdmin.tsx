@@ -1,12 +1,9 @@
 import React from "react";
-import SideBar from "../../components/elements/Sidebar/sidebar.tsx";
-
 const DashboardAdmin: React.FC = () => {
   
   return (
     <>
       <div className="flex">
-        <SideBar />
         <div className="m-4">
           <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
           <div className="flex space-x-8">
