@@ -46,7 +46,6 @@ const CreateReport: React.FC = () => {
         }
 
         try {
-            // mengirim data ke server 
             const response = await fetch('https://example.com/api/reports', {
                 method: 'POST',
                 body: formData,
@@ -89,7 +88,7 @@ const CreateReport: React.FC = () => {
             <div className="h-[11vh]">
                 <div className="flex items-center gap-2 sm:gap-4">
                     <h1 className="text-xl sm:text-2xl md:text-2xl text-black font-bold whitespace-nowrap">
-                        Create Report
+                        Create FeedBack
                     </h1>
                     <div className="w-full h-px bg-gray-800" />
                 </div>
@@ -98,7 +97,7 @@ const CreateReport: React.FC = () => {
             <div className="bg-gray-200 rounded-lg shadow-md h-[85vh] overflow-auto">
                 <div className="p-3 sm:p-4 md:p-6">
                     <div className="bg-orange-50 rounded-lg p-3 sm:p-4 md:p-4">
-                        <h2 className="text-lg sm:text-md font-semibold mb-4">New Report</h2>
+                        <h2 className="text-lg sm:text-md font-semibold mb-4">New Feedback</h2>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>

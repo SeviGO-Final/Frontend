@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import ComplaintDetail from './contentDetailComplaint';
+import classNames from 'classnames';
 
 interface Complaint {
   id: string;
   type: string;
   name: string;
-  phone: string;
+  status: string;
   title?: string;
   description?: string;
   image?: string;
@@ -22,16 +23,16 @@ const ComplaintList: React.FC = () => {
       id: '8522246001570940',
       type: 'fasilitas',
       name: 'sample 123456',
-      phone: '081234567890',
+      status: 'selesai',
       title: 'Pembuatan Irigasi',
-      description: 'Aliran Irigasi Tersumbat',
+      description: 'Aliran Irigasi Tersumbat  ',
       image: ''
     },
     {
       id: '8522246001570940',
       type: 'fasilitas',
       name: 'sample 123456',
-      phone: '081234567890',
+      status: 'proses',
       title: 'Lampu Penerangan Jalan Padam',
       description: 'Lampu di jalan utama padam sejak kemarin malam',
       image: ''
@@ -40,12 +41,14 @@ const ComplaintList: React.FC = () => {
       id: '8522246001570940',
       type: 'Layanan',
       name: 'sample 123456',
-      phone: '081234567890',
+      status: 'proses',
       title: 'Jalan Rusak ',
       description: 'Lampu di jalan utama padam sejak kemarin malam',
       image: ''
     },
   ];
+
+
 
   const filteredComplaints = complaints.filter(
     (complaint) =>
@@ -105,6 +108,7 @@ const ComplaintList: React.FC = () => {
     );
   }
 
+
   return (
     <div className="p-6 flex-1 bg-white">
       <div className="flex justify-end items-center mr-8">
@@ -156,7 +160,7 @@ const ComplaintList: React.FC = () => {
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">ID Report</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Type</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Name</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Phone</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Status</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Detail</th>
                       </tr>
                     </thead>
@@ -167,7 +171,12 @@ const ComplaintList: React.FC = () => {
                             <td className="px-6 py-4 text-sm text-gray-900">{complaint.id}</td>
                             <td className="px-6 py-4 text-sm text-gray-900">{complaint.type}</td>
                             <td className="px-6 py-4 text-sm text-gray-900">{complaint.name}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.phone}</td>
+                            <td className={classNames('px-6 py-4 text-sm', {
+                              'text-green-500 text-shadow-md': complaint.status === 'selesai',
+                              'text-orange-500 text-shadow-md': complaint.status === 'proses',
+                              'text-blue-500 text-shadow-md': complaint.status === 'baru'
+
+                            })} >{complaint.status}</td>
                             <td className="px-6 py-4">
                               <button
                                 onClick={() => handleViewComplaint(complaint)}

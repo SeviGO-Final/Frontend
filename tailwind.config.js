@@ -13,10 +13,13 @@ export default {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    require("tailwindcss-textshadow")
+
+  ],
   daisyui: {
-    themes: ["light"], // Ini akan menggunakan tema light sebagai default
-    // atau bisa juga seperti ini untuk multiple themes:
-    // themes: ["light", "dark", "cupcake"]
+    themes: ["light"],
+
   },
 };
