@@ -3,7 +3,7 @@ import TextInput from "../modal/input/TextInput";
 import TextArea from "../modal/input/TextArea";
 import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
-// import api from "../../../services/api";
+import api from "../../../services/api";
 interface NewReport {
   title: string;
   content: string;
@@ -66,29 +66,29 @@ const FormReport = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
-    const dataWithId = {
-      ...formData,
-      id: uniqueId,
-    };
-    // Ambil data dari localStorage
-    const history = JSON.parse(localStorage.getItem("history") || "[]");
-    // Tambahkan formData ke history
-    history.push(dataWithId);
-    // Simpan data yang diperbarui ke localStorage
-    localStorage.setItem("history", JSON.stringify(history));
-    setIsModalOpen(true);
-    setFormData({
-      title: "",
-      content: "",
-      date: "",
-      location: "",
-      category: "",
-      evidence: "",
-    });
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
+  //   const dataWithId = {
+  //     ...formData,
+  //     id: uniqueId,
+  //   };
+  //   // Ambil data dari localStorage
+  //   const history = JSON.parse(localStorage.getItem("history") || "[]");
+  //   // Tambahkan formData ke history
+  //   history.push(dataWithId);
+  //   // Simpan data yang diperbarui ke localStorage
+  //   localStorage.setItem("history", JSON.stringify(history));
+  //   setIsModalOpen(true);
+  //   setFormData({
+  //     title: "",
+  //     content: "",
+  //     date: "",
+  //     location: "",
+  //     category: "",
+  //     evidence: "",
+  //   });
+  // };
 
   const closeModal = () => setIsModalOpen(false);
   return (

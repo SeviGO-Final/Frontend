@@ -1,7 +1,51 @@
 import SideBar from "../../components/elements/Sidebar/sidebar";
 import { Link } from "react-router-dom";
 import Table from "../../components/elements/table/user/table";
+import { useEffect, useState } from "react";
 const DashboardUser = () => {
+  const [userName, setUserName] = useState<string>("");
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("Token tidak ditemukan");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/users/profile",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Gagal mengambil data pengguna");
+        }
+
+        const result = await response.json();
+
+        if (result.code === 200 && result.status === "OK") {
+          setUserName(result.data.name); // Set nama pengguna
+          setUserData(result.data); // Simpan data pengguna lengkap ke state
+        } else {
+          console.error(result.message);
+        }
+      } catch (error) {
+        console.error("Erro fetch: ", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
   return (
     <>
       <div className="flex">
@@ -11,7 +55,7 @@ const DashboardUser = () => {
             <h1 className="m-4 my-8 text-4xl">Dashboard</h1>
             <div className="flex items-center">
               <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
-              <h2>Hi, User!</h2>
+              <h2>Hi, {userName || userData}!</h2>
             </div>
           </div>
           <div className="flex items-center justify-center space-x-4 pb-4">

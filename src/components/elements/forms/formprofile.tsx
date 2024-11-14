@@ -1,73 +1,78 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextInput from "../modal/input/TextInput";
 import TextArea from "../modal/input/TextArea";
 import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
+import api from "../../../services/api";
 interface Profile {
+  is_verified: boolean;
   name: string;
   nik: string;
   email: string;
-  password: string;
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
   number: string;
   address: string;
 }
 const FormProfile = () => {
-  const [formData, setFormData] = useState<Profile>({
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userData, setUserData] = useState<Profile>({
+    is_verified: false,
     name: "",
     nik: "",
     email: "",
-    password: "",
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
     number: "",
     address: "",
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleChange = (
+  //Get Data Profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await api.get("users/profile");
+        if (response.data.code === 200 && response.data.status === "OK") {
+          setUserData(response.data.data);
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetch: ", error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setUserData((prevData) => ({
+      ...prevData,
       [name]: value,
     }));
   };
-  const handleCancel = () => {
-    setFormData({
-      name: "",
-      nik: "",
-      email: "",
-      password: "",
-      number: "",
-      address: "",
-    });
-  };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFormData((prev) => ({
-        ...prev,
-        attachment: e.target.files![0],
-      }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await api.put("users/profile", userData);
+      if (response.data.code === 200 && response.data.status === "OK") {
+        console.log("Profle update success");
+        setIsModalOpen(true);
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error updating profile: ", error.message);
     }
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Ambil data dari localStorage
-    const profile = JSON.parse(localStorage.getItem("profile") || "[]");
-    // Tambahkan formData ke history
-    profile.push(profile);
-    // Simpan data yang diperbarui ke localStorage
-    localStorage.setItem("profile", JSON.stringify(profile));
-    setIsModalOpen(true);
-    setFormData({
-      name: "",
-      nik: "",
-      email: "",
-      password: "",
-      number: "",
-      address: "",
-    });
-  };
+  const handleFileChange = () => {};
 
+  const handleCancel = () => {};
   const closeModal = () => setIsModalOpen(false);
   return (
     <>
@@ -78,52 +83,31 @@ const FormProfile = () => {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="bg-gray-100 p-4 mx-8 h-3/4 rounded-lg"
+          className="bg-gray-100 p-4 mx-4 h-4/5 rounded-lg"
         >
           <div className="bg-slate-200 py-2 flex justify-center rounded-lg ">
             <h1>Your Profile</h1>
+            <div className="flex items-center">
+              <span
+                className={`ml-4 ${
+                  userData.is_verified
+                    ? "bg-green-500 rounded-lg text-white px-4"
+                    : "bg-red-500 rounded-lg text-white px-4"
+                }`}
+              >
+                {userData.is_verified ? "Verified" : "Not verified"}
+              </span>
+            </div>
           </div>
           <div className="flex space-x-4 mt-4">
-            <div className="flex flex-col space-y-4 w-1/2">
-              <TextInput
-                name="nik"
-                placeholder="NIK"
-                value={formData.nik}
-                onChange={handleChange}
-              />
-              <TextInput
-                name="name"
-                placeholder="Nama Lengkap"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              <TextInput
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              <TextInput
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <TextArea
-                name="address"
-                placeholder="Alamat"
-                value={formData.address}
-                onChange={handleChange}
-              />
-            </div>
             <label className="w-1/2 flex flex-col items-center cursor-pointer">
-              <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-lg p-16 mt-4 text-gray-300">
+              <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-full p-20 mt-4 text-gray-300">
                 <i className="bx bx-user text-6xl "></i>
-                <span className="flex flex-col text-xs text-center">
-                  Please upload a JPG, PNG, or JPEG image.{" "}
-                  <span>Keep the file size under 2MB.</span>
-                </span>
               </div>
+              <p className="mt-4 w-1/2 flex flex-col text-xs text-center">
+                Please upload photo profile a JPG, PNG, or JPEG image.{" "}
+                <span>Keep the file size under 2MB.</span>
+              </p>
               <input
                 type="file"
                 accept="image/jpeg, image/png"
@@ -131,6 +115,55 @@ const FormProfile = () => {
                 className="hidden"
               />
             </label>
+            <div className="flex flex-col space-y-2 w-2/3">
+              <TextInput
+                name="nik"
+                placeholder="NIK"
+                value={userData.nik}
+                onChange={handleInputChange}
+                disble={true}
+              />
+              <TextInput
+                name="name"
+                placeholder="Nama Lengkap"
+                value={userData.name}
+                onChange={handleInputChange}
+              />
+              <TextInput
+                name="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={handleInputChange}
+              />
+              <TextArea
+                name="address"
+                placeholder="Alamat"
+                value={userData.address}
+                onChange={handleInputChange}
+              />
+              <div className="flex space-x-4">
+                <div className="space-y-4">
+                  <TextInput
+                    name="old_password"
+                    placeholder="Old Password"
+                    value={userData.old_password}
+                    onChange={handleInputChange}
+                  />
+                  <TextInput
+                    name="new_password"
+                    placeholder="New Password"
+                    value={userData.new_password}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <TextInput
+                  name="confirm_password"
+                  placeholder="Confirm Password"
+                  value={userData.confirm_password}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
           </div>
           <div className="flex justify-end space-x-4">
             <Button
@@ -146,7 +179,7 @@ const FormProfile = () => {
             <Alert
               isOpen={isModalOpen}
               onClose={closeModal}
-              message="Data telah disimpan ke local storage."
+              message="Pembaharuan tersimpan"
             />
           </div>
         </form>

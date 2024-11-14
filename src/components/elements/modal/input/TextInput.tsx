@@ -4,6 +4,7 @@ interface TextInputProps {
   name: string;
   placeholder: string;
   value: string;
+  disble: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -12,6 +13,7 @@ const TextInput: React.FC<TextInputProps> = ({
   placeholder,
   value,
   onChange,
+  disble,
 }) => {
   return (
     <input
@@ -21,6 +23,7 @@ const TextInput: React.FC<TextInputProps> = ({
       value={value}
       onChange={onChange}
       className="input w-full max-w-xs"
+      disabled={disble}
     />
   );
 };

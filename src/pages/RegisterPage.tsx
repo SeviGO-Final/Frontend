@@ -38,7 +38,7 @@ const RegisterPage: React.FC = () => {
     setErrors([]); // Reset errors
 
     try {
-      const response = await api.post("/users/login", formData);
+      const response = await api.post("/users/register", formData);
       localStorage.setItem("token", response.data.data.token);
       navigate("/dashboard");
     } catch (err: any) {
@@ -64,13 +64,9 @@ const RegisterPage: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-
       <div className="flex flex-col items-center z-10 relative mb-4">
         <div className="flex flex-row items-center">
-          <Link
-            to="/"
-            className="cursor-pointer flex items-center"
-          >
+          <Link to="/" className="cursor-pointer flex items-center">
             <img
               src={logoSevigo}
               alt="Sevigo Logo"
@@ -84,7 +80,6 @@ const RegisterPage: React.FC = () => {
               SeviGo
             </h1>
           </Link>
-
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-lg  lg:w-96 m-3 transform transition-all duration-300 hover:scale-105">

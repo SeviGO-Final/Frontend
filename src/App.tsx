@@ -60,7 +60,6 @@ function App() {
               element={<CreateReport />}
             />
 
-
             {/* User Page - only accessible if logged in */}
             <Route
               path="/dashboard"

@@ -6,7 +6,7 @@ interface CardFeatProps {
 
 const CardFeat = ({ icon, title, paragraph }: CardFeatProps) => {
   return (
-    <div className="bg-slate-100 flex flex-col items-center text-center w-full py-4 rounded-lg">
+    <div className="bg-slate-100 flex flex-col items-center text-center lg:w-full py-4 rounded-lg">
       <div className="bg-white rounded-full p-4">
         <i className={`bx ${icon} text-7xl text-orange-400`}></i>
       </div>

@@ -31,7 +31,7 @@ const FeatureSection = () => {
             />
           </div>
           <div
-            data-aos="fade-left"
+            data-aos="fade-up"
             data-aos-duration="1000"
             className="grid grid-rows-2 gap-4"
           >
