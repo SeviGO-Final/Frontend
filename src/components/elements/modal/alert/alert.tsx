@@ -3,7 +3,7 @@ import React from "react";
 interface AlertProps {
   isOpen: boolean;
   onClose: () => void;
-  message: string;
+  message: [] | string;
 }
 
 const Alert: React.FC<AlertProps> = ({ isOpen, onClose, message }) => {

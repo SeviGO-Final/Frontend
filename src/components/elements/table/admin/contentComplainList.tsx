@@ -1,60 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ComplaintDetail from './contentDetailComplaint';
 import classNames from 'classnames';
-
-interface Complaint {
-  id: string;
-  type: string;
-  name: string;
-  status: string;
-  title?: string;
-  description?: string;
-  image?: string;
-}
+import api from '../../../../services/api';
+import { ComplaintResponse } from '../../../../types/complaint-type';
 
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
+  const [selectedComplaint, setSelectedComplaint] = useState<ComplaintResponse | null>(null);
+  const [complaints, setComplaints] = useState<[]>([]);
 
-  const complaints: Complaint[] = [
-    {
-      id: '8522246001570940',
-      type: 'fasilitas',
-      name: 'sample 123456',
-      status: 'selesai',
-      title: 'Pembuatan Irigasi',
-      description: 'Aliran Irigasi Tersumbat  ',
-      image: ''
-    },
-    {
-      id: '8522246001570940',
-      type: 'fasilitas',
-      name: 'sample 123456',
-      status: 'proses',
-      title: 'Lampu Penerangan Jalan Padam',
-      description: 'Lampu di jalan utama padam sejak kemarin malam',
-      image: ''
-    },
-    {
-      id: '8522246001570940',
-      type: 'Layanan',
-      name: 'sample 123456',
-      status: 'proses',
-      title: 'Jalan Rusak ',
-      description: 'Lampu di jalan utama padam sejak kemarin malam',
-      image: ''
-    },
-  ];
+  // const complaints: Complaint[] = [
+  //   {
+  //     id: '8522246001570940',
+  //     type: 'fasilitas',
+  //     name: 'sample 123456',
+  //     status: 'selesai',
+  //     title: 'Pembuatan Irigasi',
+  //     description: 'Aliran Irigasi Tersumbat  ',
+  //     image: ''
+  //   },
+  //   {
+  //     id: '8522246001570940',
+  //     type: 'fasilitas',
+  //     name: 'sample 123456',
+  //     status: 'proses',
+  //     title: 'Lampu Penerangan Jalan Padam',
+  //     description: 'Lampu di jalan utama padam sejak kemarin malam',
+  //     image: ''
+  //   },
+  //   {
+  //     id: '8522246001570940',
+  //     type: 'Layanan',
+  //     name: 'sample 123456',
+  //     status: 'proses',
+  //     title: 'Jalan Rusak ',
+  //     description: 'Lampu di jalan utama padam sejak kemarin malam',
+  //     image: ''
+  //   },
+  // ];
 
-
+  useEffect(() => {
+    api.get('/complaints')
+      .then((response) => {
+        setComplaints(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error when get all complaints: ', error);
+      })
+  },[]);
 
   const filteredComplaints = complaints.filter(
-    (complaint) =>
-      complaint.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      complaint.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      complaint.id.includes(searchQuery)
+    (complaint: ComplaintResponse) =>
+      complaint.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      complaint.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      complaint._id.includes(searchQuery)
   );
 
   const totalPages = Math.ceil(filteredComplaints.length / entriesPerPage);
@@ -71,7 +72,7 @@ const ComplaintList: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleViewComplaint = (complaint: Complaint) => {
+  const handleViewComplaint = (complaint: ComplaintResponse) => {
     setSelectedComplaint(complaint);
   };
 
@@ -98,10 +99,10 @@ const ComplaintList: React.FC = () => {
     return (
       <ComplaintDetail
         initialData={{
-          id: selectedComplaint.id,
+          id: selectedComplaint._id,
           title: selectedComplaint.title || 'No Title',
-          description: selectedComplaint.description || 'No Description',
-          image: selectedComplaint.image || ''
+          description: selectedComplaint.content || 'No Description',
+          image: selectedComplaint.evidence || ''
         }}
         onBack={() => setSelectedComplaint(null)}
       />
@@ -158,7 +159,7 @@ const ComplaintList: React.FC = () => {
                     <thead className="sticky top-0 bg-gray-300 rounded-t-md z-10">
                       <tr>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">ID Report</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Type</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Category</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Name</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Status</th>
                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Detail</th>
@@ -166,17 +167,17 @@ const ComplaintList: React.FC = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                       {currentComplaints.length > 0 ? (
-                        currentComplaints.map((complaint) => (
-                          <tr key={complaint.id} className="hover:bg-gray-50 transition-colors duration-150">
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.id}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.type}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.name}</td>
+                        currentComplaints.map((complaint: ComplaintResponse) => (
+                          <tr key={complaint._id} className="hover:bg-gray-50 transition-colors duration-150">
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint._id}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.category || 'Uncategorized'}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.title}</td>
                             <td className={classNames('px-6 py-4 text-sm', {
-                              'text-green-500 text-shadow-md': complaint.status === 'selesai',
-                              'text-orange-500 text-shadow-md': complaint.status === 'proses',
-                              'text-blue-500 text-shadow-md': complaint.status === 'baru'
+                              'text-green-500 text-shadow-md': complaint.current_status === 'selesai',
+                              'text-orange-500 text-shadow-md': complaint.current_status === 'proses',
+                              'text-blue-500 text-shadow-md': complaint.current_status === 'baru'
 
-                            })} >{complaint.status}</td>
+                            })} >{complaint.current_status}</td>
                             <td className="px-6 py-4">
                               <button
                                 onClick={() => handleViewComplaint(complaint)}

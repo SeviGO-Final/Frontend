@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
+import api from "../../../../services/api";
+import { UserResponse } from "../../../../types/user-type";
 
 const Table = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("/data.json")
-      .then((response) => response.json())
-      .then((jsonData) => setData(jsonData))
-      .catch((error) => console.error("Error: ", error));
+    // fetch("/data.json")
+    //   .then((response) => response.json())
+    //   .then((jsonData) => setData(jsonData))
+    //   .catch((error) => console.error("Error: ", error));
+    api.get('/users')
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error when get all users: ', error);
+      });
   }, []);
+
   return (
     <>
       <div className="bg-gray-50 p-4 rounded-lg shadow">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between users-center mb-4">
           <input
             type="text"
             placeholder="Search..."
@@ -28,29 +38,29 @@ const Table = () => {
           <thead>
             <tr className="bg-gray-200">
               <th className="p-2 border-b">No</th>
+              <th className="p-2 border-b">NIK</th>
               <th className="p-2 border-b">Name</th>
               <th className="p-2 border-b">Email</th>
-              <th className="p-2 border-b">Phone</th>
               <th className="p-2 border-b">Status</th>
               <th className="p-2 border-b">Action</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
-              <tr key={item.id}>
+            {data.map((user: UserResponse, index) => (
+              <tr key={user._id}>
                 <td className="p-2 border-b">{index + 1}</td>
-                <td className="p-2 border-b">{item.name}</td>
-                <td className="p-2 border-b">{item.email}</td>
-                <td className="p-2 border-b">{item.phone}</td>
+                <td className="p-2 border-b">{user.nik}</td>
+                <td className="p-2 border-b">{user.name}</td>
+                <td className="p-2 border-b">{user.email}</td>
                 <td className="p-2 border-b">
                   <span
                     className={
-                      item.status === "Accepted"
+                      user.is_verified === true
                         ? "text-green-500"
                         : "text-red-500"
                     }
                   >
-                    {item.status}
+                    {user.is_verified ? "Verified" : "Unverified" }
                   </span>
                 </td>
                 <td className="p-2 border-b">

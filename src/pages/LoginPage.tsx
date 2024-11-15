@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import ErrorMessage
 import { useAuth } from "../middlewares/AuthContext";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       const response = await axios.post(
         "http://localhost:3000/api/users/login",
         formData
-      );
+      );      
       const token = response.data.data.token;
       localStorage.setItem("token", token);
       login(token); // Memanggil fungsi login dari context AuthProvider
@@ -50,13 +50,13 @@ const LoginPage: React.FC = () => {
       } else {
         navigate("/dashboard");
       }
-    } catch (err: any) {
+    } catch (err: Error) {
       console.log(err);
-      setError(err.response?.data?.message || "Login gagal");
-      const errorMessages = Array.isArray(err.response?.data?.errors)
-        ? err.response.data.errors
-        : [err.response?.data?.message || "Login gagal"];
-      setErrors(errorMessages);
+      if (err.response.data.errors) {
+        setErrors([err.response.data.errors || 'Login failed'])
+      } else {
+        setErrors(["An unexpected error occurred"]);
+      }
     } finally {
       setLoading(false); // Reset loading setelah pengiriman selesai
     }
