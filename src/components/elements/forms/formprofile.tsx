@@ -12,14 +12,23 @@ interface UserData {
   name: string,
   email: string,
   role: string;
+import ImagePreview from "../ImagePreview";
+
+interface UserData {
+  _id: string,
+  nik: string,
+  name: string,
+  email: string,
+  role: string;
   is_verified: boolean;
+  avatar: File | null;
   avatar: File | null;
   address: string;
   old_password?: string;
   new_password?: string;
   confirm_password?: string;
-  // classname: string
 }
+
 
 const FormProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +46,10 @@ const FormProfile = () => {
     old_password: "",
     new_password: "",
     confirm_password: "",
-  })  
+    number: "",
+    address: "",
+    classname: "",
+  });
 
   // Get Data Profile
   useEffect(() => {
@@ -119,14 +131,17 @@ const FormProfile = () => {
         console.log("Error updating profile: ", errorMessage);
         setAxiosError(errorMessage);
         setIsModalOpen(true);
-      });  
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error updating profile: ", error.message);
+    }
   };
 
-  const handleCancel = () => {};
-  const closeModal = () => {
-    setAxiosError(null);
-    setIsModalOpen(false);
-  }
+  const handleFileChange = () => { };
+  const handleCancel = () => { };
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="flex flex-col md:flex-row p-4 md:p-8 gap-5">
@@ -160,7 +175,7 @@ const FormProfile = () => {
         </div>
       </div>
 
-      <div className="w-full md:flex-[2_2_0%] md:min-w-96">
+      <div className="w-full md:w-2/3">
         <div className="bg-slate-200 py-2 flex justify-center rounded-lg mb-6">
           <h1>Your Profile</h1>
           <div className="flex items-center">
@@ -223,8 +238,7 @@ const FormProfile = () => {
               onChange={handleInputChange}
             />
           </div>
-
-          <div className="flex justify-end mt-4 space-x-4">
+          <div className="flex justify-end space-x-4">
             <Button
               type="button"
               onClick={handleCancel}
@@ -238,10 +252,10 @@ const FormProfile = () => {
           </div>
 
           <Alert
-              isOpen={isModalOpen}
-              onClose={closeModal}
-              message={axiosError ? axiosError : "Pembaharuan tersimpan"}
-            />
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            message="Pembaharuan tersimpan"
+          />
         </form>
       </div >
     </div >
