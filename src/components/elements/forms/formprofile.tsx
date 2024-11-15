@@ -18,6 +18,7 @@ interface UserData {
   old_password?: string;
   new_password?: string;
   confirm_password?: string;
+  // classname: string
 }
 
 const FormProfile = () => {
@@ -36,9 +37,9 @@ const FormProfile = () => {
     old_password: "",
     new_password: "",
     confirm_password: "",
-  })
+  })  
 
-  //Get Data Profile
+  // Get Data Profile
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -126,107 +127,104 @@ const FormProfile = () => {
     setAxiosError(null);
     setIsModalOpen(false);
   }
+
   return (
-    <>
-      <div className="flex flex-col w-3/4 ml-8 ">
-        <div className="flex items-center">
-          <h1 className="text-4xl mx-8 my-8">Profile</h1>
-          <hr className="border border-black w-full" />
-        </div>
-        <form
-          onSubmit={handleSubmit}
-          className="bg-gray-100 p-4 mx-4 h-4/5 rounded-lg"
-        >
-          <div className="bg-slate-200 py-2 flex justify-center rounded-lg ">
-            <h1>Your Profile</h1>
-            <div className="flex items-center">
-              <span
-                className={`ml-4 ${
-                  userData.is_verified
-                    ? "bg-green-500 rounded-lg text-white px-4"
-                    : "bg-red-500 rounded-lg text-white px-4"
-                }`}
-              >
-                {userData.is_verified ? "Verified" : "Not verified"}
-              </span>
-            </div>
-          </div>
-          <div className="flex space-x-4 mt-4">
-            <label className="w-1/2 flex flex-col items-center cursor-pointer">
-              <div className="border border-gray-300 rounded-full p-1 mt-4 text-gray-300">
-                {preview ? (
+    <div className="flex flex-col md:flex-row p-4 md:p-8 gap-5">
+      <div className="w-full mb-6 md:mb-0 mt-4 md:flex-1">
+        <h1 className="text-2xl mb-4">Your Profile</h1>
+        <div className="card w-full bg-base-100 shadow-xl md:p-2 md:min-w-[17rem]">
+          <label className="w-full flex flex-col items-center cursor-pointer">
+            <div className="flex justify-center items-center border border-gray-300 rounded-full p-2 mt-4 text-gray-400 lg:h-[17rem] lg:w-[17rem] md:w-60 md:h-60">
+            {preview ? (
                 <img
                   src={preview}
                   alt="preview"
-                  className="w-96 h-96 rounded-full object-cover"/>
+                  className="w-64 h-64 rounded-full object-cover aspect-auto box-border md:h-56 md:w-56 lg:w-64 lg:h-64" />
                 ) : (
                 <ImagePreview
                   alt={`${userData.name.toLocaleLowerCase().split(" ").join("-")}-avatar`}
                   avatar={userData.avatar}
                 />)}
-              </div>
-              <p className="mt-4 w-1/2 flex flex-col text-xs text-center">
-                Please upload photo profile a JPG, PNG, or JPEG image.{" "}
-                <span>Keep the file size under 2MB.</span>
-              </p>
-              <input
-                type="file"
-                accept="image/jpeg, image/png"
-                onChange={handleFileChange}
-                className="hidden"
-              />              
-            </label>
-            <div className="flex flex-col space-y-2 w-2/3">
-              <TextInput
-                name="nik"
-                placeholder="NIK"
-                value={userData.nik}
-                onChange={handleInputChange}
-                disable={true}
-              />
-              <TextInput
-                name="name"
-                placeholder="Nama Lengkap"                
-                value={userData.name}
-                onChange={handleInputChange}
-              />
-              <TextInput
-                name="email"
-                placeholder="Email"
-                value={userData.email}
-                onChange={handleInputChange}
-              />
-              <TextArea
-                name="address"
-                placeholder="Alamat"
-                value={userData.address}
-                onChange={handleInputChange}
-              />
-              <div className="flex space-x-4">
-                <div className="space-y-4">
-                  <TextInput
-                    name="old_password"
-                    placeholder="Old Password"
-                    value={userData.old_password || ""}
-                    onChange={handleInputChange}
-                  />
-                  <TextInput
-                    name="new_password"
-                    placeholder="New Password"
-                    value={userData.new_password || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <TextInput
-                  name="confirm_password"
-                  placeholder="Confirm Password"
-                  value={userData.confirm_password || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
             </div>
+            <p className="mt-4 text-xs text-center p-2">
+              Please upload a profile photo (JPG, PNG, JPEG).
+              <span>Keep the file size under 2MB.</span>
+            </p>
+            <input
+              type="file"
+              accept="image/jpeg, image/png"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="w-full md:flex-[2_2_0%] md:min-w-96">
+        <div className="bg-slate-200 py-2 flex justify-center rounded-lg mb-6">
+          <h1>Your Profile</h1>
+          <div className="flex items-center">
+            <span
+              className={`ml-4 ${userData.is_verified
+                ? "bg-green-500 rounded-lg text-white px-4"
+                : "bg-red-500 rounded-lg text-white px-4"
+                }`}
+            >
+              {userData.is_verified ? "Verified" : "Not Verified"}
+            </span>
           </div>
-          <div className="flex justify-end space-x-4">
+        </div>
+
+        <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-lg">
+          <h5 className="text-center mb-4">Your NIK: {userData.nik}</h5>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TextInput
+              name="name"
+              placeholder="Nama Lengkap"
+              value={userData.name}
+              onChange={handleInputChange}
+            />
+
+            <TextInput
+              name="email"
+              placeholder="Email"
+              value={userData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 mt-4">
+            <TextArea
+              name="address"
+              placeholder="Alamat"
+              value={userData.address}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <TextInput
+              name="old_password"
+              placeholder="Old Password"
+              value={userData.old_password}
+              onChange={handleInputChange}
+            />
+            <TextInput
+              name="new_password"
+              placeholder="New Password"
+              value={userData.new_password}
+              onChange={handleInputChange}
+            />
+            <TextInput
+              name="confirm_password"
+              placeholder="Confirm Password"
+              value={userData.confirm_password}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="flex justify-end mt-4 space-x-4">
             <Button
               type="button"
               onClick={handleCancel}
@@ -237,16 +235,18 @@ const FormProfile = () => {
             <Button type="submit" className="bg-green-500 hover:bg-green-600">
               UPDATE
             </Button>
-            <Alert
+          </div>
+
+          <Alert
               isOpen={isModalOpen}
               onClose={closeModal}
               message={axiosError ? axiosError : "Pembaharuan tersimpan"}
             />
-          </div>
-        </form>        
-      </div>
-    </>
+        </form>
+      </div >
+    </div >
   );
 };
+
 
 export default FormProfile;

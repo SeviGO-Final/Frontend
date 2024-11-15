@@ -20,7 +20,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       value={value}
       onChange={onChange}
       rows={4}
-      className="textarea textarea-bordered"
+      className="textarea textarea-bordered w-full"
     />
   );
 };

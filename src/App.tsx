@@ -14,6 +14,7 @@ import { AuthProvider } from "./middlewares/AuthContext";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
 import DetailComplaintPage from "./pages/admin/DetailComplaint";
 import CreateReport from "./pages/admin/CreateReport";
+import Layout from "./components/Layout"; 
 
 function App() {
   return (
@@ -25,82 +26,21 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
-            {/* Admin Page - only accessible if logged in */}
-            <Route
-              path="/admin-panel"
-              element={
-                <ProtectedRoute>
-                  <DashboardAdmin />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-panel/user-management"
-              element={
-                <ProtectedRoute>
-                  <UserManagement />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-panel/complaint-list"
-              element={
-                <ProtectedRoute>
-                  <ComplaintList />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="admin-panel/detail-complaint"
-              element={<DetailComplaintPage />}
-            />
+            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              {/* Admin Routes */}
+              <Route path="/admin-panel" element={<DashboardAdmin />} />
+              <Route path="/admin-panel/user-management" element={<UserManagement />} />
+              <Route path="/admin-panel/complaint-list" element={<ComplaintList />} />
+              <Route path="/admin-panel/detail-complaint" element={<DetailComplaintPage />} />
+              <Route path="/admin-panel/create-report" element={<CreateReport />} />
 
-            <Route
-              path="admin-panel/create-report"
-              element={<CreateReport />}
-            />
-
-            {/* User Page - only accessible if logged in */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardUser />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/new-report"
-              element={
-                <ProtectedRoute>
-                  <NewReport />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/history"
-              element={
-                <ProtectedRoute>
-                  <HistoryPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/view/:id"
-              element={
-                <ProtectedRoute>
-                  <ViewReport />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/profile"
-              element={
-                <ProtectedRoute>
-                  <ProfileUser />
-                </ProtectedRoute>
-              }
-            />
+              {/* User Routes */}
+              <Route path="/dashboard" element={<DashboardUser />} />
+              <Route path="/dashboard/new-report" element={<NewReport />} />
+              <Route path="/dashboard/history" element={<HistoryPage />} />
+              <Route path="/dashboard/view/:id" element={<ViewReport />} />
+              <Route path="/dashboard/profile" element={<ProfileUser />} />
+            </Route>
           </Routes>
         </div>
       </Router>

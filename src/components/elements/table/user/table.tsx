@@ -41,7 +41,7 @@ const Table = () => {
   const totalPage = Math.ceil(report.length / itemsPerPage);
   return (
     <>
-      <div className="bg-gray-50 h-3/5 p-4 rounded-lg shadow ml-4 mt-4 ">
+      <div className="bg-gray-50 h-3/5 p-4 rounded-lg shadow mt-4 ">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"

@@ -1,10 +1,10 @@
-import SideBar from "../../components/elements/Sidebar/sidebar";
 import { Link } from "react-router-dom";
 import Table from "../../components/elements/table/user/table";
 import { useEffect, useState } from "react";
+
 const DashboardUser = () => {
   const [userName, setUserName] = useState<string>("");
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState<any>([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -46,36 +46,37 @@ const DashboardUser = () => {
 
     fetchUserProfile();
   }, []);
+
   return (
-    <>
-      <div className="flex">
-        <SideBar />
-        <div className="flex flex-col w-3/4 ml-8">
-          <div className="flex justify-between items-center mr-8">
-            <h1 className="m-4 my-8 text-4xl">Dashboard</h1>
-            <div className="flex items-center">
-              <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
-              <h2>Hi, {userName || userData}!</h2>
-            </div>
+    <div className="flex flex-col md:flex-row">
+      <div className="w-full p-4 md:p-8">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-4xl font-bold">Dashboard</h1>
+          <div className="flex items-center">
+            <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
+            <h2 className="text-xl">Hi, {userName || userData.name}!</h2>
           </div>
-          <div className="flex items-center justify-center space-x-4 pb-4">
-            <Link to={"/dashboard/new-report"}>
-              <div className="bg-slate-50 flex items-center py-8 px-20 text-2xl space-x-4 rounded-lg shadow-sm">
-                <i className="bx bxs-notepad text-orange-500 text-6xl" />
-                <h1>Buat Pengaduan</h1>
-              </div>
-            </Link>
-            <Link to={"/dashboard/history"}>
-              <div className="bg-slate-50 flex items-center p-8 text-2xl space-x-4 rounded-lg shadow-sm">
-                <i className="bx bx-history text-orange-500 text-6xl" />
-                <h1>Riwayat Pengaduan</h1>
-              </div>
-            </Link>
-          </div>
-          <Table />
         </div>
+
+        {/* Tautan Pengaduan */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <Link to="/dashboard/new-report">
+            <div className="bg-slate-50 flex items-center py-6 px-12 text-xl space-x-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+              <i className="bx bxs-notepad text-orange-500 text-4xl" />
+              <h1>Buat Pengaduan</h1>
+            </div>
+          </Link>
+          <Link to="/dashboard/history">
+            <div className="bg-slate-50 flex items-center py-6 px-12 text-xl space-x-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+              <i className="bx bx-history text-orange-500 text-4xl" />
+              <h1>Riwayat Pengaduan</h1>
+            </div>
+          </Link>
+        </div>
+        <Table />
       </div>
-    </>
+    </div>
   );
 };
 
