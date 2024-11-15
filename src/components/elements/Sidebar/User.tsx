@@ -21,12 +21,12 @@ const UserSidebar = () => {
           />
           <LinkSideBar
             label="History"
-            to="/dashboard/history"
+            to="/history"
             icon="bx bx-history"
           />
           <LinkSideBar
             label="Profile"
-            to="/dashboard/profile"
+            to="/profile"
             icon="bx bxs-user"
           />
         </div>

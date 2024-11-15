@@ -28,18 +28,18 @@ function App() {
 
             <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               {/* Admin Routes */}
-              <Route path="/admin-panel" element={<DashboardAdmin />} />
-              <Route path="/admin-panel/user-management" element={<UserManagement />} />
-              <Route path="/admin-panel/complaint-list" element={<ComplaintList />} />
-              <Route path="/admin-panel/detail-complaint" element={<DetailComplaintPage />} />
-              <Route path="/admin-panel/create-report" element={<CreateReport />} />
+              <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+              <Route path="/admin/user-management" element={<UserManagement />} />
+              <Route path="/admin/complaint-list" element={<ComplaintList />} />
+              <Route path="/admin/detail-complaint" element={<DetailComplaintPage />} />
+              <Route path="/admin/create-report" element={<CreateReport />} />
 
               {/* User Routes */}
               <Route path="/dashboard" element={<DashboardUser />} />
               <Route path="/dashboard/new-report" element={<NewReport />} />
-              <Route path="/dashboard/history" element={<HistoryPage />} />
+              <Route path="/history" element={<HistoryPage />} />
               <Route path="/dashboard/view/:id" element={<ViewReport />} />
-              <Route path="/dashboard/profile" element={<ProfileUser />} />
+              <Route path="/profile" element={<ProfileUser />} />
             </Route>
           </Routes>
         </div>

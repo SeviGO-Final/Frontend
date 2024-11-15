@@ -11,7 +11,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     const location = useLocation();
-    const isAdmin = location.pathname.startsWith("/admin-panel");
+    const isAdmin = location.pathname.startsWith("/admin");
 
     return (
         <div

@@ -1,21 +1,29 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 interface LinkProps {
   icon: string;
   label: string;
   to: string;
 }
+
 const LinkSideBar = ({ label, icon, to }: LinkProps) => {
   return (
-    <>
-      <Link to={to} className="text-black font-medium">
-        <div className="bg-white flex flex-row items-center mt-4 mx-4 p-2 space-x-4 rounded-xl hover:bg-slate-50 hover:-translate-y-2 duration-700">
-          <div className="text-orange-400 text-4xl">
-            <i className={icon}></i>
-          </div>
-          <p>{label}</p>
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `text-black font-medium ${
+          isActive
+            ? "bg-slate-100 text-orange-400 font-bold text-xl" : ""
+        }`
+      }
+    >
+      <div className="bg-white flex flex-row items-center mt-4 mx-4 p-2 space-x-4 rounded-xl hover:bg-slate-50 hover:-translate-y-2 transition-transform duration-300 hover:text-xl hover:transition-transform">
+        <div className="text-orange-400 text-4xl">
+          <i className={icon}></i>
         </div>
-      </Link>
-    </>
+        <p>{label}</p>
+      </div>
+    </NavLink>
   );
 };
 

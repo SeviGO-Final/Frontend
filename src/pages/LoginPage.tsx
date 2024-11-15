@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("token", token);
       login(token); // Memanggil fungsi login dari context AuthProvider
       if (response.data.data.role === "admin") {
-        navigate("/admin-panel");
+        navigate("/admin/dashboard");
       } else {
         navigate("/dashboard");
       }
