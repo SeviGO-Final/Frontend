@@ -41,7 +41,7 @@ const Table = () => {
   const totalPage = Math.ceil(report.length / itemsPerPage);
   return (
     <>
-      <div className="bg-gray-50 h-3/5 p-4 rounded-lg shadow mt-4 ">
+      <div className="bg-gray-50 h-4/6 p-4 lg:pb-4 rounded-lg shadow mt-4 ">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
@@ -49,7 +49,7 @@ const Table = () => {
             className="p-2 border rounded w-1/3"
           />
         </div>
-        <table className="w-full text-left bg-white rounded-lg shadow-md">
+        <table className="lg:w-full text-left bg-white rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-200">
               <th className="p-2 border-b">ID Report</th>

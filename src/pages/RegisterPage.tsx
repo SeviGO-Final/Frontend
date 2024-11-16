@@ -2,11 +2,11 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import backgroundImage from "../assets/image/login-bg.jpg";
 import "boxicons/css/boxicons.min.css";
 import logoSevigo from "../assets/image/logo-SeviGO.png";
-import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage";
 import LandingPage from "./LandingPage";
+import TextInput from "../components/elements/modal/input/TextInput";
 
 interface FormData {
   nik: string;
@@ -38,16 +38,16 @@ const RegisterPage: React.FC = () => {
     setErrors([]); // Reset errors
 
     try {
-      const response = await api.post("/users/register", formData);        
+      const response = await api.post("/users/register", formData);
       localStorage.setItem("token", response.data.data.token);
       navigate("/dashboard");
     } catch (err: Error) {
       console.log(err);
       if (err.response.data.errors) {
-        setErrors([err.response.data.errors || 'Register failed'])
+        setErrors([err.response.data.errors || "Register failed"]);
       } else {
         setErrors(["An unexpected error occurred"]);
-      }  
+      }
     }
   };
 
@@ -84,8 +84,8 @@ const RegisterPage: React.FC = () => {
           </h2>
           {errors.length > 0 && <ErrorMessage messages={errors} />}{" "}
           {/* Menampilkan pesan error */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <InputField
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <TextInput
               type="text"
               name="nik"
               value={formData.nik}
@@ -95,7 +95,7 @@ const RegisterPage: React.FC = () => {
               required
               aria-label="NIK"
             />
-            <InputField
+            <TextInput
               type="text"
               name="name"
               value={formData.name}
@@ -105,7 +105,7 @@ const RegisterPage: React.FC = () => {
               required
               aria-label="Full name"
             />
-            <InputField
+            <TextInput
               type="email"
               name="email"
               value={formData.email}
@@ -115,7 +115,7 @@ const RegisterPage: React.FC = () => {
               required
               aria-label="email"
             />
-            <InputField
+            <TextInput
               type="password"
               name="password"
               value={formData.password}

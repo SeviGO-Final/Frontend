@@ -6,6 +6,7 @@ import Button from "../modal/button/button";
 import api from "../../../services/api";
 import { CategoryResponse } from '../../../types/category-type';
 import { ComplaintType } from "../../../types/complaint-type";
+import { AxiosError } from "axios";
 
 type Categories = CategoryResponse[];
 
@@ -96,9 +97,16 @@ const FormReport = () => {
       setIsModalOpen(true);
 
     } catch(err: unknown) {
-      const errorMessage = (err as Error).message || "Error submitting complaint";
-      console.error(errorMessage);
-      setErrorBody(errorMessage);
+      let errorMessage: string = "";
+      if (err instanceof AxiosError) {
+        errorMessage = err.response?.data.errors;
+        console.error(errorMessage);
+        setErrorBody(errorMessage);
+      } else {
+        errorMessage = (err as Error).message || "Error submitting complaint";
+        console.error(errorMessage);
+        setErrorBody(errorMessage);
+      }      
       setIsModalOpen(true);
     }
   };
@@ -125,15 +133,18 @@ const FormReport = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 p-8 mx-8 h-3/4 w-full bg-gray-100 rounded-lg"
+        className="flex flex-col gap-4 pb-16 lg:pb-8 px-4 h-3/4 lg:w-full bg-gray-100 rounded-lg"
       >
-        <div className="flex space-x-4 mt-8">
-          <div className="flex flex-col space-y-4 w-1/2">
+        <div className="flex flex-col lg:flex-row space-x-4 mt-8">
+          <div className="flex flex-col space-y-4 w-full lg:w-1/2">
             <TextInput
               name="title"
               placeholder="Judul laporan anda.."
               value={complaint.title}
               onChange={handleInputChange}
+              type={"text"}
+              icon={"bx bx-copy-alt"}
+              required={false}
             />
             <TextArea
               name="content"
@@ -150,9 +161,12 @@ const FormReport = () => {
             />
             <TextInput
               name="location"
-              placeholder="Beritahu lokasi kejadian"
+              placeholder="Masukkan lokasi kejadian"
               value={complaint.location}
               onChange={handleInputChange}
+              type={"text"}
+              icon={"bx bxs-edit-location"}
+              required={false}
             />
             <select
               name="category"
@@ -172,7 +186,8 @@ const FormReport = () => {
               }                            
             </select>
           </div>
-          <label className="w-1/2 flex flex-col items-center cursor-pointer">
+          <label className="lg:w-1/2 flex flex-col items-center cursor-pointer">
+            <span className="text-gray-600 mb-2 mt-2">Upload Bukti</span>
             <div className={`flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-md ${previewEvidence ? 'p-1' : 'p-16'} text-gray-300`}>
               { previewEvidence ? (
                   <>
@@ -190,7 +205,7 @@ const FormReport = () => {
                       <span>Keep the file size under 2MB.</span>
                     </span>
                   </>                            
-                )}                          
+                )}          
             </div>
             <input
               type="file"
