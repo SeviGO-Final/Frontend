@@ -7,28 +7,18 @@ import api from "../../../services/api";
 import ImagePreview from "../ImagePreview";
 
 interface UserData {
-  _id: string,
-  nik: string,
-  name: string,
-  email: string,
-  role: string;
-import ImagePreview from "../ImagePreview";
-
-interface UserData {
-  _id: string,
-  nik: string,
-  name: string,
-  email: string,
+  _id: string;
+  nik: string;
+  name: string;
+  email: string;
   role: string;
   is_verified: boolean;
-  avatar: File | null;
   avatar: File | null;
   address: string;
   old_password?: string;
   new_password?: string;
   confirm_password?: string;
 }
-
 
 const FormProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,9 +36,6 @@ const FormProfile = () => {
     old_password: "",
     new_password: "",
     confirm_password: "",
-    number: "",
-    address: "",
-    classname: "",
   });
 
   // Get Data Profile
@@ -92,14 +79,13 @@ const FormProfile = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const avatar = e.target.files[0];
-    setUserData((prevData) => {
-      return {
-        ...prevData, avatar: avatar,
-      }
-    });
+    setUserData((prevData) => ({
+      ...prevData,
+      avatar: avatar,
+    }));
 
     // preview image
-    if(avatar) {
+    if (avatar) {
       const imageUrl = URL.createObjectURL(avatar);
       setPreview(imageUrl);
     }
@@ -116,31 +102,28 @@ const FormProfile = () => {
     if (userData.confirm_password) formPayload.append("confirm_password", userData.confirm_password);
     if (userData.avatar) formPayload.append("avatar", userData.avatar);
 
+    // Debugging the payload
     for (const [key, value] of formPayload.entries()) {
       console.log(`${key}:`, value);
     }
 
-    api.put("/users/profile", formPayload)
-      .then((response) => {
-        console.log("Response: ", response.data.data);
-        setUserData(response.data.data);
-        setIsModalOpen(true);        
-      })
-      .catch((err) => {
-        const errorMessage = err.response.data.errors;
-        console.log("Error updating profile: ", errorMessage);
-        setAxiosError(errorMessage);
-        setIsModalOpen(true);
-      } else {
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error("Error updating profile: ", error.message);
+    try {
+      const response = await api.put("/users/profile", formPayload);
+      console.log("Response: ", response.data.data);
+      setUserData(response.data.data);
+      setIsModalOpen(true);
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.errors || "Error updating profile";
+      console.log("Error updating profile: ", errorMessage);
+      setAxiosError(errorMessage);
+      setIsModalOpen(true);
     }
   };
 
-  const handleFileChange = () => { };
-  const handleCancel = () => { };
+  const handleCancel = () => {
+    // Reset form or close modal logic can go here
+  };
+
   const closeModal = () => setIsModalOpen(false);
 
   return (
@@ -150,16 +133,18 @@ const FormProfile = () => {
         <div className="card w-full bg-base-100 shadow-xl md:p-2 md:min-w-[17rem]">
           <label className="w-full flex flex-col items-center cursor-pointer">
             <div className="flex justify-center items-center border border-gray-300 rounded-full p-2 mt-4 text-gray-400 lg:h-[17rem] lg:w-[17rem] md:w-60 md:h-60">
-            {preview ? (
+              {preview ? (
                 <img
                   src={preview}
                   alt="preview"
-                  className="w-64 h-64 rounded-full object-cover aspect-auto box-border md:h-56 md:w-56 lg:w-64 lg:h-64" />
-                ) : (
+                  className="w-64 h-64 rounded-full object-cover aspect-auto box-border md:h-56 md:w-56 lg:w-64 lg:h-64"
+                />
+              ) : (
                 <ImagePreview
-                  alt={`${userData.name.toLocaleLowerCase().split(" ").join("-")}-avatar`}
+                  alt={`${userData.name.toLowerCase().split(" ").join("-")}-avatar`}
                   avatar={userData.avatar}
-                />)}
+                />
+              )}
             </div>
             <p className="mt-4 text-xs text-center p-2">
               Please upload a profile photo (JPG, PNG, JPEG).
@@ -257,10 +242,9 @@ const FormProfile = () => {
             message="Pembaharuan tersimpan"
           />
         </form>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
-
 
 export default FormProfile;

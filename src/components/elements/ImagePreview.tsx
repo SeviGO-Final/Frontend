@@ -29,7 +29,7 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ avatar, alt }) => {
 
     return (
         <div>
-            <img src={imageUrl ?? ''} alt={alt} className="w-96 h-96 object-cover rounded-full" />
+           <img src={imageUrl ?? ''} alt={alt} className="w-64 h-64 rounded-full object-cover aspect-auto box-border md:h-56 md:w-56 lg:w-64 lg:h-64" />
         </div>
     )
 }
