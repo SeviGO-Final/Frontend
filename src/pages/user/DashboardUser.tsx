@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const DashboardUser = () => {
   const [userName, setUserName] = useState<string>("");
-  const [userData, setUserData] = useState<any>([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -34,8 +33,7 @@ const DashboardUser = () => {
         const result = await response.json();
 
         if (result.code === 200 && result.status === "OK") {
-          setUserName(result.data.name); // Set nama pengguna
-          setUserData(result.data); // Simpan data pengguna lengkap ke state
+          setUserName(result.data.name);
         } else {
           console.error(result.message);
         }
@@ -52,10 +50,10 @@ const DashboardUser = () => {
       <div className="w-full p-4 md:p-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-bold">Dashboard</h1>
+          <h1 className="ml-4 text-4xl font-bold">Dashboard</h1>
           <div className="flex items-center">
             <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
-            <h2 className="text-xl">Hi, {userName || userData.name}!</h2>
+            <h2 className="text-xl">Hi, {userName}!</h2>
           </div>
         </div>
 
@@ -67,7 +65,7 @@ const DashboardUser = () => {
               <h1>Buat Pengaduan</h1>
             </div>
           </Link>
-          <Link to="/dashboard/history">
+          <Link to="/history">
             <div className="bg-slate-50 flex items-center py-6 px-12 text-xl space-x-4 rounded-lg shadow-md hover:shadow-lg transition-all">
               <i className="bx bx-history text-orange-500 text-4xl" />
               <h1>Riwayat Pengaduan</h1>

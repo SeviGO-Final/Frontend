@@ -44,18 +44,12 @@ const HistoryTable = () => {
 
   return (
     <>
-      <div className="w-3/4">
-        <div className="flex justify-end items-center mr-8 py-4">
-          <div className="flex items-center">
-            <i className="bx bxs-user mr-4 bx-md text-orange-400" />
-            <h2>Hi, User!</h2>
-          </div>
-        </div>
+      <div className="w-3/4 lg:w-full">
         <div className="flex items-center pb-8">
           <h1 className="py-4 ml-8 text-3xl">Riwayat Pelaporan</h1>
           <hr className="border border-black w-2/3 " />
         </div>
-        <div className="bg-gray-50 p-4 rounded-lg shadow ml-8 h-auto">
+        <div className="bg-gray-50 p-4 rounded-lg shadow lg:ml-8 h-auto">
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -70,7 +64,7 @@ const HistoryTable = () => {
               <option>30</option>
             </select>
           </div>
-          <div className="overflow-y-auto h-1/2">
+          <div className="overflow-y-auto h-96 lg:h-1/2">
             <table className="w-full text-left bg-white rounded-lg shadow-md">
               <thead>
                 <tr className="sticky top-0 bg-gray-200">

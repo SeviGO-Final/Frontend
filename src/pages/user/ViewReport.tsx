@@ -32,7 +32,7 @@ const ViewReport = () => {
     <>
       <div className="flex">
         <SideBar />
-        <div className="bg-slate-200 flex flex-col items-center w-3/4 h-1/2 pb-8 px-4 ml-8 mt-4 rounded-md shadow-sm">
+        <div className="bg-slate-200 flex flex-col items-center w-full h-1/2 pb-8 px-4 ml-8 mt-4 rounded-md shadow-sm">
           <h1 className="bg-orange-400 text-white text-xl font-medium p-4 rounded-2xl m-4">
             Detail Laporan - {id}
           </h1>

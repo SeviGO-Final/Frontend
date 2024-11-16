@@ -2,12 +2,12 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import backgroundImage from "../assets/image/login-bg.jpg";
 import "boxicons/css/boxicons.min.css";
 import logoSevigo from "../assets/image/logo-SeviGO.png";
-import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import ErrorMessage
 import { useAuth } from "../middlewares/AuthContext";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import TextInput from "../components/elements/modal/input/TextInput";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       const response = await axios.post(
         "http://localhost:3000/api/users/login",
         formData
-      );      
+      );
       const token = response.data.data.token;
       localStorage.setItem("token", token);
       login(token); // Memanggil fungsi login dari context AuthProvider
@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
     } catch (err: Error) {
       console.log(err);
       if (err.response.data.errors) {
-        setErrors([err.response.data.errors || 'Login failed'])
+        setErrors([err.response.data.errors || "Login failed"]);
       } else {
         setErrors(["An unexpected error occurred"]);
       }
@@ -132,21 +132,23 @@ const LoginPage: React.FC = () => {
           {errors.length > 0 && <ErrorMessage messages={errors} />}{" "}
           {/* Menampilkan pesan error */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <InputField
+            <TextInput
               name="email"
               type="email"
               value={formData.email}
               placeholder="Email"
               icon="bx-envelope"
               onChange={handleChange}
+              required={true}
             />
-            <InputField
+            <TextInput
               name="password"
               type="password"
               value={formData.password}
               placeholder="Password"
               icon="bx-lock-alt"
               onChange={handleChange}
+              required={true}
             />
             <button
               type="submit"

@@ -75,7 +75,6 @@ const FormProfile = () => {
     }));
   };
 
-  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const avatar = e.target.files[0];
@@ -95,9 +94,12 @@ const FormProfile = () => {
     formPayload.append("name", userData.name);
     formPayload.append("email", userData.email);
     formPayload.append("address", userData.address);
-    if (userData.old_password) formPayload.append("old_password", userData.old_password);
-    if (userData.new_password) formPayload.append("new_password", userData.new_password);
-    if (userData.confirm_password) formPayload.append("confirm_password", userData.confirm_password);
+    if (userData.old_password)
+      formPayload.append("old_password", userData.old_password);
+    if (userData.new_password)
+      formPayload.append("new_password", userData.new_password);
+    if (userData.confirm_password)
+      formPayload.append("confirm_password", userData.confirm_password);
     if (userData.avatar) formPayload.append("avatar", userData.avatar);
 
     // Debugging the payload
@@ -112,7 +114,8 @@ const FormProfile = () => {
       setIsModalOpen(true);
       setAxiosError(null);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.errors || "Error updating profile";
+      const errorMessage =
+        err.response?.data?.errors || "Error updating profile";
       console.log("Error updating profile: ", errorMessage);
       setAxiosError(errorMessage);
       setIsModalOpen(true);
@@ -140,7 +143,10 @@ const FormProfile = () => {
                 />
               ) : (
                 <ImagePreview
-                  alt={`${userData.name.toLowerCase().split(" ").join("-")}-avatar`}
+                  alt={`${userData.name
+                    .toLowerCase()
+                    .split(" ")
+                    .join("-")}-avatar`}
                   avatar={userData.avatar}
                 />
               )}
@@ -164,10 +170,11 @@ const FormProfile = () => {
           <h1>Your Profile</h1>
           <div className="flex items-center">
             <span
-              className={`ml-4 ${userData.is_verified
-                ? "bg-green-500 rounded-lg text-white px-4"
-                : "bg-red-500 rounded-lg text-white px-4"
-                }`}
+              className={`ml-4 ${
+                userData.is_verified
+                  ? "bg-green-500 rounded-lg text-white px-4"
+                  : "bg-red-500 rounded-lg text-white px-4"
+              }`}
             >
               {userData.is_verified ? "Verified" : "Not Verified"}
             </span>
@@ -183,6 +190,9 @@ const FormProfile = () => {
               placeholder="Nama Lengkap"
               value={userData.name}
               onChange={handleInputChange}
+              type={"name"}
+              icon={"bx bx-user"}
+              required={false}
             />
 
             <TextInput
@@ -190,6 +200,9 @@ const FormProfile = () => {
               placeholder="Email"
               value={userData.email}
               onChange={handleInputChange}
+              type={"email"}
+              icon={"bx bx-envelope"}
+              required={false}
             />
           </div>
 
@@ -208,18 +221,27 @@ const FormProfile = () => {
               placeholder="Old Password"
               value={userData.old_password || ""}
               onChange={handleInputChange}
+              type={""}
+              icon={"bx bx-lock-alt"}
+              required={false}
             />
             <TextInput
               name="new_password"
               placeholder="New Password"
               value={userData.new_password || ""}
               onChange={handleInputChange}
+              type={""}
+              icon={"bx bx-lock-alt"}
+              required={false}
             />
             <TextInput
               name="confirm_password"
               placeholder="Confirm Password"
               value={userData.confirm_password || ""}
               onChange={handleInputChange}
+              type={""}
+              icon={"bx bx-lock-alt"}
+              required={false}
             />
           </div>
           <div className="flex justify-end space-x-4">

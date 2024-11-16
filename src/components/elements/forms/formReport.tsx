@@ -66,44 +66,47 @@ const FormReport = () => {
     }
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
-  //   const dataWithId = {
-  //     ...formData,
-  //     id: uniqueId,
-  //   };
-  //   // Ambil data dari localStorage
-  //   const history = JSON.parse(localStorage.getItem("history") || "[]");
-  //   // Tambahkan formData ke history
-  //   history.push(dataWithId);
-  //   // Simpan data yang diperbarui ke localStorage
-  //   localStorage.setItem("history", JSON.stringify(history));
-  //   setIsModalOpen(true);
-  //   setFormData({
-  //     title: "",
-  //     content: "",
-  //     date: "",
-  //     location: "",
-  //     category: "",
-  //     evidence: "",
-  //   });
-  // };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
+    const dataWithId = {
+      ...formData,
+      id: uniqueId,
+    };
+    // Ambil data dari localStorage
+    const history = JSON.parse(localStorage.getItem("history") || "[]");
+    // Tambahkan formData ke history
+    history.push(dataWithId);
+    // Simpan data yang diperbarui ke localStorage
+    localStorage.setItem("history", JSON.stringify(history));
+    setIsModalOpen(true);
+    setFormData({
+      title: "",
+      content: "",
+      date: "",
+      location: "",
+      category: "",
+      evidence: "",
+    });
+  };
 
   const closeModal = () => setIsModalOpen(false);
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 p-8 mx-8 h-3/4 w-full bg-gray-100 rounded-lg"
+        className="flex flex-col gap-4 pb-16 lg:pb-8 px-4 h-3/4 lg:w-full bg-gray-100 rounded-lg"
       >
-        <div className="flex space-x-4 mt-8">
-          <div className="flex flex-col space-y-4 w-1/2">
+        <div className="flex flex-col lg:flex-row space-x-4 mt-8">
+          <div className="flex flex-col space-y-4 w-full lg:w-1/2">
             <TextInput
               name="title"
               placeholder="Judul laporan anda.."
               value={formData.title}
               onChange={handleChange}
+              type={"text"}
+              icon={"bx bx-copy-alt"}
+              required={false}
             />
             <TextArea
               name="content"
@@ -123,6 +126,9 @@ const FormReport = () => {
               placeholder="Pilih lokasi kejadian"
               value={formData.location}
               onChange={handleChange}
+              type={"text"}
+              icon={"bx bxs-edit-location"}
+              required={false}
             />
             <select
               name="category"
@@ -138,7 +144,7 @@ const FormReport = () => {
               <option value="Kebersihan">Kebersihan</option>
             </select>
           </div>
-          <label className="w-1/2 flex flex-col items-center cursor-pointer">
+          <label className="lg:w-1/2 flex flex-col items-center cursor-pointer">
             <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-md p-16 mt-4 text-gray-300">
               <i className="bx bx-image-add text-6xl "></i>
               <span className="flex flex-col text-xs text-center">
