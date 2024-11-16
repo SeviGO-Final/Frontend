@@ -24,7 +24,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="font-Poppins">
-          <Toaster />
+          <Toaster />  {/* Toast Untuk Notifikasi */}
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
