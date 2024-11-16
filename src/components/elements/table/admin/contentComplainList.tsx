@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import api from '../../../../services/api';
 import { ComplaintResponse } from '../../../../types/complaint-type';
 
+type Complaints = ComplaintResponse[];
+
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintResponse | null>(null);
-  const [complaints, setComplaints] = useState<[]>([]);
-
-  // const complaints: Complaint[] = [
+  const [complaints, setComplaints] = useState<Complaints>([]);
   //   {
   //     id: '8522246001570940',
   //     type: 'fasilitas',
@@ -44,7 +44,8 @@ const ComplaintList: React.FC = () => {
   useEffect(() => {
     api.get('/complaints')
       .then((response) => {
-        setComplaints(response.data.data);
+        setComplaints((response.data.data as Complaints));
+        console.log('Complaints: ', response.data.data);
       })
       .catch((error) => {
         console.log('Error when get all complaints: ', error);
@@ -54,7 +55,7 @@ const ComplaintList: React.FC = () => {
   const filteredComplaints = complaints.filter(
     (complaint: ComplaintResponse) =>
       complaint.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      complaint.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      complaint.category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       complaint._id.includes(searchQuery)
   );
 
@@ -170,14 +171,26 @@ const ComplaintList: React.FC = () => {
                         currentComplaints.map((complaint: ComplaintResponse) => (
                           <tr key={complaint._id} className="hover:bg-gray-50 transition-colors duration-150">
                             <td className="px-6 py-4 text-sm text-gray-900">{complaint._id}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.category || 'Uncategorized'}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.category?.name || 'Uncategorized'}</td>
                             <td className="px-6 py-4 text-sm text-gray-900">{complaint.title}</td>
                             <td className={classNames('px-6 py-4 text-sm', {
-                              'text-green-500 text-shadow-md': complaint.current_status === 'selesai',
-                              'text-orange-500 text-shadow-md': complaint.current_status === 'proses',
-                              'text-blue-500 text-shadow-md': complaint.current_status === 'baru'
+                              'text-green-500 text-shadow-md': complaint.current_status === 'submitted',
+                              'text-orange-500 text-shadow-md': complaint.current_status === 'processing',
+                              'text-blue-500 text-shadow-md': complaint.current_status === 'accepted',
+                              'text-red-500 text-shadow-md': complaint.current_status === 'rejected'
 
-                            })} >{complaint.current_status}</td>
+                            })} >
+                              {
+                                complaint.current_status === 'submitted'
+                                ? 'Laporan Dibuat'
+                                : complaint.current_status === 'processing'
+                                ? 'Laporan Diproses'
+                                : complaint.current_status === 'accepted'
+                                ? 'Laporan Disetujui'
+                                : complaint.current_status === 'rejected'
+                                ? 'Laporan Ditolak'
+                                : 'Status Tidak Diketahui'
+                              }</td>
                             <td className="px-6 py-4">
                               <button
                                 onClick={() => handleViewComplaint(complaint)}

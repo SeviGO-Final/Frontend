@@ -19,7 +19,7 @@ export type TrackingStatusResponse = {
 export type ComplaintResponse = {
     _id: string;
     title: string;
-    category: string;
+    category: {_id: string, name: string};
     content: string;
     date_event: string;
     location: string;
