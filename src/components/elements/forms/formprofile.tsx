@@ -22,7 +22,7 @@ interface UserData {
 
 const FormProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [axiosError, setAxiosError] = useState<string | [] | null>(null);
+  const [axiosError, setAxiosError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [userData, setUserData] = useState<UserData>({
     _id: "",
@@ -38,7 +38,7 @@ const FormProfile = () => {
     confirm_password: "",
   });
 
-  // Get Data Profile
+  //Get Data Profile
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -64,18 +64,18 @@ const FormProfile = () => {
     };
   }, [preview]);
 
+  // Handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUserData((prevData) => {
-      return {
-        ...prevData,
-        [name]: value,
-      };
-    });
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
+  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const avatar = e.target.files[0];
@@ -84,11 +84,9 @@ const FormProfile = () => {
       avatar: avatar,
     }));
 
-    // preview image
-    if (avatar) {
-      const imageUrl = URL.createObjectURL(avatar);
-      setPreview(imageUrl);
-    }
+    // Preview image
+    const imageUrl = avatar ? URL.createObjectURL(avatar) : "";
+    setPreview(imageUrl);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -112,6 +110,7 @@ const FormProfile = () => {
       console.log("Response: ", response.data.data);
       setUserData(response.data.data);
       setIsModalOpen(true);
+      setAxiosError(null);
     } catch (err: any) {
       const errorMessage = err.response?.data?.errors || "Error updating profile";
       console.log("Error updating profile: ", errorMessage);
@@ -120,11 +119,11 @@ const FormProfile = () => {
     }
   };
 
-  const handleCancel = () => {
-    // Reset form or close modal logic can go here
+  const handleCancel = () => {};
+  const closeModal = () => {
+    setAxiosError(null);
+    setIsModalOpen(false);
   };
-
-  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="flex flex-col md:flex-row p-4 md:p-8 gap-5">
@@ -207,19 +206,19 @@ const FormProfile = () => {
             <TextInput
               name="old_password"
               placeholder="Old Password"
-              value={userData.old_password}
+              value={userData.old_password || ""}
               onChange={handleInputChange}
             />
             <TextInput
               name="new_password"
               placeholder="New Password"
-              value={userData.new_password}
+              value={userData.new_password || ""}
               onChange={handleInputChange}
             />
             <TextInput
               name="confirm_password"
               placeholder="Confirm Password"
-              value={userData.confirm_password}
+              value={userData.confirm_password || ""}
               onChange={handleInputChange}
             />
           </div>
@@ -239,7 +238,7 @@ const FormProfile = () => {
           <Alert
             isOpen={isModalOpen}
             onClose={closeModal}
-            message="Pembaharuan tersimpan"
+            message={axiosError ? axiosError : "Pembaharuan tersimpan"}
           />
         </form>
       </div>
