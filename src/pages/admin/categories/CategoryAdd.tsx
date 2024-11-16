@@ -4,7 +4,7 @@ import api from "../../../services/api";
 import PageHeader from "../../../components/PageHeader";
 import toast from "react-hot-toast";
 
-const AddCategory: React.FC = () => {
+const CategoryAdd: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -19,10 +19,9 @@ const AddCategory: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await api.post("/categories", { name });
-      toast.success("Category added successfully!");
-      console.log(response);
-      // navigate("/admin/categories");
+      await api.post("/categories", { name });
+      toast.success("Kategori Berhasil di tambahkan");
+      navigate("/admin/categories");
     } catch (error) {
       console.error("Failed to add category:", error);
       toast.error("Failed to add category.");
@@ -52,7 +51,7 @@ const AddCategory: React.FC = () => {
         <div className="form-control">
           <button
             type="submit"
-            className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
+            className={`btn bg-orange-500 text-white hover:bg-orange-400  w-full ${loading ? "loading" : ""}`}
             disabled={loading}
           >
             {loading ? "Adding..." : "Add Category"}
@@ -63,4 +62,4 @@ const AddCategory: React.FC = () => {
   );
 };
 
-export default AddCategory;
+export default CategoryAdd;

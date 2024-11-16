@@ -15,6 +15,7 @@ import { AuthProvider } from "./middlewares/AuthContext";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
 import DetailComplaintPage from "./pages/admin/DetailComplaint";
 import CreateReport from "./pages/admin/CreateReport";
+import CategoryAdd from "./pages/admin/categories/CategoryAdd";
 import CategoryList from "./pages/admin/categories/CategoryList";
 import CategoryEdit from "./pages/admin/categories/CategoryEdit";
 import Layout from "./components/Layout";
@@ -38,6 +39,7 @@ function App() {
               <Route path="/admin/detail-complaint" element={<DetailComplaintPage />} />
               <Route path="/admin/create-report" element={<CreateReport />} />
               <Route path="/admin/categories" element={<CategoryList />} />
+              <Route path="/admin/categories/add" element={<CategoryAdd />} />
               <Route path="admin/categories/:id/edit" element={<CategoryEdit />} />
 
               {/* User Routes */}
