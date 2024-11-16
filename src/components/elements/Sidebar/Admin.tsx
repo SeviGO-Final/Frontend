@@ -28,6 +28,11 @@ const AdminSideBar = () => {
             icon="bx bxs-user"
           />
           <LinkSideBar
+            label="Kategori"
+            to="/admin/categories"
+            icon="bx bx-category"
+          />
+          <LinkSideBar
             label="Complaint List"
             to="/admin/complaint-list"
             icon="bx bx-list-ul"

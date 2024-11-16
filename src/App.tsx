@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -14,13 +15,16 @@ import { AuthProvider } from "./middlewares/AuthContext";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
 import DetailComplaintPage from "./pages/admin/DetailComplaint";
 import CreateReport from "./pages/admin/CreateReport";
-import Layout from "./components/Layout"; 
+import CategoryList from "./pages/admin/categories/CategoryList";
+import CategoryEdit from "./pages/admin/categories/CategoryEdit";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="font-Poppins">
+          <Toaster />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -33,6 +37,8 @@ function App() {
               <Route path="/admin/complaint-list" element={<ComplaintList />} />
               <Route path="/admin/detail-complaint" element={<DetailComplaintPage />} />
               <Route path="/admin/create-report" element={<CreateReport />} />
+              <Route path="/admin/categories" element={<CategoryList />} />
+              <Route path="admin/categories/:id/edit" element={<CategoryEdit />} />
 
               {/* User Routes */}
               <Route path="/dashboard" element={<DashboardUser />} />
