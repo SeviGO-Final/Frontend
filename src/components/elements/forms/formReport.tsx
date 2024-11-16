@@ -1,96 +1,126 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../modal/input/TextInput";
 import TextArea from "../modal/input/TextArea";
 import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
 import api from "../../../services/api";
-interface NewReport {
-  title: string;
-  content: string;
-  date: string;
-  location: string;
-  category: string;
-  evidence: File | string;
-}
+import { CategoryResponse } from '../../../types/category-type';
+import { ComplaintType } from "../../../types/complaint-type";
+
+type Categories = CategoryResponse[];
+
 const FormReport = () => {
-  const [formData, setFormData] = useState<NewReport>({
+  const [categories, setCategories] = useState<Categories>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorBody, setErrorBody] = useState<string | null>(null);
+  const [previewEvidence, setPreviewEvidence] = useState<string | null>(null);
+  const [complaint, setComplaint] = useState<ComplaintType>({
     title: "",
     content: "",
-    date: "",
+    date_event: "",
     location: "",
     category: "",
-    evidence: "",
+    evidence: null,
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // Get all categories
+  useEffect(() => {
+    api.get('/categories')
+    .then(res => {
+      const categories = res.data.data
+      categories.sort((a: CategoryResponse, b: CategoryResponse) => 
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      );
+      setCategories(res.data.data)
+    })
+    .catch(err => {
+      console.error(err.response.errors)
+    });
+  }, []);
+
+  // Clean up preview evidence image
+  useEffect(() => {
+    if (!previewEvidence) return;
+    return () => {
+      URL.revokeObjectURL(previewEvidence);
+    };
+  }, [previewEvidence]);
+
+  // Function to handle input text change
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setComplaint((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
-  const handleCancel = () => {
-    setFormData({
-      title: "",
-      content: "",
-      date: "",
-      location: "",
-      category: "",
-      evidence: "",
-    });
+
+  // Function to handle file evidence
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const evidence = e.target.files[0];
+    setComplaint((prev) => ({
+      ...prev, evidence: evidence
+    }));
+
+    // Preview image
+    const imageUrl = evidence ? URL.createObjectURL(evidence) : "";
+    setPreviewEvidence(imageUrl);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      const promises = filesArray.map((file) => {
-        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      });
+  // Function to handle submit button
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const requestBody = new FormData();
+    requestBody.append("title", complaint.title);
+    requestBody.append("content", complaint.content);
+    requestBody.append("date_event", complaint.date_event);
+    requestBody.append("location", complaint.location);
+    requestBody.append("category", complaint.category);
+    if (complaint.evidence) {
+      requestBody.append("evidence", complaint.evidence);
+    }
 
-      Promise.all(promises)
-        .then((base64Files) => {
-          setFormData((prev) => ({
-            ...prev,
-            evidence: [...(prev.evidence || []), ...base64Files], // Tambahkan semua base64 files ke evidence array
-          }));
-        })
-        .catch((error) => console.error("Error reading files:", error));
+    // Debugging the request body
+    for (const [key, value] of requestBody.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    // Post complaint to the server
+    try {
+      const response = await api.post("/complaints", requestBody);
+      setComplaint(response.data.data);
+      console.log("Response from api: ", response.data.data);
+      setIsModalOpen(true);
+
+    } catch(err: unknown) {
+      const errorMessage = (err as Error).message || "Error submitting complaint";
+      console.error(errorMessage);
+      setErrorBody(errorMessage);
+      setIsModalOpen(true);
     }
   };
+  
+  // Function to handle cancel button  
+  const handleCancel = () => {
+    setComplaint({
+      title: "",
+      content: "",
+      date_event: "",
+      location: "",
+      category: "",
+      evidence: null,
+    });
+  };  
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
-  //   const dataWithId = {
-  //     ...formData,
-  //     id: uniqueId,
-  //   };
-  //   // Ambil data dari localStorage
-  //   const history = JSON.parse(localStorage.getItem("history") || "[]");
-  //   // Tambahkan formData ke history
-  //   history.push(dataWithId);
-  //   // Simpan data yang diperbarui ke localStorage
-  //   localStorage.setItem("history", JSON.stringify(history));
-  //   setIsModalOpen(true);
-  //   setFormData({
-  //     title: "",
-  //     content: "",
-  //     date: "",
-  //     location: "",
-  //     category: "",
-  //     evidence: "",
-  //   });
-  // };
+  // Modal toggle
+  const closeModal = () => {
+    setErrorBody(null);
+    setIsModalOpen(false)
+  };
 
-  const closeModal = () => setIsModalOpen(false);
   return (
     <>
       <form
@@ -102,49 +132,65 @@ const FormReport = () => {
             <TextInput
               name="title"
               placeholder="Judul laporan anda.."
-              value={formData.title}
-              onChange={handleChange}
+              value={complaint.title}
+              onChange={handleInputChange}
             />
             <TextArea
               name="content"
               placeholder="Isi laporan anda.."
-              value={formData.content}
-              onChange={handleChange}
+              value={complaint.content}
+              onChange={handleInputChange}
             />
             <input
               type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
+              name="date_event"
+              value={complaint.date_event}
+              onChange={handleInputChange}
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <TextInput
               name="location"
-              placeholder="Pilih lokasi kejadian"
-              value={formData.location}
-              onChange={handleChange}
+              placeholder="Beritahu lokasi kejadian"
+              value={complaint.location}
+              onChange={handleInputChange}
             />
             <select
               name="category"
-              value={formData.category}
-              onChange={handleChange}
+              value={complaint.category}
+              onChange={handleInputChange}
               className="select select-bordered w-full max-w-xs"
             >
-              <option disabled selected>
+              <option disabled>
                 Pilih Kategori Laporan
               </option>
-              <option value="Pelayanan">Pelayanan Publik</option>
-              <option value="Transportasi">Transportasi</option>
-              <option value="Kebersihan">Kebersihan</option>
+              {
+                categories.map((category: CategoryResponse) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))
+              }                            
             </select>
           </div>
           <label className="w-1/2 flex flex-col items-center cursor-pointer">
-            <div className="flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-md p-16 mt-4 text-gray-300">
-              <i className="bx bx-image-add text-6xl "></i>
-              <span className="flex flex-col text-xs text-center">
-                Please upload a JPG, PNG, or JPEG image.{" "}
-                <span>Keep the file size under 2MB.</span>
-              </span>
+            <div className={`flex flex-col items-center justify-center space-x-2 border border-gray-300 rounded-md ${previewEvidence ? 'p-1' : 'p-16'} text-gray-300`}>
+              { previewEvidence ? (
+                  <>
+                    <img
+                      src={previewEvidence}
+                      alt="Preview Evidence"
+                      className="object-cover rounded-sm w-96 h-auto" />
+                    <span className="text-slate-600 text-sm mt-2">{complaint.evidence?.name}</span>
+                  </>                  
+                ) : (
+                  <>
+                    <i className="bx bx-image-add text-6xl"></i>
+                    <span className="flex flex-col text-xs text-center">
+                      Please upload a JPG, PNG, or JPEG image.{" "}
+                      <span>Keep the file size under 2MB.</span>
+                    </span>
+                  </>                            
+                )}                          
             </div>
             <input
               type="file"
@@ -168,7 +214,11 @@ const FormReport = () => {
           <Alert
             isOpen={isModalOpen}
             onClose={closeModal}
-            message="Data telah disimpan ke local storage."
+            message={
+              errorBody
+              ? errorBody
+              : "Keluhan anda telah dikirim ke Admin."
+            }
           />
         </div>
       </form>

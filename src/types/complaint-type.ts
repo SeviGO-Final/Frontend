@@ -1,3 +1,14 @@
+export type ComplaintType = {
+    title: string;
+    content: string;
+    date_event: string;
+    location: string;
+    category: string;
+    evidence: File | null;
+    current_status?: string;
+    user?: string;
+}
+
 export type TrackingStatusResponse = {
     _id: string;
     status: string;
