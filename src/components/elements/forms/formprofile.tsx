@@ -4,7 +4,7 @@ import TextArea from "../modal/input/TextArea";
 import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
 import api from "../../../services/api";
-import ImagePreview from "../ImagePreview";
+import ImagePreview from "../../ImagePreview";
 
 interface UserData {
   _id: string;

@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
   ReactNode,
-  useEffect,
 } from "react";
 
 interface AuthContextType {
@@ -15,15 +14,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  // Cek apakah token ada di localStorage saat komponen pertama kali di-render
-  useEffect(() => {
+  // Inisialiasasi state langsung berdasarkan localStorage
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+
+    // simplify condition to return boolean value
+    return !!token;
+  });
 
   // Fungsi login menyimpan token dan mengubah status autentikasi
   const login = (token: string) => {
@@ -49,5 +46,6 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+
   return context;
 };
