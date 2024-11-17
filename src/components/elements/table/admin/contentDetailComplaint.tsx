@@ -1,40 +1,42 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import ImagePreviewFromAPI from '../../../ImagePreview';
+import { ComplaintResponse } from '../../../../types/complaint-type';
+import api from '../../../../services/api';
 
-interface ComplaintData {
-    id: string;
-    title: string;
-    description: string;
-    image: string;
-}
 
-interface ComplaintDetailProps {
-    initialData: ComplaintData;
-    onBack: () => void;
-}
-
-const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
-    initialData,
-    onBack
-}) => {
-    const navigate = useNavigate();
+const ComplaintDetail: React.FC = () => {
+    const { complaintId } = useParams<{complaintId: string}>();
+    const [ complaint, setComplaint ] = useState<ComplaintResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        api.get(`/complaints/${complaintId}`)
+            .then((response) => {
+                setComplaint(response.data.data);
+                console.log('Complaint: ', response.data.data);
+            })
+            .catch((error) => {
+                console.error(error.response.errors);
+            });
+    },[complaintId]);
+
+    const navigate = useNavigate();
     const handleCreateReport = () => {
         setLoading(true);
         Swal.fire({
             title: 'Sudah Yakin?',
-            text: 'Mau buat Report?',
+            text: 'Ingin Memberi Feedback?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya!, Buat',
+            confirmButtonText: 'Ya, Beri Feedback',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate('/admin-panel/create-report');
+                navigate(`/admin/complaints/${complaintId}/feedback`);
             }
         }).finally(() => {
             setLoading(false);
@@ -62,7 +64,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                     <div className="bg-white rounded-md shadow-lg flex-1 overflow-auto">
                         <div className="w-full bg-gray-300 p-2 rounded-t-md">
                             <h2 className="text-lg font-semibold">
-                                Detail Complaint - {initialData?.title || 'No Title'}
+                                Detail Complaint - {complaint?.title || 'No Title'}
                             </h2>
                         </div>
 
@@ -74,7 +76,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                 <input
                                     id="title"
                                     type="text"
-                                    value={initialData?.title || ''}
+                                    value={complaint?.title || ''}
                                     disabled
                                     className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
                                 />
@@ -87,7 +89,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                 <textarea
                                     id="description"
                                     disabled
-                                    value={initialData?.description || ''}
+                                    value={complaint?.content || ''}
                                     className="w-full max-w-md p-2 border text-xs shadow-md border-gray-300 overflow-auto rounded-md bg-gray-50 h-28 resize-none"
                                 />
                             </div>
@@ -97,12 +99,11 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                     Image
                                 </label>
                                 <div className="bg-gray-100 w-full cursor-pointer max-w-md h-[18vh] flex items-center justify-center shadow-lg text-gray-600 rounded-md">
-                                    {initialData?.image ? (
-                                        <img
-                                            src={initialData.image}
-                                            alt="Complaint"
-                                            className="max-w-full max-h-full object-contain"
-                                        />
+                                    {complaint?.evidence ? (
+                                        <ImagePreviewFromAPI 
+                                            alt='Complaint'
+                                            image={complaint.evidence}
+                                        />                                        
                                     ) : (
                                         "No Image Available"
                                     )}
@@ -111,7 +112,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
 
                             <div className="flex justify-between pt-4">
                                 <button
-                                    onClick={onBack}
+                                    onClick={() => navigate('/admin/complaints')}
                                     className="px-6 py-2 bg-[#FF8C42] text-white rounded-md hover:bg-[#ff7a1f] disabled:opacity-50 transition-colors"
                                     disabled={loading}
                                     type="button"
@@ -143,7 +144,7 @@ const ComplaintDetail: React.FC<ComplaintDetailProps> = ({
                                                     clipRule="evenodd"
                                                 />
                                             </svg>
-                                            Create Report
+                                            Create Feeback
                                         </>
                                     )}
                                 </button>

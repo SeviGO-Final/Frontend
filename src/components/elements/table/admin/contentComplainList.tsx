@@ -3,6 +3,7 @@ import ComplaintDetail from './contentDetailComplaint';
 import classNames from 'classnames';
 import api from '../../../../services/api';
 import { ComplaintResponse } from '../../../../types/complaint-type';
+import { Link, useParams } from 'react-router-dom';
 
 type Complaints = ComplaintResponse[];
 
@@ -12,34 +13,6 @@ const ComplaintList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintResponse | null>(null);
   const [complaints, setComplaints] = useState<Complaints>([]);
-  //   {
-  //     id: '8522246001570940',
-  //     type: 'fasilitas',
-  //     name: 'sample 123456',
-  //     status: 'selesai',
-  //     title: 'Pembuatan Irigasi',
-  //     description: 'Aliran Irigasi Tersumbat  ',
-  //     image: ''
-  //   },
-  //   {
-  //     id: '8522246001570940',
-  //     type: 'fasilitas',
-  //     name: 'sample 123456',
-  //     status: 'proses',
-  //     title: 'Lampu Penerangan Jalan Padam',
-  //     description: 'Lampu di jalan utama padam sejak kemarin malam',
-  //     image: ''
-  //   },
-  //   {
-  //     id: '8522246001570940',
-  //     type: 'Layanan',
-  //     name: 'sample 123456',
-  //     status: 'proses',
-  //     title: 'Jalan Rusak ',
-  //     description: 'Lampu di jalan utama padam sejak kemarin malam',
-  //     image: ''
-  //   },
-  // ];
 
   useEffect(() => {
     api.get('/complaints')
@@ -73,9 +46,9 @@ const ComplaintList: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleViewComplaint = (complaint: ComplaintResponse) => {
-    setSelectedComplaint(complaint);
-  };
+  // const handleViewComplaint = (complaint: ComplaintResponse) => {
+  //   setSelectedComplaint(complaint);
+  // };
 
   const renderPaginationButtons = () => {
     const buttons = [];
@@ -192,12 +165,13 @@ const ComplaintList: React.FC = () => {
                                 : 'Status Tidak Diketahui'
                               }</td>
                             <td className="px-6 py-4">
-                              <button
-                                onClick={() => handleViewComplaint(complaint)}
-                                className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
-                              >
-                                View
-                              </button>
+                              <Link to={`/admin/complaints/${complaint._id}`}>
+                                <button
+                                  className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
+                                >
+                                  View
+                                </button>
+                              </Link>
                             </td>
                           </tr>
                         ))

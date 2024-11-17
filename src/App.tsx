@@ -35,9 +35,9 @@ function App() {
               {/* Admin Routes */}
               <Route path="/admin/dashboard" element={<DashboardAdmin />} />
               <Route path="/admin/user-management" element={<UserManagement />} />
-              <Route path="/admin/complaint-list" element={<ComplaintList />} />
-              <Route path="/admin/detail-complaint" element={<DetailComplaintPage />} />
-              <Route path="/admin/create-report" element={<CreateReport />} />
+              <Route path="/admin/complaints" element={<ComplaintList />} />
+              <Route path="/admin/complaints/:complaintId" element={<DetailComplaintPage />} />
+              <Route path="/admin/complaints/:complaintId/feedback" element={<CreateReport />} />
               <Route path="/admin/categories" element={<CategoryList />} />
               <Route path="/admin/categories/add" element={<CategoryAdd />} />
               <Route path="admin/categories/:id/edit" element={<CategoryEdit />} />
