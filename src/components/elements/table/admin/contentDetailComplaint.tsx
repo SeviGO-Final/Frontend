@@ -7,8 +7,8 @@ import api from '../../../../services/api';
 
 
 const ComplaintDetail: React.FC = () => {
-    const { complaintId } = useParams<{complaintId: string}>();
-    const [ complaint, setComplaint ] = useState<ComplaintResponse | null>(null);
+    const { complaintId } = useParams<{ complaintId: string }>();
+    const [complaint, setComplaint] = useState<ComplaintResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const ComplaintDetail: React.FC = () => {
             .catch((error) => {
                 console.error(error.response.errors);
             });
-    },[complaintId]);
+    }, [complaintId]);
 
     const navigate = useNavigate();
     const handleCreateReport = () => {
@@ -70,13 +70,45 @@ const ComplaintDetail: React.FC = () => {
 
                         <div className="p-6 space-y-4">
                             <div>
+                                <label htmlFor="category" className="block text-md font-bold text-gray-700">
+                                    Kategori Laporan
+                                </label>
+                                <input
+                                    id="category"
+                                    type="text"
+                                    value={complaint?.category?.name || ''}
+                                    disabled
+                                    className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
+                                />
+                            </div>
+                            <div>
                                 <label htmlFor="title" className="block text-md font-bold text-gray-700">
-                                    Title Report
+                                    Judul Laporan
                                 </label>
                                 <input
                                     id="title"
                                     type="text"
-                                    value={complaint?.title || ''}
+                                    value={complaint ?
+                                        `${complaint.title} - ${new Date(complaint.date_event).toLocaleDateString('id-ID', {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        })}`
+                                        : ''
+                                    }
+                                    disabled
+                                    className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="category" className="block text-md font-bold text-gray-700">
+                                    Lokasi
+                                </label>
+                                <input
+                                    id="location"
+                                    type="text"
+                                    value={complaint?.location || ''}
                                     disabled
                                     className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
                                 />
@@ -84,7 +116,7 @@ const ComplaintDetail: React.FC = () => {
 
                             <div>
                                 <label htmlFor="description" className="block text-md font-bold text-gray-">
-                                    Description
+                                    Deskripsi
                                 </label>
                                 <textarea
                                     id="description"
@@ -100,10 +132,10 @@ const ComplaintDetail: React.FC = () => {
                                 </label>
                                 <div className="bg-gray-100 w-full cursor-pointer max-w-md h-[18vh] flex items-center justify-center shadow-lg text-gray-600 rounded-md">
                                     {complaint?.evidence ? (
-                                        <ImagePreviewFromAPI 
+                                        <ImagePreviewFromAPI
                                             alt='Complaint'
                                             image={complaint.evidence}
-                                        />                                        
+                                        />
                                     ) : (
                                         "No Image Available"
                                     )}
