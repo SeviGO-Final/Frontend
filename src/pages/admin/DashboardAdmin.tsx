@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ComplaintBarChart from "../../components/barChart";
 import api from "../../services/api";
+import ComplaintBarChart from "../../components/barChart";
+import StatsCard from "../../components/StatsCard";
 
 interface Category {
   _id: string;
@@ -21,7 +22,7 @@ interface ApiResponse {
 
 const DashboardAdmin: React.FC = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
-  const [loadingChart, setLoadingChart] = useState<boolean>(true); // Status loading untuk chart
+  const [loadingChart, setLoadingChart] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
@@ -51,33 +52,34 @@ const DashboardAdmin: React.FC = () => {
   return (
     <div className="flex flex-col m-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Card 1 */}
-        <div className="bg-slate-50 shadow-md flex items-center p-4 rounded-lg">
-          <i className="bx bxs-user text-4xl md:text-6xl text-orange-400"></i>
-          <div className="ml-4 md:ml-8">
-            <h1 className="font-bold text-lg md:text-xl">User</h1>
-            <p className="text-sm md:text-base">1.587</p>
-          </div>
-        </div>
-
-        {/* Card 2 */}
-        <div className="bg-slate-50 shadow-md flex items-center p-4 rounded-lg">
-          <i className="bx bxs-report text-4xl md:text-6xl text-orange-400"></i>
-          <div className="ml-4 md:ml-8">
-            <h1 className="font-bold text-lg md:text-xl">Laporan Masuk</h1>
-            <p className="text-sm md:text-base">1.587</p>
-          </div>
-        </div>
-
-        {/* Card 3 */}
-        <div className="bg-slate-50 shadow-md flex items-center p-4 rounded-lg">
-          <i className="bx bx-list-check text-4xl md:text-6xl text-orange-400"></i>
-          <div className="ml-4 md:ml-8">
-            <h1 className="font-bold text-lg md:text-xl">Laporan Selesai</h1>
-            <p className="text-sm md:text-base">1.587</p>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+        <StatsCard
+          title="Total Pengguna"
+          icon="bx bxs-user"
+          endpoint="/statistics/users"
+        />
+        <StatsCard
+          title="Total Laporan"
+          icon="bx bxs-report"
+          endpoint="/statistics/complaints"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 shadow-sm">
+        <StatsCard
+          title="Laporan Di Terima"
+          icon="bx bxs-check-circle"
+          endpoint="/statistics/complaints-accepted"
+        />
+        <StatsCard
+          title="Laporan Di Tolak"
+          icon="bx bxs-x-circle"
+          endpoint="/statistics/complaints-rejected"
+        />
+        <StatsCard
+          title="Laporan Di Proses"
+          icon="bx bxs-time"
+          endpoint="/statistics/complaints-processing"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 p-4 w-full">
