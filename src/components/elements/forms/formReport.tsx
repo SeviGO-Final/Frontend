@@ -74,18 +74,25 @@ const FormReport = () => {
   // Function to handle submit button
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if(!complaint.category) {
+      setErrorBody('Please, select the category');
+      setIsModalOpen(true);
+      return;
+    }
+
     const requestBody = new FormData();
     requestBody.append("title", complaint.title);
     requestBody.append("content", complaint.content);
     requestBody.append("date_event", complaint.date_event);
     requestBody.append("location", complaint.location);
-    requestBody.append("category", complaint.category);
+    requestBody.append("category", complaint.category);    
     if (complaint.evidence) {
       requestBody.append("evidence", complaint.evidence);
     }
 
     // Debugging the request body
-    for (const [key, value] of requestBody.entries()) {
+    for (const [key, value] of requestBody.entries()) {      
       console.log(`${key}:`, value);
     }
 
@@ -99,7 +106,7 @@ const FormReport = () => {
     } catch(err: unknown) {
       let errorMessage: string = "";
       if (err instanceof AxiosError) {
-        errorMessage = err.response?.data.errors;
+        errorMessage = err.response?.data.errors;        
         console.error(errorMessage);
         setErrorBody(errorMessage);
       } else {
@@ -174,7 +181,7 @@ const FormReport = () => {
               onChange={handleInputChange}
               className="select select-bordered w-full max-w-xs"
             >
-              <option disabled>
+              <option disabled value="">
                 Pilih Kategori Laporan
               </option>
               {
