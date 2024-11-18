@@ -25,22 +25,41 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="font-Poppins">
-          <Toaster />  {/* Toast Untuk Notifikasi */}
+          <Toaster /> {/* Toast Untuk Notifikasi */}
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
-            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
               {/* Admin Routes */}
               <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-              <Route path="/admin/user-management" element={<UserManagement />} />
+              <Route
+                path="/admin/user-management"
+                element={<UserManagement />}
+              />
+
               <Route path="/admin/complaints" element={<ComplaintList />} />
-              <Route path="/admin/complaints/:complaintId" element={<DetailComplaintPage />} />
-              <Route path="/admin/complaints/:complaintId/feedback" element={<CreateReport />} />
+              <Route
+                path="/admin/complaints/:complaintId"
+                element={<DetailComplaintPage />}
+              />
+              <Route
+                path="/admin/complaints/:complaintId/feedback"
+                element={<CreateReport />}
+              />
               <Route path="/admin/categories" element={<CategoryList />} />
               <Route path="/admin/categories/add" element={<CategoryAdd />} />
-              <Route path="admin/categories/:id/edit" element={<CategoryEdit />} />
+              <Route
+                path="admin/categories/:id/edit"
+                element={<CategoryEdit />}
+              />
 
               {/* User Routes */}
               <Route path="/dashboard" element={<DashboardUser />} />
