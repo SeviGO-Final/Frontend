@@ -13,7 +13,7 @@ interface UserData {
   email: string;
   role: string;
   is_verified: boolean;
-  avatar: File | null;
+  image: File | null;
   address: string;
   old_password?: string;
   new_password?: string;
@@ -31,7 +31,7 @@ const FormProfile = () => {
     email: "",
     role: "",
     is_verified: false,
-    avatar: null,
+    image: null,
     address: "",
     old_password: "",
     new_password: "",
@@ -147,7 +147,7 @@ const FormProfile = () => {
                     .toLowerCase()
                     .split(" ")
                     .join("-")}-avatar`}
-                  avatar={userData.avatar}
+                  image={userData.avatar}
                 />
               )}
             </div>
