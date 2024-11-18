@@ -6,14 +6,13 @@ import { ComplaintResponse } from '../../../../types/complaint-type';
 import { Link, useParams } from 'react-router-dom';
 
 type Complaints = ComplaintResponse[];
-
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintResponse | null>(null);
   const [complaints, setComplaints] = useState<Complaints>([]);
-
+//get data from database
   useEffect(() => {
     api.get('/complaints')
       .then((response) => {
