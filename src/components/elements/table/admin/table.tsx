@@ -24,7 +24,7 @@ const Table: React.FC = () => {
       setLoading(false);
     }
   };
-
+//useEffect(()=>{getUserData}
   useEffect(() => {
     fetchUsers();
   }, []);
