@@ -3,7 +3,7 @@ import api from "../services/api";
 
 interface StatsCardProps {
   title: string;
-  icon: string;
+  icon: JSX.Element;
   endpoint: string;
 }
 
@@ -25,7 +25,6 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, icon, endpoint }) => {
     const fetchData = async () => {
       try {
         const response = await api.get(endpoint);
-        console.log(response)
         const responseData: ApiResponse = response.data;
         if (responseData.code === 200) {
           setData(responseData.data.total);
@@ -44,7 +43,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, icon, endpoint }) => {
 
   return (
     <div className="bg-slate-50 shadow-md flex items-center p-4 rounded-lg">
-      <i className={`${icon} text-4xl md:text-6xl text-orange-400`}></i>
+      <div className="text-4xl md:text-6xl text-orange-400">{icon}</div>
       <div className="ml-4 md:ml-8">
         <h1 className="font-bold text-lg md:text-xl">{title}</h1>
         {loading ? (

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import ComplaintBarChart from "../../components/barChart";
 import StatsCard from "../../components/StatsCard";
+import { FaUsers, FaFileAlt } from "react-icons/fa";
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
+import { IoMdTimer } from "react-icons/io";
 
 interface Category {
   _id: string;
@@ -55,29 +58,29 @@ const DashboardAdmin: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         <StatsCard
           title="Total Pengguna"
-          icon="bx bxs-user"
+          icon={<FaUsers />}
           endpoint="/statistics/users"
         />
         <StatsCard
           title="Total Laporan"
-          icon="bx bxs-report"
+          icon={<FaFileAlt />}
           endpoint="/statistics/complaints"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
         <StatsCard
           title="Laporan Di Terima"
-          icon="bx bxs-check-circle"
+          icon={<AiOutlineCheckCircle />}
           endpoint="/statistics/complaints-accepted"
         />
         <StatsCard
           title="Laporan Di Tolak"
-          icon="bx bxs-x-circle"
+          icon={<AiOutlineCloseCircle />}
           endpoint="/statistics/complaints-rejected"
         />
         <StatsCard
           title="Laporan Di Proses"
-          icon="bx bxs-time"
+          icon={<IoMdTimer />}
           endpoint="/statistics/complaints-processing"
         />
       </div>
