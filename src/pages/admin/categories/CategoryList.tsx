@@ -39,13 +39,13 @@ const CategoryList: React.FC = () => {
             ) : (
                 <Card title={'Daftar Kategori Pengaduan'}>
                     <div className="grid-cols-1 p-2">
-                    <NavLink to={'add'} className={'btn btn-sm bg-orange-500 text-white'}>
-                        Tambah Kategori
-                    </NavLink>
+                        <NavLink to={'add'} className={'btn btn-sm bg-orange-500 text-white'}>
+                            Tambah Kategori
+                        </NavLink>
                     </div>
-                    <div className="overflow-x-auto">
-                        <table className="table-auto w-full border-collapse rounded-lg shadow-lg bg-white border border-gray-200">
-                            <thead className="bg-gray-300 text-gray-800">
+                    <div className="overflow-x-auto rounded-xl">
+                        <table className="table-auto w-full border-collapse shadow-lg bg-white border border-gray-200 rounded-lg">
+                            <thead className="bg-gray-300 text-gray-800 rounded-t-lg">
                                 <tr>
                                     <th className="px-4 py-2 text-left border-b">No</th>
                                     <th className="px-4 py-2 text-left border-b">Name</th>
@@ -57,13 +57,12 @@ const CategoryList: React.FC = () => {
                                     categories.map((category, index) => (
                                         <tr
                                             key={category._id}
-                                            className={`hover:bg-gray-50 ${index % 2 === 0 ? "bg-gray-50" : ""
-                                                }`}
+                                            className={`hover:bg-gray-50 ${index % 2 === 0 ? "bg-gray-50" : ""}`}
                                         >
                                             <td className="px-4 py-2 border-b">{index + 1}</td>
                                             <td className="px-4 py-2 border-b">{category.name}</td>
                                             <td className="px-4 py-2 border-b">
-                                                <NavLink to={`/admin/categories/${category._id}/edit`} className="btn  btn-sm bg-orange-400 text-white hover:text-black hover:bg-orange-400 last:mr-2">
+                                                <NavLink to={`/admin/categories/${category._id}/edit`} className="btn btn-sm bg-orange-400 text-white hover:text-black hover:bg-orange-400 last:mr-2">
                                                     Edit
                                                 </NavLink>
                                             </td>
