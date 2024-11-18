@@ -13,7 +13,7 @@ interface UserData {
   email: string;
   role: string;
   is_verified: boolean;
-  avatar: File | null;
+  image: File | null;
   address: string;
   old_password?: string;
   new_password?: string;
@@ -31,7 +31,7 @@ const FormProfile = () => {
     email: "",
     role: "",
     is_verified: false,
-    avatar: null,
+    image: null,
     address: "",
     old_password: "",
     new_password: "",
@@ -134,7 +134,7 @@ const FormProfile = () => {
         <h1 className="text-2xl mb-4">Your Profile</h1>
         <div className="card w-full bg-base-100 shadow-xl md:p-2 md:min-w-[17rem]">
           <label className="w-full flex flex-col items-center cursor-pointer">
-            <div className="flex justify-center items-center border border-gray-300 rounded-full p-2 mt-4 text-gray-400 lg:h-[17rem] lg:w-[17rem] md:w-60 md:h-60">
+            <div className="flex justify-center items-center border border-gray-300 rounded-full mt-4 text-gray-400 lg:h-[16rem] lg:w-[16rem] md:w-60 md:h-60">
               {preview ? (
                 <img
                   src={preview}
@@ -147,7 +147,7 @@ const FormProfile = () => {
                     .toLowerCase()
                     .split(" ")
                     .join("-")}-avatar`}
-                  avatar={userData.avatar}
+                  image={userData.avatar}
                 />
               )}
             </div>
