@@ -1,4 +1,4 @@
-import CardFAQ from "../components/elements/card/cardfaq";
+import CardFAQ from "../components/elements/card/cardfaq"; 
 
 const FAQSection = () => {
   return (
@@ -9,9 +9,9 @@ const FAQSection = () => {
         </h1>
         <hr className="w-2/3" />
         <p className="w-4/5 text-md">
-          Berikut adalah beberapa pertanyaan umum terkait penggunaan layanan
-          kami.{" "}
+          Berikut adalah beberapa pertanyaan umum terkait penggunaan layanan kami.
         </p>
+        {/* Render Accordion FAQ */}
         <CardFAQ />
       </div>
     </>
