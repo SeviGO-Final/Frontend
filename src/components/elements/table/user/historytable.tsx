@@ -1,46 +1,15 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useComplaintsWithCategories } from "../../../../hooks/history/history";
 
-interface HistoryItem {
-  id: ReactNode;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  category: string;
-  attachment: string | null;
-}
 const HistoryTable = () => {
-  const [historyData, setHistoryData] = useState<HistoryItem[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Fungsi untuk mengambil data dari localStorage
-  const loadHistoryData = () => {
-    const data = localStorage.getItem("history");
-    if (data) {
-      try {
-        // Parsing data dan set ke state
-        const parsedData: HistoryItem[] = JSON.parse(data);
-        setHistoryData(parsedData);
-      } catch (error) {
-        console.error("Failed to parse history data:", error);
-      }
-    }
-  };
-  useEffect(() => {
-    loadHistoryData();
-  }, []);
+  const { historyData, error } = useComplaintsWithCategories();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
-  const filteredData = historyData.filter(
-    (item) =>
-      item.id?.toString().includes(searchQuery) ||
-      item.title.toLowerCase().includes(searchQuery) ||
-      item.category.toLowerCase().includes(searchQuery)
-  );
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
@@ -56,7 +25,7 @@ const HistoryTable = () => {
               placeholder="Search..."
               className="p-2 border rounded w-1/3"
               value={searchQuery}
-              onChange={handleSearch}
+              // onChange={handleSearch}
             />
             <select className="p-2 border rounded">
               <option>10</option>
@@ -77,14 +46,22 @@ const HistoryTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.length > 0 ? (
-                  filteredData.map((item, index) => (
+                {historyData.length > 0 ? (
+                  historyData.map((item, index) => (
                     <tr key={index} className="border-b">
                       <td className="p-2">{item.id}</td>
                       <td className="p-2">{item.category}</td>
                       <td className="p-2">{item.title}</td>
                       <td className="p-2">{item.date}</td>
-                      <td className="p-2">{item.status}</td>
+                      <td className="p-2 border-b">
+                        <span
+                          className={
+                            item.status ? "text-green-500" : "text-red-500"
+                          }
+                        >
+                          {item.status ? "Accepted" : "Rejected"}
+                        </span>
+                      </td>
                       <td className="p-2 border-b">
                         <Link to={`/dashboard/view/${item.id}`}>
                           <button className="bg-orange-500 text-white px-4 py-1 rounded">

@@ -1,5 +1,7 @@
 import { ReactNode, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../../../../services/api";
+import { useComplaintsWithCategories } from "../../../../hooks/history/history";
 
 interface ReportItem {
   id: ReactNode;
@@ -10,35 +12,29 @@ interface ReportItem {
 }
 
 const Table = () => {
-  const [report, setReport] = useState<ReportItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const itemsPerPage = 4;
 
-  const loadData = () => {
-    const data = localStorage.getItem("history");
-    if (data) {
-      try {
-        const parsedData: ReportItem[] = JSON.parse(data);
-        setReport(parsedData);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+  const { historyData, error } = useComplaintsWithCategories();
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = report.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = historyData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber: SetStateAction<number>) => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPage = Math.ceil(report.length / itemsPerPage);
+  const totalPage = Math.ceil(historyData.length / itemsPerPage);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <>
       <div className="bg-gray-50 w-1/2 lg:w-full h-4/6 p-4 lg:pb-4 rounded-lg shadow mt-4 ">
@@ -52,7 +48,6 @@ const Table = () => {
         <table className="w-full text-left bg-white rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-200">
-              <th className="p-2 border-b">ID Report</th>
               <th className="p-2 border-b">Date</th>
               <th className="p-2 border-b">Title</th>
               <th className="p-2 border-b">Type</th>
@@ -63,19 +58,14 @@ const Table = () => {
           <tbody>
             {currentItems.map((item, index) => (
               <tr key={index}>
-                <td className="p-2 border-b">{item.id}</td>
                 <td className="p-2 border-b">{item.date}</td>
                 <td className="p-2 border-b">{item.title}</td>
                 <td className="p-2 border-b">{item.category}</td>
                 <td className="p-2 border-b">
                   <span
-                    className={
-                      item.status === "Accepted"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }
+                    className={item.status ? "text-green-500" : "text-red-500"}
                   >
-                    {item.status}
+                    {item.status ? "Accepted" : "Rejected"}
                   </span>
                 </td>
                 <td className="p-2 border-b">
@@ -91,7 +81,7 @@ const Table = () => {
         </table>
         {/* Pagination */}
         <div className="flex justify-center items-end mt-4">
-          <div className="btn-group  space-x-4">
+          <div className="btn-group space-x-4">
             {[...Array(totalPage)].map((_, i) => (
               <button
                 key={i}

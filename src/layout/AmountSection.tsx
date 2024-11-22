@@ -1,6 +1,8 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
+import CardAmount from "../components/elements/card/cardamount";
 AOS.init();
+
 const AmountSection = () => {
   return (
     <div className="flex flex-col justify-center items-center pt-8">
@@ -14,24 +16,24 @@ const AmountSection = () => {
         className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 w-full max-w-4xl"
       >
         <div className="grid grid-rows-2 gap-4">
-          <div className="bg-slate-100 flex flex-col justify-center items-center p-4 rounded-lg">
-            <h1 className="text-xl font-semibold">Total Pengaduan</h1>
-            <p className="text-2xl">600</p>
-          </div>
-          <div className="bg-slate-100 flex flex-col justify-center items-center p-4 rounded-lg">
-            <h1 className="text-xl font-semibold">Pengaduan dalam proses</h1>
-            <p className="text-2xl">600</p>
-          </div>
+          <CardAmount
+            title="Total Pengaduan"
+            endpoint="/statistics/complaints"
+          />
+          <CardAmount
+            title="Pengaduan dalam proses"
+            endpoint="/statistics/complaints-processing"
+          />
         </div>
         <div className="grid grid-rows-2 gap-4">
-          <div className="bg-slate-100 flex flex-col justify-center items-center p-4 rounded-lg">
-            <h1 className="text-xl font-semibold">Pengaduan diselesaikan</h1>
-            <p className="text-2xl">600</p>
-          </div>
-          <div className="bg-slate-100 flex flex-col justify-center items-center p-4 rounded-lg">
-            <h1 className="text-xl font-semibold">Tanggapan diberikan</h1>
-            <p className="text-2xl">600</p>
-          </div>
+          <CardAmount
+            title="Pengaduan terselesaikan"
+            endpoint="/statistics/complaints-accepted"
+          />
+          <CardAmount
+            title="Tanggapan yang diberikan"
+            endpoint="/statistics/feedbacks"
+          />
         </div>
       </div>
     </div>

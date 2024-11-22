@@ -1,8 +1,9 @@
 import { ReactNode, useEffect, useState } from "react";
 import SideBar from "../../components/elements/Sidebar/sidebar";
 import { useParams } from "react-router-dom";
+import api from "../../services/api";
 
-interface SelectedItem {
+interface Complaint {
   id: ReactNode;
   title: string;
   content: string;
@@ -10,23 +11,47 @@ interface SelectedItem {
   location: string;
   category: string;
   evidence: string | File;
+  status: string;
 }
 
 const ViewReport = () => {
-  const { id } = useParams();
-  const [report, setReport] = useState<SelectedItem | null>(null);
+  const { id } = useParams<{ id: string }>(); // Mengambil ID dari URL
+  const [complaint, setComplaint] = useState<Complaint | null>(null);
 
   useEffect(() => {
-    // Ambil data dari localStorage
-    const historyData = localStorage.getItem("history");
+    const fetchComplaintDetail = async () => {
+      try {
+        const resp = await api.get(`users/complaints/`);
+        const complaints = resp.data.data.complaints;
+        const foundComplaint = complaints.find((comp: any) => comp._id === id);
 
-    if (historyData) {
-      const parsedHistory: SelectedItem[] = JSON.parse(historyData);
-      // Cari item dengan id yang sesuai
-      const foundReport = parsedHistory.find((item) => item.id === Number(id));
-      setReport(foundReport || null);
+        if (foundComplaint) {
+          setComplaint({
+            id: foundComplaint._id,
+            title: foundComplaint.title,
+            content: foundComplaint.content,
+            date: foundComplaint.date_event,
+            location: foundComplaint.location,
+            category: foundComplaint.category, // Perlu konversi ke nama kategori
+            evidence: foundComplaint.evidence,
+            status: foundComplaint.current_status,
+          });
+        } else {
+          console.log("Complaint not found");
+        }
+      } catch (error) {
+        console.log("Fetch error: ", error);
+      }
+    };
+
+    if (id) {
+      fetchComplaintDetail();
     }
   }, [id]);
+
+  if (!complaint) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -37,37 +62,48 @@ const ViewReport = () => {
             Detail Laporan - {id}
           </h1>
           <div className="overflow-y-auto h-132 bg-slate-50 flex flex-col p-8 space-y-4 w-full rounded-md shadow-sm">
-            {report ? (
+            {complaint ? (
               <>
-                <p>Status:</p>
+                <p className="flex justify-between mr-8 ">
+                  Status:{" "}
+                  <span
+                    className={
+                      complaint.status
+                        ? "bg-green-500 p-2 rounded-xl text-white"
+                        : "bg-red-500 p-2 rounded-xl text-white"
+                    }
+                  >
+                    {complaint.status ? "Submitted" : "Rejected"}
+                  </span>
+                </p>
                 {[
-                  { label: "Judul Laporan", value: report.title },
-                  { label: "Tanggal Kejadian", value: report.date },
-                  { label: "Lokasi", value: report.location },
-                  { label: "Kategori", value: report.category },
-                  { label: "Deskripsi", value: report.content },
+                  { label: "Judul Laporan", value: complaint.title },
+                  { label: "Tanggal Kejadian", value: complaint.date },
+                  { label: "Lokasi", value: complaint.location },
+                  { label: "Kategori", value: complaint.category }, // Nama kategori
+                  { label: "Deskripsi", value: complaint.content },
                 ].map(({ label, value }) => (
                   <p key={label} className="flex justify-between">
                     {label}:{" "}
-                    <span className="border border-gray-300 w-1/2 bg-white p-4 mr-4 text-right rounded-md">
+                    <span className="border border-gray-300 w-1/2 bg-white p-4 mr-4 text-left rounded-md">
                       {value}
                     </span>
                   </p>
                 ))}
-                {report.evidence && (
+                {complaint.evidence && (
                   <>
                     <p>Bukti Laporan:</p>
                     <img
-                      src={report.evidence}
+                      src={complaint.evidence}
                       alt="Bukti Laporan"
                       className="w-64 rounded-md shadow-sm"
                     />
                     <a
-                      href={report.evidence}
+                      href={complaint.evidence}
                       download="bukti_laporan.jpg"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-orange-400 text-white p-2 rounded-md w-1/4 text-center underline-offset-0 "
+                      className="bg-orange-400 text-white p-2 rounded-md w-1/4 text-center underline"
                     >
                       Unduh Bukti Laporan
                     </a>
