@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import "boxicons";
+
 interface ImagePreviewProps {
   alt: string;
   image: string;
@@ -26,7 +27,7 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
   }, [image]);
 
   // Tambahkan pengecekan sebelum memanggil .split()
-  const imageFor = image?.split("/")[1];
+  const imagePath = image?.split("/")[1]; // Mengambil bagian path setelah 'upload'
 
   if (!image || !imageUrl) {
     return (
@@ -36,23 +37,34 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
     );
   }
 
-  return imageFor === "avatar" ? (
-    <div>
-      <img
-        src={imageUrl ?? ""}
-        alt={alt}
-        className="w-[16rem] h-[16rem] rounded-full object-cover aspect-auto box-border "
-      />
-    </div>
-  ) : (
-    <div>
-      <img
-        src={imageUrl ?? ""}
-        alt={alt}
-        className="w-[16rem] h-[16rem] rounded-full object-cover aspect-auto box-border "
-      />
-    </div>
-  );
+  // Conditional rendering berdasarkan path
+  if (imagePath === "avatars") {
+    return (
+      <div>
+        <img
+          src={imageUrl ?? ""}
+          alt={alt}
+          className="w-[16rem] h-[16rem] rounded-full object-cover aspect-auto box-border"
+        />
+      </div>
+    );
+  } else if (imagePath === "complaints") {
+    return (
+      <div>
+        <img
+          src={imageUrl ?? ""}
+          alt={alt}
+          className="w-full lg:w-1/2 rounded-lg object-cover aspect-auto box-border"
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <p>Image path tidak dikenali</p>
+      </div>
+    );
+  }
 };
 
 export default ImagePreviewFromAPI;

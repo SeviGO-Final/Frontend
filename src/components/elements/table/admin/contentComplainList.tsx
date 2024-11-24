@@ -1,40 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import ComplaintDetail from './contentDetailComplaint';
-import classNames from 'classnames';
-import api from '../../../../services/api';
-import { ComplaintResponse } from '../../../../types/complaint-type';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import ComplaintDetail from "./contentDetailComplaint";
+import classNames from "classnames";
+import api from "../../../../services/api";
+import { ComplaintResponse } from "../../../../types/complaint-type";
+import { Link, useParams } from "react-router-dom";
+import { AppDispatch, RootState } from "../../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  searchComplaints,
+  setComplaintsData,
+} from "../../../../Redux/reducer/complaintsSlice";
 
 type Complaints = ComplaintResponse[];
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedComplaint, setSelectedComplaint] = useState<ComplaintResponse | null>(null);
+  const [selectedComplaint, setSelectedComplaint] =
+    useState<ComplaintResponse | null>(null);
   const [complaints, setComplaints] = useState<Complaints>([]);
-//get data from database
+  const dispatch: AppDispatch = useDispatch();
+  const { filteredData } = useSelector((state: RootState) => state.complaints);
+  //get data from database
   useEffect(() => {
-    api.get('/complaints')
+    api
+      .get("/complaints")
       .then((response) => {
-        setComplaints((response.data.data as Complaints));
-        console.log('Complaints: ', response.data.data);
+        setComplaints(response.data.data as Complaints);
+        console.log("Complaints: ", response.data.data);
       })
       .catch((error) => {
-        console.log('Error when get all complaints: ', error);
-      })
-  },[]);
+        console.log("Error when get all complaints: ", error);
+      });
+  }, []);
 
-  const filteredComplaints = complaints.filter(
-    (complaint: ComplaintResponse) =>
-      complaint.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      complaint.category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      complaint._id.includes(searchQuery)
-  );
+  useEffect(() => {
+    if (complaints) {
+      dispatch(setComplaintsData(complaints));
+    }
+  }, [complaints, dispatch]);
 
-  const totalPages = Math.ceil(filteredComplaints.length / entriesPerPage);
-  const startIndex = (currentPage - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
-  const currentComplaints = filteredComplaints.slice(startIndex, endIndex);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchComplaints(e.target.value));
+  };
+  // const filteredComplaints = complaints.filter(
+  //   (complaint: ComplaintResponse) =>
+  //     complaint.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     complaint.category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     complaint._id.includes(searchQuery)
+  // );
+
+  // const totalPages = Math.ceil(filteredComplaints.length / entriesPerPage);
+  // const startIndex = (currentPage - 1) * entriesPerPage;
+  // const endIndex = startIndex + entriesPerPage;
+  // const currentComplaints = filteredComplaints.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -49,39 +67,39 @@ const ComplaintList: React.FC = () => {
   //   setSelectedComplaint(complaint);
   // };
 
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={`px-3 py-1 mx-1 rounded ${currentPage === i
-            ? 'bg-orange-400 text-white'
-            : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-        >
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
+  // const renderPaginationButtons = () => {
+  //   const buttons = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     buttons.push(
+  //       <button
+  //         key={i}
+  //         onClick={() => handlePageChange(i)}
+  //         className={`px-3 py-1 mx-1 rounded ${
+  //           currentPage === i
+  //             ? "bg-orange-400 text-white"
+  //             : "bg-white text-gray-700 hover:bg-gray-100"
+  //         }`}
+  //       >
+  //         {i}
+  //       </button>
+  //     );
+  //   }
+  //   return buttons;
+  // };
 
-  if (selectedComplaint) {
-    return (
-      <ComplaintDetail
-        initialData={{
-          id: selectedComplaint._id,
-          title: selectedComplaint.title || 'No Title',
-          description: selectedComplaint.content || 'No Description',
-          image: selectedComplaint.evidence || ''
-        }}
-        onBack={() => setSelectedComplaint(null)}
-      />
-    );
-  }
-
+  // if (selectedComplaint) {
+  //   return (
+  //     <ComplaintDetail
+  //       initialData={{
+  //         id: selectedComplaint._id,
+  //         title: selectedComplaint.title || "No Title",
+  //         description: selectedComplaint.content || "No Description",
+  //         image: selectedComplaint.evidence || "",
+  //       }}
+  //       onBack={() => setSelectedComplaint(null)}
+  //     />
+  //   );
+  // }
 
   return (
     <div className="p-6 flex-1 bg-white">
@@ -107,14 +125,15 @@ const ComplaintList: React.FC = () => {
               type="text"
               placeholder="Search..."
               className="input input-bordered w-full sm:w-64 bg-white"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearch}
             />
             <div className="flex items-center gap-2">
               <select
                 className="select select-bordered w-24 bg-white"
                 value={entriesPerPage}
-                onChange={(e) => handleEntriesPerPageChange(Number(e.target.value))}
+                onChange={(e) =>
+                  handleEntriesPerPageChange(Number(e.target.value))
+                }
               >
                 <option value={10}>10</option>
                 <option value={25}>25</option>
@@ -131,43 +150,64 @@ const ComplaintList: React.FC = () => {
                   <table className="w-full">
                     <thead className="sticky top-0 bg-gray-300 rounded-t-md z-10">
                       <tr>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">ID Report</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Category</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Name</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Status</th>
-                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">Detail</th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
+                          ID Report
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
+                          Category
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
+                          Name
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
+                          Detail
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {currentComplaints.length > 0 ? (
-                        currentComplaints.map((complaint: ComplaintResponse) => (
-                          <tr key={complaint._id} className="hover:bg-gray-50 transition-colors duration-150">
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint._id}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.category?.name || 'Uncategorized'}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{complaint.title}</td>
-                            <td className={classNames('px-6 py-4 text-sm', {
-                              'text-green-500 text-shadow-md': complaint.current_status === 'submitted',
-                              'text-orange-500 text-shadow-md': complaint.current_status === 'processing',
-                              'text-blue-500 text-shadow-md': complaint.current_status === 'accepted',
-                              'text-red-500 text-shadow-md': complaint.current_status === 'rejected'
-
-                            })} >
-                              {
-                                complaint.current_status === 'submitted'
-                                ? 'Laporan Dibuat'
-                                : complaint.current_status === 'processing'
-                                ? 'Laporan Diproses'
-                                : complaint.current_status === 'accepted'
-                                ? 'Laporan Disetujui'
-                                : complaint.current_status === 'rejected'
-                                ? 'Laporan Ditolak'
-                                : 'Status Tidak Diketahui'
-                              }</td>
+                      {filteredData.length > 0 ? (
+                        filteredData.map((complaint: ComplaintResponse) => (
+                          <tr
+                            key={complaint._id}
+                            className="hover:bg-gray-50 transition-colors duration-150"
+                          >
+                            <td className="px-6 py-4 text-sm text-gray-900">
+                              {complaint._id}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900">
+                              {complaint.category?.name || "Uncategorized"}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900">
+                              {complaint.title}
+                            </td>
+                            <td
+                              className={classNames("px-6 py-4 text-sm", {
+                                "text-green-500 text-shadow-md":
+                                  complaint.current_status === "submitted",
+                                "text-orange-500 text-shadow-md":
+                                  complaint.current_status === "processing",
+                                "text-blue-500 text-shadow-md":
+                                  complaint.current_status === "accepted",
+                                "text-red-500 text-shadow-md":
+                                  complaint.current_status === "rejected",
+                              })}
+                            >
+                              {complaint.current_status === "submitted"
+                                ? "Laporan Dibuat"
+                                : complaint.current_status === "processing"
+                                ? "Laporan Diproses"
+                                : complaint.current_status === "accepted"
+                                ? "Laporan Disetujui"
+                                : complaint.current_status === "rejected"
+                                ? "Laporan Ditolak"
+                                : "Status Tidak Diketahui"}
+                            </td>
                             <td className="px-6 py-4">
                               <Link to={`/admin/complaints/${complaint._id}`}>
-                                <button
-                                  className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
-                                >
+                                <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
                                   View
                                 </button>
                               </Link>
@@ -176,7 +216,10 @@ const ComplaintList: React.FC = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                          <td
+                            colSpan={5}
+                            className="px-6 py-4 text-center text-gray-500"
+                          >
                             No complaints found
                           </td>
                         </tr>
@@ -188,9 +231,10 @@ const ComplaintList: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-4 flex justify-between items-center">
+          {/* <div className="mt-4 flex justify-between items-center">
             <div className="text-sm text-gray-700">
-              Showing {startIndex + 1} to {Math.min(endIndex, filteredComplaints.length)} of{' '}
+              Showing {startIndex + 1} to{" "}
+              {Math.min(endIndex, filteredComplaints.length)} of{" "}
               {filteredComplaints.length} entries
             </div>
             <div className="flex space-x-1">
@@ -210,7 +254,7 @@ const ComplaintList: React.FC = () => {
                 Next
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

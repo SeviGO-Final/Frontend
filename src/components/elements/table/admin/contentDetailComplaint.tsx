@@ -45,11 +45,6 @@ const ComplaintDetail: React.FC = () => {
 
     return (
         <div className="p-6 flex-1 bg-white">
-            <div className="flex justify-end mb-0 items-center mr-8">
-                <i className="bx bxs-user mr-4 bx-md text-orange-400" />
-                <h2>Admin2</h2>
-            </div>
-
             <div className="mb-2">
                 <div className="flex items-center gap-4">
                     <h1 className="text-3xl text-black font-bold mb-2 whitespace-nowrap">
@@ -67,13 +62,7 @@ const ComplaintDetail: React.FC = () => {
                         </h2>
                     </div>
                     <p className="text-xs text-right mr-8 mt-4 text-gray-600">
-                        Tanggal Event: {complaint?.date_event
-                            ? new Date(complaint.date_event).toLocaleDateString('id-ID', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            })
-                            : 'Belum ada tanggal event'}
+                        Tanggal Event: {complaint?.date_event?.split(',')[0]}
                     </p>
                     <div className="p-6 space-y-4">
                         <div>
@@ -147,8 +136,7 @@ const ComplaintDetail: React.FC = () => {
                             <label className="block text-sm font-bold text-gray-700 mb-1">
                                 Image
                             </label>
-                            <div className="bg-gray-100 w-full cursor-pointer max-w-md h-[18vh] flex items-center justify-center shadow-lg text-gray-600 rounded-md">
-                                {complaint?.evidence ? (
+                            {complaint?.evidence ? (
                                     <ImagePreviewFromAPI
                                         alt='Complaint'
                                         image={complaint.evidence}
@@ -156,7 +144,6 @@ const ComplaintDetail: React.FC = () => {
                                 ) : (
                                     "No Image Available"
                                 )}
-                            </div>
                         </div>
 
                         <div className="flex justify-between pt-4">

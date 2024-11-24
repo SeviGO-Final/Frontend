@@ -1,19 +1,37 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useComplaintsWithCategories } from "../../../../hooks/history/history";
+import { AppDispatch, RootState } from "../../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  searchHistory,
+  setHistoryData,
+} from "../../../../Redux/reducer/historySlice";
 
 const HistoryTable = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
+  const dispatch: AppDispatch = useDispatch();
+  const { filteredData } = useSelector((state: RootState) => state.history);
   const { historyData, error } = useComplaintsWithCategories();
+  const [Loading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (historyData) {
+      dispatch(setHistoryData(historyData));
+      setIsLoading(false);
+    }
+  }, [historyData, dispatch]);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchHistory(e.target.value));
+  };
+
   return (
     <>
-      <div className="w-3/4 lg:w-full">
+      <div className="w-[22rem] lg:w-full">
         <div className="flex items-center pb-8">
           <h1 className="py-4 ml-8 text-3xl">Riwayat Pelaporan</h1>
           <hr className="border border-black w-2/3 " />
@@ -23,15 +41,14 @@ const HistoryTable = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="p-2 border rounded w-1/3"
-              value={searchQuery}
-              // onChange={handleSearch}
+              className="p-2 border rounded w-3/4 lg:w-1/3"
+              onChange={handleSearch}
             />
-            <select className="p-2 border rounded">
+            {/* <select className="p-2 border rounded">
               <option>10</option>
               <option>20</option>
               <option>30</option>
-            </select>
+            </select> */}
           </div>
           <div className="overflow-y-auto h-96 lg:h-1/2">
             <table className="w-full text-left bg-white rounded-lg shadow-md">
@@ -46,13 +63,13 @@ const HistoryTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {historyData.length > 0 ? (
-                  historyData.map((item, index) => (
+                {filteredData.length > 0 ? (
+                  filteredData.map((item, index) => (
                     <tr key={index} className="border-b">
                       <td className="p-2">{item.id}</td>
                       <td className="p-2">{item.category}</td>
                       <td className="p-2">{item.title}</td>
-                      <td className="p-2">{item.date}</td>
+                      <td className="p-2">{item.date?.split(",")[0]}</td>
                       <td className="p-2 border-b">
                         <span
                           className={
