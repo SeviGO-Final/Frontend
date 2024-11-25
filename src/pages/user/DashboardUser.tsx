@@ -1,49 +1,9 @@
 import { Link } from "react-router-dom";
 import Table from "../../components/elements/table/user/table";
-import { useEffect, useState } from "react";
+import { useNameProfile } from "../../hooks/nameProfile";
 
 const DashboardUser = () => {
-  const [userName, setUserName] = useState<string>("");
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("Token tidak ditemukan");
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          "http://localhost:3000/api/users/profile",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data pengguna");
-        }
-
-        const result = await response.json();
-
-        if (result.code === 200 && result.status === "OK") {
-          setUserName(result.data.name);
-        } else {
-          console.error(result.message);
-        }
-      } catch (error) {
-        console.error("Erro fetch: ", error);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
+  const { name } = useNameProfile();
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -53,7 +13,7 @@ const DashboardUser = () => {
           <h1 className="ml-4 text-4xl font-bold">Dashboard</h1>
           <div className="mt-4 flex items-center">
             <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
-            <h2 className="text-xl">Hi, {userName}!</h2>
+            <h2 className="text-xl">Hi, {name}!</h2>
           </div>
         </div>
 

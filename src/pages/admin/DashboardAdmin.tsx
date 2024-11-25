@@ -5,6 +5,7 @@ import StatsCard from "../../components/StatsCard";
 import { FaUsers, FaFileAlt } from "react-icons/fa";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { IoMdTimer } from "react-icons/io";
+import { useNameProfile } from "../../hooks/nameProfile";
 
 // Interface untuk tipe data API
 interface Category {
@@ -29,12 +30,13 @@ const DashboardAdmin: React.FC = () => {
   const [apiData, setApiData] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
-
-  // Fungsi untuk mengambil data dari API
+  const { name } = useNameProfile();
   const fetchStatisticsData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const { data: responseData }: { data: ApiResponse } = await api.get("/statistics/category-percentages");
+      const { data: responseData }: { data: ApiResponse } = await api.get(
+        "/statistics/category-percentages"
+      );
       if (responseData.code === 200) {
         setApiData(responseData);
         setFetchError(null); // Reset error jika sebelumnya ada error
@@ -65,25 +67,56 @@ const DashboardAdmin: React.FC = () => {
 
   return (
     <div className="flex flex-col m-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">Dashboard</h1>
-
+      <div className="flex justify-between items-center pb-8">
+        <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
+        <div className="flex items-center">
+          <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
+          <h2 className="text-xl">Hi, {name}!</h2>
+        </div>
+      </div>
       {/* Bagian Statistik Pengguna dan Laporan */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-        <StatsCard title="Total Pengguna" icon={<FaUsers />} endpoint="/statistics/users" />
-        <StatsCard title="Total Laporan Masuk" icon={<FaFileAlt />} endpoint="/statistics/complaints" />
+        <StatsCard
+          title="Total Pengguna"
+          icon={<FaUsers />}
+          endpoint="/statistics/users"
+        />
+        <StatsCard
+          title="Total Laporan Masuk"
+          icon={<FaFileAlt />}
+          endpoint="/statistics/complaints"
+        />
       </div>
 
       {/* Bagian Statistik Status Laporan */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-        <StatsCard title="Laporan Di Terima" icon={<AiOutlineCheckCircle />} endpoint="/statistics/complaints-accepted" />
-        <StatsCard title="Laporan Di Tolak" icon={<AiOutlineCloseCircle />} endpoint="/statistics/complaints-rejected" />
-        <StatsCard title="Laporan Di Proses" icon={<IoMdTimer />} endpoint="/statistics/complaints-processing" />
+        <StatsCard
+          title="Laporan Di Terima"
+          icon={<AiOutlineCheckCircle />}
+          endpoint="/statistics/complaints-accepted"
+        />
+        <StatsCard
+          title="Laporan Di Tolak"
+          icon={<AiOutlineCloseCircle />}
+          endpoint="/statistics/complaints-rejected"
+        />
+        <StatsCard
+          title="Laporan Di Proses"
+          icon={<IoMdTimer />}
+          endpoint="/statistics/complaints-processing"
+        />
       </div>
 
       {/* Bagian Grafik Data Laporan */}
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 p-4 w-full">
         <h1 className="text-xl font-semibold mb-4">Complaint Data</h1>
-        {isLoading ? <LoadingPlaceholder /> : fetchError ? <ErrorMessage message={fetchError} /> : apiData && <ComplaintBarChart data={apiData} />}
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : fetchError ? (
+          <ErrorMessage message={fetchError} />
+        ) : (
+          apiData && <ComplaintBarChart data={apiData} />
+        )}
       </div>
     </div>
   );

@@ -34,6 +34,10 @@ const historySlice = createSlice({
           item.category.toLowerCase().includes(query)
       );
     },
+
+    resetFilteredData(state) {
+      state.filteredData = state.data;
+    },
   },
 });
 

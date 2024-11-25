@@ -7,7 +7,7 @@ import DashboardAdmin from "./pages/admin/DashboardAdmin";
 import UserManagement from "./pages/admin/UserManagement";
 import DashboardUser from "./pages/user/DashboardUser";
 import NewReport from "./pages/user/NewReport";
-import ComplaintList from "./pages/admin/ComplainList";
+import ComplaintList from "./pages/admin/ComplaintList";
 import HistoryPage from "./pages/user/History";
 import ViewReport from "./pages/user/ViewReport";
 import ProfileUser from "./pages/user/ProfileUser";

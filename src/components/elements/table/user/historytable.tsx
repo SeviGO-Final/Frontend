@@ -44,11 +44,6 @@ const HistoryTable = () => {
               className="p-2 border rounded w-3/4 lg:w-1/3"
               onChange={handleSearch}
             />
-            {/* <select className="p-2 border rounded">
-              <option>10</option>
-              <option>20</option>
-              <option>30</option>
-            </select> */}
           </div>
           <div className="overflow-y-auto h-96 lg:h-1/2">
             <table className="w-full text-left bg-white rounded-lg shadow-md">

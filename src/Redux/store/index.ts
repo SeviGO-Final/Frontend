@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import historyReducer from "../reducer/historySlice";
-import complaintReducer from "../reducer/complaintsSlice";
+import complaintsReducer from "../reducer/complaintsSlice";
 const store = configureStore({
   reducer: {
     history: historyReducer,
-    complaints: complaintReducer,
+    complaints: complaintsReducer,
   },
 });
 
