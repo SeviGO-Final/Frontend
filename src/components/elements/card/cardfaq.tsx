@@ -31,7 +31,7 @@ const CardFAQ = () => {
   ];
 
   return (
-    <ul className="list-none w-4/5 flex flex-col p-8 text-left text-md text-xl mb-16 font-sans">
+    <ul className="list-none w-full lg:w-4/5 flex flex-col px-4 lg:p-8 text-left text-md text-xl mb-16 font-sans">
       {faqData.map((faq, index) => (
         <li key={index} className="mb-3">
           {/* Pertanyaan */}
@@ -54,13 +54,15 @@ const CardFAQ = () => {
           {/* Jawaban */}
           <div
             className={`overflow-hidden transition-all duration-500 ease-in-out ${
-              openIndex === index ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              openIndex === index
+                ? "max-h-screen opacity-100"
+                : "max-h-0 opacity-0"
             }`}
             style={{
               maxHeight: openIndex === index ? "200px" : "0",
             }}
           >
-            <div className="bg-slate-200 rounded-xl px-5 py-4 mt-2 font-light text-gray-800">
+            <div className="bg-slate-100 rounded-xl px-5 py-4 mt-2 font-light text-gray-800">
               {faq.answer}
             </div>
           </div>

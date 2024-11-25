@@ -4,7 +4,11 @@ import Logo from "../assets/image/logo-no-bg.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const scrollToSection = (sectionId: string) => {
+    const element = document
+      .getElementById(sectionId)
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
       <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-lg lg:rounded-full lg:mt-4">
@@ -19,19 +23,13 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-5 text-md">
           <a
-            href="#"
+            onClick={() => scrollToSection("feature-section")}
             className="text-gray-900 hover:text-orange-500 duration-500"
           >
             Fitur
           </a>
           <a
-            href="#"
-            className="text-gray-900 hover:text-orange-500 duration-500"
-          >
-            Informasi
-          </a>
-          <a
-            href="#"
+            onClick={() => scrollToSection("faq-section")}
             className="text-gray-900 hover:text-orange-500 duration-500"
           >
             FAQ
