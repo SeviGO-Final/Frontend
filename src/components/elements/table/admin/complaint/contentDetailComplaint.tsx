@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import ImagePreviewFromAPI from "../../../../ImagePreview";
 import { ComplaintResponse } from "../../../../../types/complaint-type";
+import PageHeader from "../../../../PageHeader";
+import Card from "../../../../Card";
 import api from "../../../../../services/api";
 
 const ComplaintDetail: React.FC = () => {
@@ -47,109 +49,62 @@ const ComplaintDetail: React.FC = () => {
 
   return (
     <div className="p-6 flex-1 bg-white">
-      <div className="mb-2">
-        <div className="flex items-center gap-4">
-          <h1 className="text-3xl text-black font-bold mb-2 whitespace-nowrap">
-            Detail Complaint
-          </h1>
-          <div className="w-full h-px bg-gray-800" />
-        </div>
-        <p className="text-gray-600 mb-2">Report feed</p>
-      </div>
-      <div className="flex flex-col">
-        <div className="bg-gray-100 rounded-md shadow-lg flex-1 overflow-auto">
-          <div className="w-full bg-gray-300 p-2 rounded-t-md">
-            <h2 className="text-lg font-semibold">
-              Detail Complaint - {complaint?.title || "No Title"}
-            </h2>
+      <PageHeader title="Detail Complaint" description="Detail Complaint From User" />
+      <Card title={'Detail Pengaduan'}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div>
+            {complaint?.evidence ? (
+              <ImagePreviewFromAPI
+                alt="Complaint"
+                image={complaint.evidence}
+              />
+            ) : (
+              "No Image Available"
+            )}
           </div>
-          <p className="text-xs text-right mr-8 mt-4 text-gray-600">
-            Tanggal Event: {complaint?.date_event?.split(",")[0]}
-          </p>
-          <div className="p-6 space-y-4">
-            <div>
-              <label
-                htmlFor="category"
-                className="block text-md font-bold text-gray-700"
-              >
-                Kategori Laporan
-              </label>
-              <input
-                id="category"
-                type="text"
-                value={complaint?.category?.name || ""}
-                disabled
-                className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
-              />
+          <div className="justify-center flex">
+            <div className="card bg-base-100 shadow-xl w-full h-fit">
+              <div className="card-body p-3">
+                <div className="mt-1">
+                  <table className="table-auto w-full border-separate border-spacing-2 m-0 p-0">
+                    <tbody>
+                      <tr>
+                        <td className="font-semibold pr-1">Tanggal Event</td>
+                        <td>: {complaint?.date_event?.split(",")[0]}</td>
+                      </tr>
+                      <tr>
+                        <td className="font-semibold pr-1">Tanggal Laporan</td>
+                        <td>: {complaint?.date_event?.split(",")[0]}</td>
+                      </tr>
+                      <hr />
+                      <tr>
+                        <td className="font-semibold pr-1">Kategori Laporan</td>
+                        <td>: {complaint?.category?.name || ""}</td>
+                      </tr>
+                      <tr>
+                        <td className="font-semibold pr-1">Judul Laporan</td>
+                        <td>: {complaint?.title}</td>
+                      </tr>
+                      <tr>
+                        <td className="font-semibold pr-1">Lokasi</td>
+                        <td>: {complaint?.location || ""}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-md font-bold text-gray-700"
-              >
-                Judul Laporan
-              </label>
-              <input
-                id="title"
-                type="text"
-                value={ complaint?.title}
-                disabled
-                className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
-              />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 mt-8">
+          <div className="card bg-base-100 w-full shadow-md">
+            <div className="card-body">
+              <h2 className="card-title text-md">Deskripsi</h2>
+              {complaint?.content || ""}
             </div>
-
-            <div>
-              <label
-                htmlFor="category"
-                className="block text-md font-bold text-gray-700"
-              >
-                Lokasi
-              </label>
-              <input
-                id="location"
-                type="text"
-                value={complaint?.location || ""}
-                disabled
-                className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-md font-bold text-gray-"
-              >
-                Deskripsi
-              </label>
-              <textarea
-                id="description"
-                disabled
-                value={complaint?.content || ""}
-                className="w-full max-w-md p-2 border text-xs shadow-md border-gray-300 overflow-auto rounded-md bg-gray-50 h-28 resize-none"
-              />
-              <p className="text-xs text-gray-600">
-                Tanggal Masuk Laporan:{" "}
-                {complaint?.created_at
-                  ? complaint.created_at.split(",")[0]
-                  : "Belum ada tanggal laporan"}
-              </p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">
-                Image
-              </label>
-              {complaint?.evidence ? (
-                <ImagePreviewFromAPI
-                  alt="Complaint"
-                  image={complaint.evidence}
-                />
-              ) : (
-                "No Image Available"
-              )}
-            </div>
-
-            <div className="flex justify-between pt-4">
+          </div>
+        </div>
+        <div className="flex justify-between mt-5">
               <button
                 onClick={() => navigate("/admin/complaints")}
                 className="px-6 py-2 bg-[#FF8C42] text-white rounded-md hover:bg-[#ff7a1f] disabled:opacity-50 transition-colors"
@@ -188,9 +143,7 @@ const ComplaintDetail: React.FC = () => {
                 )}
               </button>
             </div>
-          </div>
-        </div>
-      </div>
+      </Card>
     </div>
   );
 };
