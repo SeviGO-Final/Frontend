@@ -54,7 +54,7 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
         <img
           src={imageUrl ?? ""}
           alt={alt}
-          className="w-full lg:w-1/2 rounded-lg object-cover aspect-auto box-border"
+          className="w-full lg:w-full rounded-lg object-cover aspect-auto box-border"
         />
       </div>
     );
