@@ -76,7 +76,7 @@ const Table = () => {
                       <td className="p-2">{item.title}</td>
                       <td className="p-2">{item.category}</td>
                       <td className="p-2 border-b">
-                      <span
+                        <span
                           className={
                             item.status === "submitted"
                               ? "text-blue-500"
@@ -89,16 +89,7 @@ const Table = () => {
                               : "text-slate-500"
                           }
                         >
-                          { item.status }
-                          {/* { 
-                          item.status === "submitted"
-                          ? "Submitted"
-                          : item.status === "accepted" 
-                          ? "Accepted" 
-                          : item.status === "processing"
-                          ? "Processing"
-                          : "Rejected"
-                          } */}
+                          {item.status}
                         </span>
                       </td>
                       <td className="p-2 border-b">

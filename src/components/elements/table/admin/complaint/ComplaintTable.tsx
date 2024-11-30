@@ -10,7 +10,7 @@ interface ComplaintTableProps {
 const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
   return (
     <div className="bg-white overflow-x-auto flex-grow rounded-lg">
-      <div className="overflow-y-auto h-full">
+      <div className="overflow-y-auto h-[28rem]">
         <table className="w-full">
           <thead className="sticky top-0 bg-gray-300 rounded-t-md z-10">
             <tr>
@@ -47,17 +47,23 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                   <td className="px-6 py-4 text-sm text-gray-900">
                     {complaint.title}
                   </td>
-                  <td
-                    className={classNames("px-6 py-4 text-sm", {
-                      "text-green-500":
-                        complaint.current_status === "submitted",
-                      "text-orange-500":
-                        complaint.current_status === "processing",
-                      "text-blue-500": complaint.current_status === "accepted",
-                      "text-red-500": complaint.current_status === "rejected",
-                    })}
-                  >
-                    { complaint.current_status }
+                  <td>
+                    <span
+                      className={classNames(
+                        "p-2  rounded-full text-sm text-white text-center",
+                        {
+                          "bg-green-500":
+                            complaint.current_status === "submitted",
+                          "bg-orange-500":
+                            complaint.current_status === "processing",
+                          "bg-blue-500":
+                            complaint.current_status === "accepted",
+                          "bg-red-500": complaint.current_status === "rejected",
+                        }
+                      )}
+                    >
+                      {complaint.current_status}
+                    </span>
                   </td>
                   <td className="px-6 py-4">
                     <Link to={`/admin/complaints/${complaint._id}`}>

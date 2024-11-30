@@ -4,10 +4,12 @@ import Swal from "sweetalert2";
 import ImagePreviewFromAPI from "../../../../ImagePreview";
 import { ComplaintResponse } from "../../../../../types/complaint-type";
 import api from "../../../../../services/api";
+import Button from "../../../modal/button/button";
 
 const ComplaintDetail: React.FC = () => {
   const { complaintId } = useParams<{ complaintId: string }>();
   const [complaint, setComplaint] = useState<ComplaintResponse | null>(null);
+  const [status, setStatus] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,26 +25,50 @@ const ComplaintDetail: React.FC = () => {
   }, [complaintId]);
 
   const navigate = useNavigate();
-  const handleCreateReport = () => {
-    setLoading(true);
-    Swal.fire({
-      title: "Sudah Yakin?",
-      text: "Ingin Memberi Feedback?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Beri Feedback",
-      cancelButtonText: "Batal",
-    })
-      .then((result) => {
-        if (result.isConfirmed) {
-          navigate(`/admin/complaints/${complaintId}/feedback`);
+  const handleCreateReport = async () => {
+    try {
+      try {
+        const response = await api.post(
+          `/admin-feedback/${complaintId}/process`
+        );
+        const data = response.data.current_status;
+        setStatus(data);
+      } catch (error: any) {
+        if (error.response?.status === 409) {
+          Swal.fire({
+            title: "Konflik!",
+            text: "Laporan sudah diproses sebelumnya.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        } else {
+          console.error(error);
         }
+      }
+      setLoading(true);
+      Swal.fire({
+        title: "Sudah Yakin?",
+        text: "Ingin Memberi Feedback?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Beri Feedback",
+        cancelButtonText: "Batal",
       })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/admin/complaints/${complaintId}/feedback`);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,7 +118,7 @@ const ComplaintDetail: React.FC = () => {
               <input
                 id="title"
                 type="text"
-                value={ complaint?.title}
+                value={complaint?.title}
                 disabled
                 className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
               />
@@ -150,18 +176,15 @@ const ComplaintDetail: React.FC = () => {
             </div>
 
             <div className="flex justify-between pt-4">
-              <button
+              <Button
                 onClick={() => navigate("/admin/complaints")}
                 className="px-6 py-2 bg-[#FF8C42] text-white rounded-md hover:bg-[#ff7a1f] disabled:opacity-50 transition-colors"
-                disabled={loading}
+                children="BACK"
                 type="button"
-              >
-                BACK
-              </button>
-              <button
+              />
+              <Button
                 onClick={handleCreateReport}
                 className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50 transition-colors flex items-center gap-2"
-                disabled={loading}
                 type="button"
               >
                 {loading ? (
@@ -186,7 +209,7 @@ const ComplaintDetail: React.FC = () => {
                     Create Feeback
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

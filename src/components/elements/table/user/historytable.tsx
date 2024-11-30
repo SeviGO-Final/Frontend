@@ -79,16 +79,7 @@ const HistoryTable = () => {
                               : "text-slate-500"
                           }
                         >
-                          { item.status }
-                          {/* { 
-                          item.status === "submitted"
-                          ? "Submitted"
-                          : item.status === "accepted" 
-                          ? "Accepted" 
-                          : item.status === "processing"
-                          ? "Processing"
-                          : "Rejected"
-                          } */}
+                          {item.status}
                         </span>
                       </td>
                       <td className="p-2 border-b">
