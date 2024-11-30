@@ -76,14 +76,29 @@ const Table = () => {
                       <td className="p-2">{item.title}</td>
                       <td className="p-2">{item.category}</td>
                       <td className="p-2 border-b">
-                        <span
+                      <span
                           className={
-                            item.status
-                              ? "bg-green-500 p-2 text-white rounded-lg"
-                              : "bg-red-500 p-2 text-white rounded-lg"
+                            item.status === "submitted"
+                              ? "text-blue-500"
+                              : item.status === "accepted"
+                              ? "text-green-500"
+                              : item.status === "processing"
+                              ? "text-yellow-500"
+                              : item.status === "rejected"
+                              ? "text-red-500"
+                              : "text-slate-500"
                           }
                         >
-                          {item.status ? "Accepted" : "Rejected"}
+                          { item.status }
+                          {/* { 
+                          item.status === "submitted"
+                          ? "Submitted"
+                          : item.status === "accepted" 
+                          ? "Accepted" 
+                          : item.status === "processing"
+                          ? "Processing"
+                          : "Rejected"
+                          } */}
                         </span>
                       </td>
                       <td className="p-2 border-b">

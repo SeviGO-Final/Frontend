@@ -92,17 +92,7 @@ const ComplaintDetail: React.FC = () => {
               <input
                 id="title"
                 type="text"
-                value={
-                  complaint
-                    ? `${complaint.title} - ${new Date(
-                        complaint.date_event
-                      ).toLocaleDateString("id-ID", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}`
-                    : ""
-                }
+                value={ complaint?.title}
                 disabled
                 className="w-full p-2 border border-gray-200 rounded-md bg-gray-50"
               />
@@ -140,11 +130,7 @@ const ComplaintDetail: React.FC = () => {
               <p className="text-xs text-gray-600">
                 Tanggal Masuk Laporan:{" "}
                 {complaint?.created_at
-                  ? new Date(complaint.created_at).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })
+                  ? complaint.created_at.split(",")[0]
                   : "Belum ada tanggal laporan"}
               </p>
             </div>

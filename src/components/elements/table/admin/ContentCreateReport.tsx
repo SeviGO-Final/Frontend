@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import api from '../../../../services/api';
 
 interface ComplaintData {
     id: string;
@@ -20,6 +21,7 @@ const CreateReport: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const complaintData = location.state?.complaintData as ComplaintData;
+    const { complaintId } = useParams<{ complaintId: string }>();
 
     const [form, setForm] = useState<ReportForm>({
         title: complaintData?.title || '',
@@ -46,10 +48,7 @@ const CreateReport: React.FC = () => {
         }
 
         try {
-            const response = await fetch('https://example.com/api/reports', {
-                method: 'POST',
-                body: formData,
-            });
+            const response = await api.post('/admin-feedback/'+complaintId, formData);
 
             if (response.ok) {
                 Swal.fire({

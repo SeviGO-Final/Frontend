@@ -5,7 +5,7 @@ interface HistoryItem {
   date: string;
   title: string;
   category: string;
-  status: boolean;
+  status: string;
 }
 
 interface HistoryState {

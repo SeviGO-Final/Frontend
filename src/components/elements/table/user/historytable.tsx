@@ -68,10 +68,27 @@ const HistoryTable = () => {
                       <td className="p-2 border-b">
                         <span
                           className={
-                            item.status ? "text-green-500" : "text-red-500"
+                            item.status === "submitted"
+                              ? "text-blue-500"
+                              : item.status === "accepted"
+                              ? "text-green-500"
+                              : item.status === "processing"
+                              ? "text-yellow-500"
+                              : item.status === "rejected"
+                              ? "text-red-500"
+                              : "text-slate-500"
                           }
                         >
-                          {item.status ? "Accepted" : "Rejected"}
+                          { item.status }
+                          {/* { 
+                          item.status === "submitted"
+                          ? "Submitted"
+                          : item.status === "accepted" 
+                          ? "Accepted" 
+                          : item.status === "processing"
+                          ? "Processing"
+                          : "Rejected"
+                          } */}
                         </span>
                       </td>
                       <td className="p-2 border-b">

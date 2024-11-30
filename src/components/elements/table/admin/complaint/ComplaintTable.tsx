@@ -57,15 +57,7 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                       "text-red-500": complaint.current_status === "rejected",
                     })}
                   >
-                    {complaint.current_status === "submitted"
-                      ? "Laporan Dibuat"
-                      : complaint.current_status === "processing"
-                      ? "Laporan Diproses"
-                      : complaint.current_status === "accepted"
-                      ? "Laporan Disetujui"
-                      : complaint.current_status === "rejected"
-                      ? "Laporan Ditolak"
-                      : "Status Tidak Diketahui"}
+                    { complaint.current_status }
                   </td>
                   <td className="px-6 py-4">
                     <Link to={`/admin/complaints/${complaint._id}`}>
