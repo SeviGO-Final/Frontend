@@ -7,25 +7,21 @@ import {
   searchHistory,
 } from "../../../../Redux/reducer/historySlice";
 import { useComplaintsWithCategories } from "../../../../hooks/history/history";
+import classNames from "classnames";
 
 const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const itemsPerPage = 4;
 
   const dispatch: AppDispatch = useDispatch();
   const { filteredData } = useSelector((state: RootState) => state.history);
-  const { historyData, error } = useComplaintsWithCategories();
+  const { historyData } = useComplaintsWithCategories();
 
   useEffect(() => {
     if (historyData) {
       dispatch(setHistoryData(historyData));
     }
   }, [historyData, dispatch]);
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -42,13 +38,10 @@ const Table = () => {
 
   const totalPage = Math.ceil(filteredData.length / itemsPerPage);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
   return (
     <>
       <div className="w-[22rem] lg:w-full">
-        <div className="bg-gray-50 p-4 rounded-lg shadow lg:ml-8 h-[22rem] lg:h-auto">
+        <div className="bg-gray-50 p-4 rounded-lg shadow h-[22rem] lg:h-auto">
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -77,17 +70,15 @@ const Table = () => {
                       <td className="p-2">{item.category}</td>
                       <td className="p-2 border-b">
                         <span
-                          className={
-                            item.status === "submitted"
-                              ? "text-blue-500"
-                              : item.status === "accepted"
-                              ? "text-green-500"
-                              : item.status === "processing"
-                              ? "text-yellow-500"
-                              : item.status === "rejected"
-                              ? "text-red-500"
-                              : "text-slate-500"
-                          }
+                          className={classNames(
+                            "p-2  rounded-full text-sm text-white text-center",
+                            {
+                              "bg-green-500": item.status === "submitted",
+                              "bg-orange-500": item.status === "processing",
+                              "bg-blue-500": item.status === "accepted",
+                              "bg-red-500": item.status === "rejected",
+                            }
+                          )}
                         >
                           {item.status}
                         </span>

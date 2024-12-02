@@ -3,6 +3,7 @@ import SideBar from "../../components/elements/Sidebar/sidebar";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import ImagePreviewFromAPI from "../../components/ImagePreview";
+import classNames from "classnames";
 
 interface Complaint {
   id: ReactNode;
@@ -24,7 +25,9 @@ const ViewReport = () => {
       try {
         const resp = await api.get(`users/complaints/`);
         const complaints = resp.data.data.complaints;
-        const foundComplaint = complaints.find((comp: any) => comp._id === id);
+        const foundComplaint = complaints.find(
+          (comp: { _id: string | undefined }) => comp._id === id
+        );
 
         if (foundComplaint) {
           setComplaint({
@@ -57,7 +60,12 @@ const ViewReport = () => {
   return (
     <>
       <div className="flex ">
-        <SideBar />
+        <SideBar
+          isOpen={false}
+          toggleSidebar={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
         <div className="bg-slate-200 flex flex-col items-center w-full h-1/2 pb-8 px-4 lg:ml-8 mt-4 rounded-md shadow-sm">
           <h1 className="bg-orange-400 text-white text-xl font-medium p-4 rounded-2xl m-4">
             Detail Laporan - {id}
@@ -68,13 +76,17 @@ const ViewReport = () => {
                 <p className="flex justify-between items-center mr-8 text-xl lg:text-lg">
                   Status:
                   <span
-                    className={
-                      complaint.status
-                        ? "bg-green-500 p-2 rounded-xl text-white"
-                        : "bg-red-500 p-2 rounded-xl text-white"
-                    }
+                    className={classNames(
+                      "p-2  rounded-full text-md text-white text-center",
+                      {
+                        "bg-green-500": complaint.status === "submitted",
+                        "bg-orange-500": complaint.status === "processing",
+                        "bg-blue-500": complaint.status === "accepted",
+                        "bg-red-500": complaint.status === "rejected",
+                      }
+                    )}
                   >
-                    {complaint.status ? "Submitted" : "Rejected"}
+                    {complaint.status}
                   </span>
                 </p>
                 {[

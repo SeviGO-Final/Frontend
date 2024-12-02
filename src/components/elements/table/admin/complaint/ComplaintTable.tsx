@@ -2,12 +2,27 @@ import React from "react";
 import { ComplaintResponse } from "../../../../../types/complaint-type";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+import Button from "../../../modal/button/button";
+import api from "../../../../../services/api";
 
 interface ComplaintTableProps {
   complaints: ComplaintResponse[];
 }
 
 const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
+  const handleClick = async (complaintId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.delete(`/complaints/${complaintId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-white overflow-x-auto flex-grow rounded-lg">
       <div className="overflow-y-auto h-[28rem]">
@@ -26,8 +41,8 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 min-w-[100px]">
-                Detail
+              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-900 min-w-[100px]">
+                Action
               </th>
             </tr>
           </thead>
@@ -65,12 +80,18 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                       {complaint.current_status}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="flex py-4 space-x-2">
                     <Link to={`/admin/complaints/${complaint._id}`}>
-                      <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
-                        View
-                      </button>
+                      <Button
+                        children="View"
+                        className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
+                      />
                     </Link>
+                    <Button
+                      onClick={() => handleClick(complaint._id)}
+                      children="Delete"
+                      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition-colors"
+                    />
                   </td>
                 </tr>
               ))

@@ -2,22 +2,21 @@ import { Link } from "react-router-dom";
 import { useComplaintsWithCategories } from "../../../../hooks/history/history";
 import { AppDispatch, RootState } from "../../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   searchHistory,
   setHistoryData,
 } from "../../../../Redux/reducer/historySlice";
+import classNames from "classnames";
 
 const HistoryTable = () => {
   const dispatch: AppDispatch = useDispatch();
   const { filteredData } = useSelector((state: RootState) => state.history);
   const { historyData, error } = useComplaintsWithCategories();
-  const [Loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (historyData) {
       dispatch(setHistoryData(historyData));
-      setIsLoading(false);
     }
   }, [historyData, dispatch]);
 
@@ -67,17 +66,15 @@ const HistoryTable = () => {
                       <td className="p-2">{item.date?.split(",")[0]}</td>
                       <td className="p-2 border-b">
                         <span
-                          className={
-                            item.status === "submitted"
-                              ? "text-blue-500"
-                              : item.status === "accepted"
-                              ? "text-green-500"
-                              : item.status === "processing"
-                              ? "text-yellow-500"
-                              : item.status === "rejected"
-                              ? "text-red-500"
-                              : "text-slate-500"
-                          }
+                          className={classNames(
+                            "p-2  rounded-full text-sm text-white text-center",
+                            {
+                              "bg-green-500": item.status === "submitted",
+                              "bg-orange-500": item.status === "processing",
+                              "bg-blue-500": item.status === "accepted",
+                              "bg-red-500": item.status === "rejected",
+                            }
+                          )}
                         >
                           {item.status}
                         </span>
