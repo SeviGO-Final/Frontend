@@ -10,7 +10,7 @@ interface TrackingTimelineStatus {
 }
 
 const TrackingTimeline: React.FC = () => {
-    const [status, setStatus] = React.useState<TrackingTimelineStatus>({
+    const [status, ] = React.useState<TrackingTimelineStatus>({
         submitted: false,
         processing: false,
         accepted: false,

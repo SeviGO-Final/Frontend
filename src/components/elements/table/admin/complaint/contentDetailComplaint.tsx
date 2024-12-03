@@ -7,11 +7,11 @@ import PageHeader from "../../../../PageHeader";
 import Card from "../../../../Card";
 import api from "../../../../../services/api";
 import Button from "../../../modal/button/button";
+import { AxiosError } from "axios";
 
 const ComplaintDetail: React.FC = () => {
   const { complaintId } = useParams<{ complaintId: string }>();
   const [complaint, setComplaint] = useState<ComplaintResponse | null>(null);
-  const [status, setStatus] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,9 +34,9 @@ const ComplaintDetail: React.FC = () => {
           `/admin-feedback/${complaintId}/process`
         );
         const data = response.data.current_status;
-        setStatus(data);
-      } catch (error: any) {
-        if (error.response?.status === 409) {
+        return(data);
+      } catch (error: unknown) {
+        if (error instanceof AxiosError && error.response?.status === 409) {
           Swal.fire({
             title: "Konflik!",
             text: "Laporan sudah diproses sebelumnya.",

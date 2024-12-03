@@ -1,12 +1,14 @@
 export type ComplaintType = {
+    _id: string;
     title: string;
     content: string;
     date_event: string;
     location: string;
-    category: string;
+    category: {_id: string, name: string}
     evidence: File | null;
     current_status?: string;
     user?: string;
+    is_deleted: boolean;
 }
 
 export type TrackingStatusResponse = {
@@ -23,8 +25,8 @@ export type ComplaintResponse = {
     content: string;
     date_event: string;
     location: string;
-    evidence: string;
-    current_status: string;
+    evidence: File | null;
+    current_status?: string;
     tracking_status?: TrackingStatusResponse[];
     is_deleted: boolean;
     created_at?: string,

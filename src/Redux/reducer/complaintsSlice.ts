@@ -2,11 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ComplaintsItem {
   _id: string;
-  current_status: string;
-  date: string;
   title: string;
-  category: string;
   content: string;
+  date_event: string;
+  location: string;
+  category: {_id: string, name: string}
+  evidence: File | null;
+  current_status?: string;
+  user?: string;
 }
 
 interface ComplaintsState {
@@ -36,7 +39,7 @@ const complaintsSlice = createSlice({
       state.filteredData = state.data.filter(
         (item) =>
           item.title.toLowerCase().includes(query) ||
-          item.category.toLowerCase().includes(query)
+          item.category.name.toLowerCase().includes(query)
       );
     },
 

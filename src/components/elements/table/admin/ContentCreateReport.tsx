@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../../services/api";
 import Alert from "../../modal/alert/alert";
+import { AxiosError } from "axios";
 
 interface ReportForm {
   title: string;
@@ -62,11 +63,16 @@ const CreateReport: React.FC = () => {
         console.error("Response Error:", response.data);
         alert("Gagal mengirim feedback.");
       }
-    } catch (error) {
-      console.error("Error Response:", error.response?.data || error.message);
+    } catch (error: unknown) {
+      console.error(
+        "Error Response:",
+        (error instanceof AxiosError && error.response?.data) ||
+          (error instanceof AxiosError && error.message)
+      );
       alert(
         `Terjadi kesalahan saat mengirim feedback: ${
-          error.response?.data?.message || "Internal Server Error"
+          (error instanceof AxiosError && error.response?.data?.message) ||
+          "Internal Server Error"
         }`
       );
     }

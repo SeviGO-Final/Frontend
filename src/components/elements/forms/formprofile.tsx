@@ -5,8 +5,10 @@ import Alert from "../modal/alert/alert";
 import Button from "../modal/button/button";
 import api from "../../../services/api";
 import ImagePreview from "../../ImagePreview";
+import { AxiosError } from "axios";
 
 interface UserData {
+  avatar: string | File;
   _id: string;
   nik: string;
   name: string;
@@ -32,6 +34,7 @@ const FormProfile = () => {
     role: "",
     is_verified: false,
     image: null,
+    avatar: "",
     address: "",
     old_password: "",
     new_password: "",
@@ -113,9 +116,10 @@ const FormProfile = () => {
       setUserData(response.data.data);
       setIsModalOpen(true);
       setAxiosError(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
       const errorMessage =
-        err.response?.data?.errors || "Error updating profile";
+        (err instanceof AxiosError && err.response?.data?.errors) ||
+        "Error updating profile";
       console.log("Error updating profile: ", errorMessage);
       setAxiosError(errorMessage);
       setIsModalOpen(true);

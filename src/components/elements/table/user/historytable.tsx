@@ -32,10 +32,10 @@ const HistoryTable = () => {
     <>
       <div className="w-[22rem] lg:w-full">
         <div className="flex items-center pb-8">
-          <h1 className="py-4 ml-8 text-3xl">Riwayat Pelaporan</h1>
+          <h1 className="py-4 ml-4 text-3xl">Riwayat Pelaporan</h1>
           <hr className="border border-black w-2/3 " />
         </div>
-        <div className="bg-gray-50 p-4 rounded-lg shadow lg:ml-8 h-auto">
+        <div className="bg-gray-50 p-4 rounded-lg shadow">
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -44,10 +44,10 @@ const HistoryTable = () => {
               onChange={handleSearch}
             />
           </div>
-          <div className="overflow-y-auto h-96 lg:h-1/2">
+          <div className="overflow-y-auto h-96 lg:h-[32rem]">
             <table className="w-full text-left bg-white rounded-lg shadow-md">
               <thead>
-                <tr className="sticky top-0 bg-gray-200">
+                <tr className="sticky top-0 bg-gray-200 text-center">
                   <th className="p-2 border-b">ID Report</th>
                   <th className="p-2 border-b">Category</th>
                   <th className="p-2 border-b">Title</th>
@@ -79,10 +79,15 @@ const HistoryTable = () => {
                           {item.status}
                         </span>
                       </td>
-                      <td className="p-2 border-b">
+                      <td className="flex items-center justify-center pr-2 py-12 space-x-2">
                         <Link to={`/dashboard/view/${item.id}`}>
                           <button className="bg-orange-500 text-white px-4 py-1 rounded">
                             View
+                          </button>
+                        </Link>
+                        <Link to={`/feedback`}>
+                          <button className="bg-orange-500 text-white px-4 py-1 rounded">
+                            Feedback
                           </button>
                         </Link>
                       </td>

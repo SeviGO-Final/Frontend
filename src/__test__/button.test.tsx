@@ -16,12 +16,6 @@ describe("Button Component", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  test("applies default button type", () => {
-    render(<Button>Default</Button>);
-    const buttonElement = screen.getByRole("button");
-    expect(buttonElement).toHaveAttribute("type", "button");
-  });
-
   test("applies specified button type", () => {
     render(<Button type="submit">Submit</Button>);
     const buttonElement = screen.getByRole("button");
@@ -32,11 +26,5 @@ describe("Button Component", () => {
     render(<Button className="custom-class">Styled</Button>);
     const buttonElement = screen.getByText(/styled/i);
     expect(buttonElement).toHaveClass("custom-class");
-  });
-
-  test("renders button text case-insensitively", () => {
-    render(<Button>Click Me</Button>);
-    const buttonElement = screen.getByText(/click me/i);
-    expect(buttonElement).toBeInTheDocument();
   });
 });

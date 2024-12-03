@@ -3,15 +3,14 @@ import backgroundImage from "../assets/image/login-bg.jpg";
 import "boxicons/css/boxicons.min.css";
 import logoSevigo from "../assets/image/logo-SeviGO.png";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../services/api"; // Import API
+// import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage"; // Import ErrorMessage
 import { useAuth } from "../middlewares/AuthContext";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import TextInput from "../components/elements/modal/input/TextInput";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]); //handle error dari backend
   const [loading, setLoading] = useState<boolean>(false); // State untuk loading
   const { login } = useAuth();
@@ -27,11 +26,11 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    setError(null); // Reset error sebelum pengiriman
+    setErrors([]); // Reset error sebelum pengiriman
 
     // Validasi input
     if (!formData.email || !formData.password) {
-      setError("Email dan Password harus diisi.");
+      setErrors(["Email dan Password harus diisi."]);
       return;
     }
 
@@ -50,9 +49,9 @@ const LoginPage: React.FC = () => {
       } else {
         navigate("/dashboard");
       }
-    } catch (err: Error) {
+    } catch (err: unknown) {
       console.log(err);
-      if (err.response.data.errors) {
+      if (err instanceof AxiosError && err.response?.data.errors) {
         setErrors([err.response.data.errors || "Login failed"]);
       } else {
         setErrors(["An unexpected error occurred"]);
@@ -61,40 +60,6 @@ const LoginPage: React.FC = () => {
       setLoading(false); // Reset loading setelah pengiriman selesai
     }
   };
-
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-  //   login();
-  //   e.preventDefault();
-  //   setError(null); // Reset error sebelum pengiriman
-
-  //   // Validasi input
-  //   if (!formData.email || !formData.password) {
-  //     setError("Email dan Password harus diisi.");
-  //     return;
-  //   }
-  //   setLoading(true); // Set loading true saat mengirimkan form
-  //   try {
-  //     // const response = await api.post("/users/login", formData);
-  //     // localStorage.setItem("token", response.data.data.token);
-  //     if (
-  //       formData.email === "admin@example.com" &&
-  //       formData.password === "123"
-  //     ) {
-  //       navigate("/admin-panel");
-  //     } else {
-  //       navigate("/dashboard");
-  //     }
-  //   } catch (err: any) {
-  //     console.log(err);
-  //     setError(err.response?.data?.message || "Login failed");
-  //     const errorMessages = Array.isArray(err.response.data.errors)
-  //       ? err.response.data.errors
-  //       : [err.response.data.message || "Login failed"];
-  //     setErrors(errorMessages);
-  //   } finally {
-  //     setLoading(false); // Reset loading setelah pengiriman selesai
-  //   }
-  // };
 
   return (
     <div

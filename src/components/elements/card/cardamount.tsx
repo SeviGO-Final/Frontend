@@ -27,7 +27,7 @@ const CardAmount: React.FC<CardProps> = ({ title, endpoint }) => {
           console.log("Error fetching data");
         }
       } catch (error) {
-        console.log("Failed to fetch data");
+        console.log("Failed to fetch data", error);
       }
     };
 

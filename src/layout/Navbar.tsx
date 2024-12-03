@@ -5,7 +5,7 @@ import Logo from "../assets/image/logo-no-bg.png";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollToSection = (sectionId: string) => {
-    const element = document
+    document
       .getElementById(sectionId)
       ?.scrollIntoView({ behavior: "smooth" });
   };

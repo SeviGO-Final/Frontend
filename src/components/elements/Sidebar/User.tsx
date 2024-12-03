@@ -19,16 +19,8 @@ const UserSidebar = () => {
             to="/dashboard"
             icon="bx bxs-dashboard"
           />
-          <LinkSideBar
-            label="History"
-            to="/history"
-            icon="bx bx-history"
-          />
-          <LinkSideBar
-            label="Profile"
-            to="/profile"
-            icon="bx bxs-user"
-          />
+          <LinkSideBar label="Profile" to="/profile" icon="bx bxs-user" />
+          <LinkSideBar label="History" to="/history" icon="bx bx-history" />
         </div>
         <button
           onClick={handleLogOut}

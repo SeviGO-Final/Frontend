@@ -19,6 +19,7 @@ import CategoryAdd from "./pages/admin/categories/CategoryAdd";
 import CategoryList from "./pages/admin/categories/CategoryList";
 import CategoryEdit from "./pages/admin/categories/CategoryEdit";
 import Layout from "./components/Layout";
+import FeedbackPage from "./pages/user/FeedbackPage";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
               <Route path="/dashboard" element={<DashboardUser />} />
               <Route path="/dashboard/new-report" element={<NewReport />} />
               <Route path="/history" element={<HistoryPage />} />
+              <Route path="/feedback" element={<FeedbackPage />} />
               <Route path="/dashboard/view/:id" element={<ViewReport />} />
               <Route path="/profile" element={<ProfileUser />} />
             </Route>

@@ -4,7 +4,7 @@ import "boxicons";
 
 interface ImagePreviewProps {
   alt: string;
-  image: string;
+  image: string | File;
 }
 
 const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
@@ -27,7 +27,7 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
   }, [image]);
 
   // Tambahkan pengecekan sebelum memanggil .split()
-  const imagePath = image?.split("/")[1]; // Mengambil bagian path setelah 'upload'
+  const imagePath = typeof image === "string" ? image.split("/")[1] : null; // Mengambil bagian path setelah 'upload'
 
   if (!image || !imageUrl) {
     return (

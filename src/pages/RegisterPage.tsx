@@ -5,8 +5,8 @@ import logoSevigo from "../assets/image/logo-SeviGO.png";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api"; // Import API
 import ErrorMessage from "../components/elements/forms/ErrorMessage";
-import LandingPage from "./LandingPage";
 import TextInput from "../components/elements/modal/input/TextInput";
+import { AxiosError } from "axios";
 
 interface FormData {
   nik: string;
@@ -41,9 +41,9 @@ const RegisterPage: React.FC = () => {
       const response = await api.post("/users/register", formData);
       localStorage.setItem("token", response.data.data.token);
       navigate("/dashboard");
-    } catch (err: Error) {
+    } catch (err: unknown) {
       console.log(err);
-      if (err.response.data.errors) {
+      if (err instanceof AxiosError && err.response?.data.errors) {
         setErrors([err.response.data.errors || "Register failed"]);
       } else {
         setErrors(["An unexpected error occurred"]);

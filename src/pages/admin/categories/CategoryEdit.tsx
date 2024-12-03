@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import api from "../../../services/api";
 import Card from "../../../components/Card";
 import PageHeader from "../../../components/PageHeader";

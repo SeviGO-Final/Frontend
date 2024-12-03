@@ -16,12 +16,14 @@ const FormReport = () => {
   const [errorBody, setErrorBody] = useState<string | null>(null);
   const [previewEvidence, setPreviewEvidence] = useState<string | null>(null);
   const [complaint, setComplaint] = useState<ComplaintType>({
+    _id:'',
     title: "",
     content: "",
     date_event: "",
     location: "",
-    category: "",
+    category: { _id: '', name: '' },
     evidence: null,
+    is_deleted: false
   });
 
   // Get all categories
@@ -86,7 +88,7 @@ const FormReport = () => {
     requestBody.append("content", complaint.content);
     requestBody.append("date_event", complaint.date_event);
     requestBody.append("location", complaint.location);
-    requestBody.append("category", complaint.category);    
+    requestBody.append("category", complaint.category.name);    
     if (complaint.evidence) {
       requestBody.append("evidence", complaint.evidence);
     }
@@ -121,12 +123,14 @@ const FormReport = () => {
   // Function to handle cancel button  
   const handleCancel = () => {
     setComplaint({
+      _id:'',
       title: "",
       content: "",
       date_event: "",
       location: "",
-      category: "",
+      category: { _id: '', name: '' },
       evidence: null,
+      is_deleted: false
     });
   };  
 
@@ -177,7 +181,7 @@ const FormReport = () => {
             />
             <select
               name="category"
-              value={complaint.category}
+              value={complaint.category.name}
               onChange={handleInputChange}
               className="select select-bordered w-full max-w-xs"
             >
