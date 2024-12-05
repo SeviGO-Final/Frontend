@@ -67,12 +67,11 @@ const CreateReport: React.FC = () => {
       console.error(
         "Error Response:",
         (error instanceof AxiosError && error.response?.data) ||
-          (error instanceof AxiosError && error.message)
+        (error instanceof AxiosError && error.message)
       );
       alert(
-        `Terjadi kesalahan saat mengirim feedback: ${
-          (error instanceof AxiosError && error.response?.data?.message) ||
-          "Internal Server Error"
+        `Terjadi kesalahan saat mengirim feedback: ${(error instanceof AxiosError && error.response?.data?.message) ||
+        "Internal Server Error"
         }`
       );
     }
