@@ -20,6 +20,11 @@ const UserSidebar = () => {
             icon="bx bxs-dashboard"
           />
           <LinkSideBar label="Profile" to="/profile" icon="bx bxs-user" />
+          <LinkSideBar
+            label="Pengaduan Baru"
+            to="/dashboard/new-report"
+            icon="bx bxs-notepad"
+          />
           <LinkSideBar label="History" to="/history" icon="bx bx-history" />
         </div>
         <button

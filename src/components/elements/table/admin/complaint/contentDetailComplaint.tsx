@@ -34,7 +34,7 @@ const ComplaintDetail: React.FC = () => {
           `/admin-feedback/${complaintId}/process`
         );
         const data = response.data.current_status;
-        return(data);
+        return data;
       } catch (error: unknown) {
         if (error instanceof AxiosError && error.response?.status === 409) {
           Swal.fire({

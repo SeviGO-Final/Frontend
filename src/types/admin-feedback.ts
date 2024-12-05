@@ -9,9 +9,9 @@ export type FeedbackData = {
   updated_at: string;
 };
 
-export type ApiResponse = {
+export interface FeedbackResponse {
   code: number;
   status: string;
   message: string;
-  data: FeedbackData;
-};
+  data: FeedbackData[];
+}

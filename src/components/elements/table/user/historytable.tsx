@@ -27,6 +27,7 @@ const HistoryTable = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(searchHistory(e.target.value));
   };
+  console.log(filteredData);
 
   return (
     <>
@@ -85,7 +86,7 @@ const HistoryTable = () => {
                             View
                           </button>
                         </Link>
-                        <Link to={`/feedback`}>
+                        <Link to={`/feedback/view/${item.feedback_id}`}>
                           <button className="bg-orange-500 text-white px-4 py-1 rounded">
                             Feedback
                           </button>

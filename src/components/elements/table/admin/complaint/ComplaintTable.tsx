@@ -10,7 +10,7 @@ interface ComplaintTableProps {
 }
 
 const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
-  const handleClick = async (complaintId: string) => {
+  const handleClickDelete = async (complaintId: string) => {
     try {
       const token = localStorage.getItem("token");
       const response = await api.delete(`/complaints/${complaintId}`, {
@@ -19,12 +19,15 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
         },
       });
       console.log(response);
+      if (response.status === 200) {
+        window.location.reload()
+      }
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="bg-white overflow-x-auto flex-grow rounded-lg">
+    <div className="bg-white overflow-x-auto rounded-lg">
       <div className="overflow-y-auto h-[28rem]">
         <table className="w-full">
           <thead className="sticky top-0 bg-gray-300 rounded-t-md z-10">
@@ -80,7 +83,7 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                       {complaint.current_status}
                     </span>
                   </td>
-                  <td className="flex py-4 space-x-2">
+                  <td className="flex py-12 px-4 space-x-2 ">
                     <Link to={`/admin/complaints/${complaint._id}`}>
                       <Button
                         children="View"
@@ -88,7 +91,7 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                       />
                     </Link>
                     <Button
-                      onClick={() => handleClick(complaint._id)}
+                      onClick={() => handleClickDelete(complaint._id)}
                       children="Delete"
                       className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition-colors"
                     />

@@ -6,6 +6,7 @@ interface HistoryItem {
   title: string;
   category: string;
   status: string;
+  feedback_id: string;
 }
 
 interface HistoryState {
