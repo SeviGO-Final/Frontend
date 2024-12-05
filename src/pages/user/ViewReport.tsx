@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import ImagePreviewFromAPI from "../../components/ImagePreview";
 import classNames from "classnames";
+import { useCategories } from "../../hooks/history/categories";
 
 interface Complaint {
   id: ReactNode;
@@ -19,24 +20,31 @@ interface Complaint {
 const ViewReport = () => {
   const { id } = useParams<{ id: string }>(); // Mengambil ID dari URL
   const [complaint, setComplaint] = useState<Complaint | null>(null);
+  const { categories } = useCategories();
 
   useEffect(() => {
     const fetchComplaintDetail = async () => {
       try {
         const resp = await api.get(`users/complaints/`);
         const complaints = resp.data.data.complaints;
+
         const foundComplaint = complaints.find(
-          (comp: { _id: string | undefined }) => comp._id === id
+          (comp: { _id: string }) => comp._id === id
         );
 
         if (foundComplaint) {
+          const categoryName =
+            categories.find(
+              (category) => category._id === foundComplaint.category
+            )?.name || "Unknown Category";
+
           setComplaint({
             id: foundComplaint._id,
             title: foundComplaint.title,
             content: foundComplaint.content,
             date: foundComplaint.date_event,
             location: foundComplaint.location,
-            category: foundComplaint.category, // Perlu konversi ke nama kategori
+            category: categoryName, // Menggunakan nama kategori
             evidence: foundComplaint.evidence,
             status: foundComplaint.current_status,
           });
@@ -44,14 +52,14 @@ const ViewReport = () => {
           console.log("Complaint not found");
         }
       } catch (error) {
-        console.log("Fetch error: ", error);
+        console.error("Fetch error: ", error);
       }
     };
 
     if (id) {
       fetchComplaintDetail();
     }
-  }, [id]);
+  }, [id, categories]);
 
   if (!complaint) {
     return <p>Loading...</p>;
