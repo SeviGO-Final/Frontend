@@ -70,7 +70,7 @@ const ViewFeedback: React.FC = () => {
                   <p className="text-lg text-gray-700 mb-2">
                     Date:{" "}
                     <span className="text-gray-500">
-                      {new Date(feedback.date).toLocaleDateString()}
+                      { feedback.date.split(', ')[0] }
                     </span>
                   </p>
                 </div>

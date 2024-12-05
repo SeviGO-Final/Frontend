@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useCategories } from "./categories";
 import api from "../../services/api";
-// import { ComplaintType } from "../../types/complaint-type";
 
 interface ComplaintProps {
-  id: string;
   _id: string;
-  feedback_id: string;
+  admin_feedback: string;
   title: string;
   content: string;
   date: string;
@@ -16,7 +14,16 @@ interface ComplaintProps {
   evidence: File | null;
   status: string;
   current_status?: string;
+  updated_at: string;
 }
+
+const parseDate = (dateString: string) => {
+  const [datePart, timePart] = dateString.split(", ");
+  const [day, month, year] = datePart.split("/");
+  const [hours, minutes, seconds] = timePart.split(".");
+  return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+};
+
 export const useComplaintsWithCategories = () => {
   const [historyData, setHistoryData] = useState<ComplaintProps[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -27,15 +34,15 @@ export const useComplaintsWithCategories = () => {
     const loadHistoryData = async () => {
       try {
         const resp = await api.get("users/complaints");
-        const complaints = resp.data.data.complaints.map(
+        const complaints: ComplaintProps[] = resp.data.data.complaints.map(
           (complaint: ComplaintProps) => {
             const categoryName =
               categories.find((category) => category._id === complaint.category)
                 ?.name || "Unknown Category";
 
             return {
-              id: complaint._id,
-              feedback_id: complaint.feedback_id,
+              _id: complaint._id,
+              admin_feedback: complaint.admin_feedback,
               title: complaint.title,
               description: complaint.content,
               date: complaint.date_event,
@@ -43,12 +50,19 @@ export const useComplaintsWithCategories = () => {
               category: categoryName,
               attachment: complaint.evidence,
               status: complaint.current_status,
+              updated_at: complaint.updated_at
             };
           }
         );
-        console.log("API response:", resp.data.data.complaints);
 
-        setHistoryData(complaints);
+        const sortedComplaints = complaints.sort((a, b) => {
+          return parseDate(b.updated_at).getTime() - parseDate(a.updated_at).getTime();
+        });
+
+        console.log('Sorted complaints: ', sortedComplaints);
+
+        setHistoryData(sortedComplaints);
+        
       } catch (err) {
         console.error("Fetch complaints error: ", err);
         setError("Failed to load complaints");

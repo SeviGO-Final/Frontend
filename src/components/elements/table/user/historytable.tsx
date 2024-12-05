@@ -27,7 +27,6 @@ const HistoryTable = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(searchHistory(e.target.value));
   };
-  console.log(filteredData);
 
   return (
     <>
@@ -61,7 +60,7 @@ const HistoryTable = () => {
                 {filteredData.length > 0 ? (
                   filteredData.map((item, index) => (
                     <tr key={index} className="border-b">
-                      <td className="p-2">{item.id}</td>
+                      <td className="p-2">{item._id}</td>
                       <td className="p-2">{item.category}</td>
                       <td className="p-2">{item.title}</td>
                       <td className="p-2">{item.date?.split(",")[0]}</td>
@@ -81,12 +80,12 @@ const HistoryTable = () => {
                         </span>
                       </td>
                       <td className="flex items-center justify-center pr-2 py-12 space-x-2">
-                        <Link to={`/dashboard/view/${item.id}`}>
+                        <Link to={`/dashboard/view/${item._id}`}>
                           <button className="bg-orange-500 text-white px-4 py-1 rounded">
                             View
                           </button>
                         </Link>
-                        <Link to={`/feedback/view/${item.feedback_id}`}>
+                        <Link to={`/feedback/view/${item.admin_feedback}`}>
                           <button className="bg-orange-500 text-white px-4 py-1 rounded">
                             Feedback
                           </button>

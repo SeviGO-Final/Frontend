@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface HistoryItem {
-  id: string;
+  _id: string;
   date: string;
   title: string;
   category: string;
   status: string;
-  feedback_id: string;
+  admin_feedback: string;
+  updated_at: string;
 }
 
 interface HistoryState {
