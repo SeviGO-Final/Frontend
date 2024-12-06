@@ -67,68 +67,74 @@ const ViewReport = () => {
 
   return (
     <>
-      <div className="flex ">
-        <SideBar isOpen={false} toggleSidebar={() => {}} />
-        <div className="bg-slate-200 flex flex-col items-center w-full h-1/2 pb-8 px-4 lg:ml-8 mt-4 rounded-md shadow-sm">
-          <h1 className="bg-orange-400 text-white text-xl font-medium p-4 rounded-2xl m-4">
-            Detail Laporan - {id}
-          </h1>
-          <div className="overflow-y-auto h-132 bg-slate-50 flex flex-col p-8 space-y-4 w-full rounded-md shadow-sm">
-            {complaint ? (
-              <>
-                <p className="flex justify-between items-center mr-8 text-xl lg:text-lg">
-                  Status:
-                  <span
-                    className={classNames(
-                      "p-2  rounded-full text-md text-white text-center",
-                      {
-                        "bg-green-500": complaint.status === "submitted",
-                        "bg-orange-500": complaint.status === "processing",
-                        "bg-blue-500": complaint.status === "accepted",
-                        "bg-red-500": complaint.status === "rejected",
-                      }
-                    )}
-                  >
-                    {complaint.status}
-                  </span>
-                </p>
-                {[
-                  { label: "Judul Laporan", value: complaint.title },
-                  {
-                    label: "Tanggal Kejadian",
-                    value: complaint.date?.split(",")[0],
-                  },
-                  { label: "Lokasi", value: complaint.location },
-                  { label: "Kategori", value: complaint.category }, // Nama kategori
-                  { label: "Deskripsi", value: complaint.content },
-                ].map(({ label, value }) => (
-                  <p
-                    key={label}
-                    className="flex flex-col lg:flex-row lg:justify-between"
-                  >
-                    {label}:{" "}
-                    <span className="border border-gray-300 w-full lg:w-1/2 bg-white p-4 mr-4 text-left rounded-md">
-                      {value}
-                    </span>
-                  </p>
-                ))}
-                {complaint.evidence && (
-                  <>
-                    <p>Bukti Laporan:</p>
-                    {complaint?.evidence ? (
-                      <ImagePreviewFromAPI
-                        alt="Complaint"
-                        image={complaint.evidence}
-                      />
-                    ) : (
-                      "No Image Available"
-                    )}
-                  </>
-                )}
-              </>
+      <div className="lg:flex lg:flex-col lg:bg-gray-50 lg:p-8 rounded-lg mt-4">
+        <SideBar isOpen={false} />
+        <h1 className="bg-orange-500 text-white text-xl font-bold text-center p-4 rounded-lg mb-8 shadow-md">
+          Detail Laporan - {id}
+        </h1>
+        <div className="bg-transparent lg:bg-white flex flex-col items-center py-8 lg:px-8 rounded-lg lg:shadow-lg">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start rounded-lg space-y-4 sm:space-y-0 sm:space-x-6 w-full max-w-4xl">
+            {complaint?.evidence ? (
+              <div className="w-full lg:w-1/2">
+                <ImagePreviewFromAPI
+                  alt="Complaint"
+                  image={complaint.evidence}
+                />
+              </div>
             ) : (
-              <p>Report not found.</p>
+              <div className="w-full sm:w-1/2 flex items-center justify-center bg-gray-200 text-gray-500 rounded-lg shadow-sm h-48">
+                No Image Available
+              </div>
             )}
+            <div className="bg-white w-full sm:w-1/2 p-6 rounded-lg border border-gray-300">
+              <h1 className="font-bold text-3xl">Laporan Pengaduan</h1>
+              <hr className="border border-black my-4" />
+              <p className="flex text-xl lg:text-lg">
+                Status:
+                <span
+                  className={classNames("px-4 ml-4 text-white rounded-lg", {
+                    "bg-green-500": complaint.status === "submitted",
+                    "bg-orange-500": complaint.status === "processing",
+                    "bg-blue-500": complaint.status === "accepted",
+                    "bg-red-500": complaint.status === "rejected",
+                  })}
+                >
+                  {complaint.status}
+                </span>
+              </p>
+              <p className="text-lg font-bold text-gray-700 mb-2">
+                Judul Laporan:{" "}
+                <span className="font-normal text-gray-600">
+                  {complaint.title}
+                </span>
+              </p>
+              <p className="text-lg font-bold text-gray-700 mb-2">
+                Tanggal Kejadian:{" "}
+                <span className="font-normal text-gray-600">
+                  {complaint.date?.split(",")[0]}
+                </span>
+              </p>
+              <p className="text-lg font-bold text-gray-700 mb-2">
+                Lokasi:{" "}
+                <span className="font-normal text-gray-600">
+                  {complaint.location}
+                </span>
+              </p>
+              <p className="text-lg font-bold text-gray-700">
+                Kategori:{" "}
+                <span className="font-normal text-gray-600">
+                  {complaint.category}
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="w-full">
+            <h1 className="text-xl font-semibold text-gray-800 my-4">
+              Deskripsi
+            </h1>
+            <p className="bg-white rounded-lg p-6 text-gray-700 border border-gray-300">
+              {complaint.content}
+            </p>
           </div>
         </div>
       </div>

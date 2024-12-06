@@ -8,6 +8,7 @@ import {
 } from "../../../../Redux/reducer/historySlice";
 import { useComplaintsWithCategories } from "../../../../hooks/history/history";
 import classNames from "classnames";
+import Button from "../../modal/button/button";
 
 const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,10 +85,21 @@ const Table = () => {
                         </span>
                       </td>
                       <td className="p-2 border-b">
-                        <Link to={`/dashboard/view/${item.id}`}>
-                          <button className="bg-orange-500 text-white px-4 py-1 rounded">
-                            View
-                          </button>
+                        <Link
+                          to={
+                            item.admin_feedback
+                              ? `/feedback/view/${item.admin_feedback}`
+                              : "#"
+                          }
+                        >
+                          <Button
+                            children="Feedback"
+                            className={`bg-orange-500 text-white px-4 py-1 rounded ${
+                              !item.admin_feedback &&
+                              "opacity-50 cursor-not-allowed"
+                            }`}
+                            disabled={!item.admin_feedback}
+                          />
                         </Link>
                       </td>
                     </tr>

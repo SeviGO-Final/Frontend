@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import api from "../../../../services/api";
 import { UserResponse } from "../../../../types/user-type";
+import Button from "../../modal/button/button";
 
 const Table: React.FC = () => {
   const [data, setData] = useState<UserResponse[]>([]);
@@ -109,12 +110,12 @@ const Table: React.FC = () => {
                     </span>
                   </td>
                   <td className="p-2 border-b">
-                    <button
+                    <Button
                       onClick={() => handleVerified(user._id, user.is_verified)}
                       className="bg-orange-500 text-white px-4 py-1 rounded"
                     >
                       {user.is_verified ? "Unverify" : "Verify"}
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))

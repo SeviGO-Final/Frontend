@@ -5,7 +5,7 @@ import UserSidebar from "./User";
 
 interface SidebarProps {
     isOpen: boolean;
-    toggleSidebar: () => void;
+    toggleSidebar?: () => void;
     className?: string;
 }
 

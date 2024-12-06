@@ -5,7 +5,7 @@ const NewReport = () => {
   return (
     <>
       <div className="flex">
-        <SideBar isOpen={false} toggleSidebar={() => {}} />
+        <SideBar isOpen={false} />
         <div className="w-full">
           <div className="mt-4 flex items-center">
             <h1 className="my-8 ml-8 text-3xl">Buat Laporan Baru</h1>

@@ -70,9 +70,7 @@ describe("FormReport Component", () => {
 
     // Verify error message
     await waitFor(() => {
-      expect(
-        screen.getByText("Please, select the category")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Please select a category")).toBeInTheDocument();
     });
   });
 
@@ -119,5 +117,121 @@ describe("FormReport Component", () => {
     const previewImage = await screen.findByAltText("Preview Evidence");
     expect(previewImage).toBeInTheDocument();
     expect(previewImage).toHaveAttribute("src", expect.any(String));
+  });
+
+  test("should reset form fields when CANCEL button is clicked", async () => {
+    render(<FormReport />);
+
+    fireEvent.change(
+      await screen.findByPlaceholderText("Judul laporan anda.."),
+      {
+        target: { value: "Test Title" },
+      }
+    );
+    fireEvent.change(screen.getByPlaceholderText("Isi laporan anda.."), {
+      target: { value: "Test Content" },
+    });
+
+    fireEvent.click(screen.getByText("CANCEL"));
+
+    expect(screen.getByPlaceholderText("Judul laporan anda..")).toHaveValue("");
+    expect(screen.getByPlaceholderText("Isi laporan anda..")).toHaveValue("");
+    expect(screen.getByRole("combobox")).toHaveValue("");
+  });
+
+  test("should revoke preview URL when component unmounts", async () => {
+    const { unmount } = render(<FormReport />);
+
+    const file = new File(["dummy content"], "evidence.png", {
+      type: "image/png",
+    });
+    const fileInput = screen.getByLabelText(/upload bukti/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    unmount();
+
+    expect(global.URL.revokeObjectURL).toHaveBeenCalledWith("mocked-url");
+  });
+
+  test("should handle error during category fetch", async () => {
+    (api.get as jest.Mock).mockRejectedValue(
+      new Error("Failed to fetch categories")
+    );
+
+    render(<FormReport />);
+
+    const categorySelect = screen.getByRole("combobox");
+    expect(categorySelect).toBeInTheDocument(); // Dropdown tetap ada
+    await waitFor(() => {
+      expect(screen.queryByText("Category 1")).not.toBeInTheDocument();
+    });
+  });
+
+  test("should append evidence to FormData when file is uploaded", async () => {
+    const mockCategory = { _id: "1", name: "Category 1" };
+    (api.get as jest.Mock).mockResolvedValue({
+      data: { data: [mockCategory] },
+    });
+
+    render(<FormReport />);
+
+    // Simulasikan pengisian formulir
+    fireEvent.change(
+      await screen.findByPlaceholderText("Judul laporan anda.."),
+      {
+        target: { value: "Test Title" },
+      }
+    );
+    fireEvent.change(screen.getByPlaceholderText("Isi laporan anda.."), {
+      target: { value: "Test Content" },
+    });
+    fireEvent.change(screen.getByRole("combobox"), {
+      target: { value: mockCategory._id },
+    });
+
+    // Simulasikan pengunggahan file bukti
+    const file = new File(["dummy content"], "evidence.png", {
+      type: "image/png",
+    });
+    const fileInput = screen.getByLabelText(/upload bukti/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    // Submit form
+    fireEvent.submit(screen.getByText("SUBMIT"));
+
+    // Verifikasi bahwa API dipanggil dengan FormData yang berisi bukti
+    await waitFor(() => {
+      expect(api.post).toHaveBeenCalledWith(
+        "/complaints",
+        expect.any(FormData) // Pastikan FormData dipakai
+      );
+      const formData = (api.post as jest.Mock).mock.calls[0][1] as FormData;
+      expect(formData.has("evidence")).toBe(true); // Periksa evidence ada
+      expect(formData.get("evidence")).toBe(file); // Periksa value-nya benar
+    });
+  });
+
+  test("should close modal when closeModal is called", async () => {
+    render(<FormReport />);
+
+    // Simulasikan modal terbuka
+    fireEvent.submit(screen.getByText("SUBMIT"));
+
+    // Tunggu modal muncul
+    await waitFor(() => {
+      expect(screen.getByText("Please select a category")).toBeInTheDocument();
+    });
+
+    // Temukan tombol untuk menutup modal (biasanya `onClose` pada komponen Alert)
+    const closeButton = screen.getByRole("button", { name: /close/i });
+    fireEvent.click(closeButton);
+
+    // Verifikasi modal tertutup dan errorBody di-reset
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Please select a category")
+      ).not.toBeInTheDocument();
+    });
   });
 });

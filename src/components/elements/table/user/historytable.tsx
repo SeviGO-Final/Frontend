@@ -8,6 +8,7 @@ import {
   setHistoryData,
 } from "../../../../Redux/reducer/historySlice";
 import classNames from "classnames";
+import Button from "../../modal/button/button";
 
 const HistoryTable = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -81,14 +82,26 @@ const HistoryTable = () => {
                       </td>
                       <td className="flex items-center justify-center pr-2 py-12 space-x-2">
                         <Link to={`/dashboard/view/${item._id}`}>
-                          <button className="bg-orange-500 text-white px-4 py-1 rounded">
-                            View
-                          </button>
+                          <Button
+                            children="View"
+                            className="bg-orange-500 text-white px-4 py-1 rounded"
+                          />
                         </Link>
-                        <Link to={`/feedback/view/${item.admin_feedback}`}>
-                          <button className="bg-orange-500 text-white px-4 py-1 rounded">
-                            Feedback
-                          </button>
+                        <Link
+                          to={
+                            item.admin_feedback
+                              ? `/feedback/view/${item.admin_feedback}`
+                              : "#"
+                          }
+                        >
+                          <Button
+                            children="Feedback"
+                            className={`bg-orange-500 text-white px-4 py-1 rounded ${
+                              !item.admin_feedback &&
+                              "opacity-50 cursor-not-allowed"
+                            }`}
+                            disabled={!item.admin_feedback}
+                          />
                         </Link>
                       </td>
                     </tr>

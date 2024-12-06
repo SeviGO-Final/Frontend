@@ -50,19 +50,21 @@ export const useComplaintsWithCategories = () => {
               category: categoryName,
               attachment: complaint.evidence,
               status: complaint.current_status,
-              updated_at: complaint.updated_at
+              updated_at: complaint.updated_at,
             };
           }
         );
 
         const sortedComplaints = complaints.sort((a, b) => {
-          return parseDate(b.updated_at).getTime() - parseDate(a.updated_at).getTime();
+          return (
+            parseDate(b.updated_at).getTime() -
+            parseDate(a.updated_at).getTime()
+          );
         });
 
-        console.log('Sorted complaints: ', sortedComplaints);
+        console.log("Sorted complaints: ", sortedComplaints);
 
         setHistoryData(sortedComplaints);
-        
       } catch (err) {
         console.error("Fetch complaints error: ", err);
         setError("Failed to load complaints");

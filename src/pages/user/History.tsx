@@ -5,7 +5,7 @@ const HistoryPage: React.FC = () => {
   return (
     <>
       <div>
-        <SideBar isOpen={false} toggleSidebar={() => {}} />
+        <SideBar isOpen={false} />
         <HistoryTable />
       </div>
     </>

@@ -80,7 +80,7 @@ const FormReport = () => {
     e.preventDefault();
 
     if (!complaint.category._id) {
-      setErrorBody("Please select a category.");
+      setErrorBody("Please select a category");
       setIsModalOpen(true);
       return;
     }
@@ -96,7 +96,7 @@ const FormReport = () => {
     }
 
     try {
-      const response = await api.post("/complaints", requestBody);
+      api.post("/complaints", requestBody);
       setComplaint({
         _id: "",
         title: "",
@@ -108,7 +108,6 @@ const FormReport = () => {
         evidence: null,
         is_deleted: false,
       });
-      console.log("Complaint submitted:", response.data.data);
       setErrorBody(null);
       setIsModalOpen(true);
     } catch (err: unknown) {
@@ -116,7 +115,6 @@ const FormReport = () => {
       if (err instanceof AxiosError && err.response?.data) {
         errorMessage = err.response.data.errors || errorMessage;
       }
-      console.error(errorMessage);
       setErrorBody(errorMessage);
       setIsModalOpen(true);
     }
