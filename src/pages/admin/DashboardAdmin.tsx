@@ -93,7 +93,7 @@ const DashboardAdmin: React.FC = () => {
         <StatsCard
           title="Laporan Di Terima"
           icon={<AiOutlineCheckCircle />}
-          endpoint="/statistics/complaints-accepted"
+          endpoint="/statistics/complaints-finished"
         />
         <StatsCard
           title="Laporan Di Tolak"

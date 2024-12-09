@@ -50,7 +50,6 @@ const CardFAQ = () => {
               ▼
             </span>
           </div>
-
           {/* Jawaban */}
           <div
             className={`overflow-hidden transition-all duration-500 ease-in-out ${

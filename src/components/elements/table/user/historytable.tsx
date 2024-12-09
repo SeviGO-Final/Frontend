@@ -70,10 +70,10 @@ const HistoryTable = () => {
                           className={classNames(
                             "p-2  rounded-full text-sm text-white text-center",
                             {
-                              "bg-green-500": item.status === "submitted",
-                              "bg-orange-500": item.status === "processing",
-                              "bg-blue-500": item.status === "accepted",
-                              "bg-red-500": item.status === "rejected",
+                              "bg-green-500": item.status === "Submitted",
+                              "bg-orange-500": item.status === "Processing",
+                              "bg-blue-500": item.status === "Finished",
+                              "bg-red-500": item.status === "Rejected",
                             }
                           )}
                         >

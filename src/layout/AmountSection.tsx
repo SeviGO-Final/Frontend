@@ -28,7 +28,7 @@ const AmountSection = () => {
         <div className="grid grid-rows-2 gap-4">
           <CardAmount
             title="Pengaduan terselesaikan"
-            endpoint="/statistics/complaints-accepted"
+            endpoint="/statistics/complaints-finished"
           />
           <CardAmount
             title="Tanggapan yang diberikan"

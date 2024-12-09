@@ -8,7 +8,7 @@ export type UserResponse = {
     avatar?: string;
     address?: string;
     token?: string;
-    complaints?: any;
+    complaints?: string;
 }
 
 export type UpdateUserRequest = {

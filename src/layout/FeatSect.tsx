@@ -20,14 +20,14 @@ const FeatureSection = () => {
             className="grid grid-rows-2 gap-4"
           >
             <CardFeat
-              icon="bx-error"
+              icon="bx-notepad"
               title="Pengaduan Cepat dan Mudah"
               paragraph="Proses pengajuan pengaduan hanya dengan beberapa langkah sederhana."
             />
             <CardFeat
-              icon="bx-bell"
-              title="Notifikasi Otomatis"
-              paragraph="Dapatkan pemberitahuan langsung setiap ada pembaruan pada pengaduan Anda."
+              icon="bxs-devices"
+              title="Multi Platform"
+              paragraph="Pengaduan dimana saja, kapan saja, dan dari perangkat apa saja"
             />
           </div>
           <div

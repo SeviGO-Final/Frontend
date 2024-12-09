@@ -68,7 +68,7 @@ const Table: React.FC = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg shadow mt-16 ">
+    <div className="bg-gray-50 p-4 rounded-lg shadow mt-8">
       {/* Input Pencarian */}
       <div className="flex justify-between items-center mb-4">
         <input
@@ -80,11 +80,11 @@ const Table: React.FC = () => {
         />
       </div>
       {/* Tabel Data Pengguna */}
-      <div className="overflow-y-auto max-h-[28rem]">
+      <div className="overflow-y-auto max-h-[28rem] rounded-lg">
         <table className="w-full text-left bg-white rounded-lg shadow-md">
           <thead className="sticky top-0 z-10 bg-gray-200">
             <tr>
-              <th className="p-2 border-b">No</th>
+              <th className="px-8 border-b">No</th>
               <th className="p-2 border-b">NIK</th>
               <th className="p-2 border-b">Name</th>
               <th className="p-2 border-b">Email</th>
@@ -95,8 +95,8 @@ const Table: React.FC = () => {
           <tbody>
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user, index) => (
-                <tr key={user._id}>
-                  <td className="p-2 border-b">{index + 1}</td>
+                <tr key={user._id} className="hover:bg-gray-50">
+                  <td className="px-8 border-b">{index + 1}</td>
                   <td className="p-2 border-b">{user.nik}</td>
                   <td className="p-2 border-b">{user.name}</td>
                   <td className="p-2 border-b">{user.email}</td>
@@ -112,9 +112,12 @@ const Table: React.FC = () => {
                   <td className="p-2 border-b">
                     <Button
                       onClick={() => handleVerified(user._id, user.is_verified)}
-                      className="bg-orange-500 text-white px-4 py-1 rounded"
+                      className={`bg-orange-500 text-white px-4 py-1 rounded ${
+                        user.is_verified && "opacity-50 cursor-not-allowed"
+                      }`}
+                      disabled={user.is_verified}
                     >
-                      {user.is_verified ? "Unverify" : "Verify"}
+                      Verify
                     </Button>
                   </td>
                 </tr>

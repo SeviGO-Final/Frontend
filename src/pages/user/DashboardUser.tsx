@@ -16,7 +16,6 @@ const DashboardUser = () => {
             <h2 className="text-xl">Hi, {name}!</h2>
           </div>
         </div>
-
         {/* Tautan Pengaduan */}
         <div className="w-[22rem] lg:w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <Link to="/dashboard/new-report">

@@ -31,7 +31,8 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, icon, endpoint }) => {
         } else {
           setError("Error fetching data");
         }
-      } catch (err) {
+      } catch (error: unknown) {
+        console.log(error);
         setError("Failed to fetch data");
       } finally {
         setLoading(false);

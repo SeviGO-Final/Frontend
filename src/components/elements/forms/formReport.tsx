@@ -39,7 +39,7 @@ const FormReport = () => {
         setCategories(sortedCategories);
       })
       .catch((err) => {
-        console.error("Error fetching categories:", err.response?.data || err);
+        console.log("Error fetching categories:", err.response?.data || err);
       });
   }, []);
 
@@ -111,7 +111,7 @@ const FormReport = () => {
       setErrorBody(null);
       setIsModalOpen(true);
     } catch (err: unknown) {
-      let errorMessage = "Error submitting complaint.";
+      let errorMessage = "Error submitting complaint";
       if (err instanceof AxiosError && err.response?.data) {
         errorMessage = err.response.data.errors || errorMessage;
       }
@@ -154,7 +154,7 @@ const FormReport = () => {
             onChange={handleInputChange}
             type="text"
             icon="bx bx-copy-alt"
-            required={false}
+            required={true}
           />
           <TextArea
             name="content"
@@ -167,6 +167,7 @@ const FormReport = () => {
             name="date_event"
             value={complaint.date_event}
             onChange={handleInputChange}
+            required={true}
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <TextInput

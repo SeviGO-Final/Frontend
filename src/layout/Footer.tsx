@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/image/logo-SeviGO.png";
-import Button from "../components/elements/modal/button/button";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -12,23 +11,19 @@ const Footer = () => {
           <p className="text-3xl lg:text-6xl font-bold">Sevigo</p>
         </div>
 
-        <div className="flex items-center mt-4">
-          <Button
-            type="button"
-            children="Login"
-            className={
-              "text-slate-950 text-md hover:text-orange-500 duration-700"
-            }
+        <div className="flex items-center mt-4 space-x-4">
+          <button
+            className="text-black text-md hover:text-orange-500 duration-700"
             onClick={() => navigate("/login")}
-          />
-          <Button
-            type="button"
-            children="Register"
-            className={
-              "text-slate-950 text-md hover:text-orange-500 duration-700"
-            }
+          >
+            Login
+          </button>
+          <button
+            className="text-black text-md hover:text-orange-500 duration-700"
             onClick={() => navigate("/register")}
-          />
+          >
+            Register
+          </button>
         </div>
         <p className="text-sm my-4">© SeviGo 2024</p>
       </footer>

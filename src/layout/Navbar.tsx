@@ -5,13 +5,11 @@ import Logo from "../assets/image/logo-no-bg.png";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollToSection = (sectionId: string) => {
-    document
-      .getElementById(sectionId)
-      ?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <>
-      <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center bg-white shadow-lg lg:rounded-full lg:mt-4">
+      <nav className="fixed top-0 z-50 px-8 w-full h-14 flex justify-between items-center border border-gray-100 bg-white shadow-xl lg:rounded-full lg:mt-4">
         <div className="flex items-center">
           <img
             src={Logo}
@@ -55,7 +53,6 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-
       <div
         className={`md:hidden ${
           menuOpen ? "block" : "hidden"
@@ -70,17 +67,20 @@ const Navbar = () => {
           overflowY: "auto",
         }}
       >
-        <a href="#" className="text-gray-900 hover:text-orange-500">
+        <a
+          onClick={() => scrollToSection("feature-section")}
+          className="text-gray-900 active:text-orange-500 "
+        >
           Fitur
         </a>
-        <a href="#" className="text-gray-900 hover:text-orange-500">
-          Informasi
-        </a>
-        <a href="#" className="text-gray-900 hover:text-orange-500">
+        <a
+          onClick={() => scrollToSection("faq-section")}
+          className="text-gray-900 active:text-orange-500 "
+        >
           FAQ
         </a>
         <Link to={"/register"}>
-          <a href="#" className="text-gray-900 hover:text-orange-500">
+          <a href="#" className="text-gray-900 active:text-orange-500 ">
             Register
           </a>
         </Link>

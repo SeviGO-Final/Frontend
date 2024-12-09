@@ -216,14 +216,10 @@ describe("FormReport Component", () => {
 
     // Simulasikan modal terbuka
     fireEvent.submit(screen.getByText("SUBMIT"));
-
-    // Tunggu modal muncul
     await waitFor(() => {
       expect(screen.getByText("Please select a category")).toBeInTheDocument();
     });
-
-    // Temukan tombol untuk menutup modal (biasanya `onClose` pada komponen Alert)
-    const closeButton = screen.getByRole("button", { name: /close/i });
+    const closeButton = screen.getByRole("button", { name: /ok/i });
     fireEvent.click(closeButton);
 
     // Verifikasi modal tertutup dan errorBody di-reset

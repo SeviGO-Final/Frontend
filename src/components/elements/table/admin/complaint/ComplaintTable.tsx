@@ -20,7 +20,7 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
       });
       console.log(response);
       if (response.status === 200) {
-        window.location.reload()
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -71,12 +71,12 @@ const ComplaintTable: React.FC<ComplaintTableProps> = ({ complaints }) => {
                         "p-2  rounded-full text-sm text-white text-center",
                         {
                           "bg-green-500":
-                            complaint.current_status === "submitted",
+                            complaint.current_status === "Submitted",
                           "bg-orange-500":
-                            complaint.current_status === "processing",
+                            complaint.current_status === "Processing",
                           "bg-blue-500":
-                            complaint.current_status === "accepted",
-                          "bg-red-500": complaint.current_status === "rejected",
+                            complaint.current_status === "Finished",
+                          "bg-red-500": complaint.current_status === "Rejected",
                         }
                       )}
                     >

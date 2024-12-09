@@ -42,7 +42,7 @@ const Table = () => {
   return (
     <>
       <div className="w-[22rem] lg:w-full">
-        <div className="bg-gray-50 p-4 rounded-lg shadow h-[22rem] lg:h-auto">
+        <div className="bg-gray-50 p-4 rounded-lg shadow h-[32rem] lg:h-auto">
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -51,8 +51,8 @@ const Table = () => {
               onChange={handleSearch}
             />
           </div>
-          <div className="overflow-y-auto h-96 lg:h-1/2">
-            <table className="w-full text-left bg-white rounded-lg shadow-md">
+          <div className="overflow-y-auto h-96 lg:h-1/2 rounded-lg">
+            <table className="w-full text-left bg-white shadow-md">
               <thead>
                 <tr className="sticky top-0 bg-gray-200">
                   <th className="p-2 border-b">Date</th>
@@ -74,10 +74,10 @@ const Table = () => {
                           className={classNames(
                             "p-2  rounded-full text-sm text-white text-center",
                             {
-                              "bg-green-500": item.status === "submitted",
-                              "bg-orange-500": item.status === "processing",
-                              "bg-blue-500": item.status === "accepted",
-                              "bg-red-500": item.status === "rejected",
+                              "bg-green-500": item.status === "Submitted",
+                              "bg-orange-500": item.status === "Processing",
+                              "bg-blue-500": item.status === "Finished",
+                              "bg-red-500": item.status === "Rejected",
                             }
                           )}
                         >
@@ -111,21 +111,21 @@ const Table = () => {
                 )}
               </tbody>
             </table>
-            {/* Pagination */}
-            <div className="flex justify-center items-end mt-4">
-              <div className="btn-group space-x-4">
-                {[...Array(totalPage)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handlePageChange(i + 1)}
-                    className={`btn ${
-                      currentPage === i + 1 ? "btn-active" : ""
-                    } px-8`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
+          </div>
+          {/* Pagination */}
+          <div className="flex justify-center items-end mt-4">
+            <div className="btn-group space-x-4">
+              {[...Array(totalPage)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
+                  className={`btn ${
+                    currentPage === i + 1 ? "btn-active" : ""
+                  } px-8`}
+                >
+                  {i + 1}
+                </button>
+              ))}
             </div>
           </div>
         </div>

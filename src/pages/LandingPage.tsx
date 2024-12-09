@@ -36,7 +36,7 @@ const LandingPage = () => {
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-8 lg:p-4 w-8 lg:w-16 rounded-full bg-orange-500 active:bg-orange-600 text-white shadow-lg hover:shadow-xl active:shadow-none transition-all duration-500"
+          className="fixed bottom-8 right-8 p-2 lg:p-4 w-12 lg:w-16 rounded-full bg-orange-500 active:bg-orange-600 text-white shadow-lg hover:shadow-xl active:shadow-none transition-all duration-500"
         >
           <i className="bx bx-chevron-up text-xl lg:text-2xl font-bold"></i>
         </button>

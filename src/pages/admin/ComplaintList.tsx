@@ -7,6 +7,7 @@ import {
   setComplaintsData,
   searchComplaints,
 } from "../../Redux/reducer/complaintsSlice";
+import { useNameProfile } from "../../hooks/nameProfile";
 
 const ComplaintList: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
@@ -15,6 +16,7 @@ const ComplaintList: React.FC = () => {
   const [complaints, setComplaints] = useState<ComplaintType[]>([]);
   const [filteredData, setFilteredData] = useState<ComplaintType[]>([]);
   const dispatch = useDispatch();
+  const { name } = useNameProfile();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,12 +56,18 @@ const ComplaintList: React.FC = () => {
   };
 
   return (
-    <div className="p-6 flex-1 bg-white">
-      <div className="mb-8">
-        <h1 className="text-3xl text-black font-bold mb-2">Complaint List</h1>
-        <p className="text-gray-600">Report feed</p>
+    <>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl text-black font-bold mb-2">Complaint List</h1>
+          <p className="text-gray-600">Report feed</p>
+        </div>
+        <div className="flex items-center">
+          <i className="bx bxs-user mr-4 bx-md text-orange-400"></i>
+          <h2 className="text-xl">Hi, {name}!</h2>
+        </div>
       </div>
-      <div className="bg-gray-100 p-6 rounded-lg">
+      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
         <div className="flex flex-col sm:flex-row justify-between mb-6">
           {/* Input pencarian */}
           <input
@@ -110,7 +118,7 @@ const ComplaintList: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

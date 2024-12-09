@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../services/api";
 import Alert from "../modal/alert/alert";
 import { AxiosError } from "axios";
+import { useNameProfile } from "../../../hooks/nameProfile";
 
 interface ReportForm {
   title: string;
@@ -24,6 +25,7 @@ const CreateReport: React.FC = () => {
   const [errorBody, setErrorBody] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState("submit");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const { name } = useNameProfile();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -98,7 +100,7 @@ const CreateReport: React.FC = () => {
     <div className="p-3 sm:p-4 md:p-6 flex-1 bg-white h-screen overflow-hidden">
       <div className="flex justify-end items-center mr-2 sm:mr-4 md:mr-8 h-[3vh]">
         <i className="bx bxs-user mr-2 sm:mr-4 text-2xl sm:text-3xl md:text-4xl text-orange-400" />
-        <h2 className="text-sm sm:text-base">Admin2</h2>
+        <h2 className="text-sm sm:text-base">{name} !</h2>
       </div>
       <div className="h-[11vh]">
         <div className="flex items-center gap-2 sm:gap-4">
@@ -125,12 +127,12 @@ const CreateReport: React.FC = () => {
                   type="text"
                   name="title"
                   value={feedback.title}
+                  required={true}
                   onChange={handleInputChange}
                   className="input input-bordered w-full h-8 lg:h-10 text-sm sm:text-base"
                   placeholder="Masukkan Judul.."
                 />
               </div>
-
               <div>
                 <label className="block text-xs sm:text-sm font-medium mb-0.5 lg:mb-1">
                   Date
@@ -139,6 +141,7 @@ const CreateReport: React.FC = () => {
                   type="date"
                   name="date"
                   value={feedback.date}
+                  required={true}
                   onChange={handleInputChange}
                   className="input input-bordered w-full h-8 lg:h-10 text-sm sm:text-base p-1"
                 />
@@ -151,6 +154,7 @@ const CreateReport: React.FC = () => {
                   name="description"
                   value={feedback.description}
                   onChange={handleInputChange}
+                  required={true}
                   className="textarea textarea-bordered w-full text-sm sm:text-base p-2 h-20 sm:h-24 md:h-28"
                   placeholder="Tulis Deskripsi.."
                 />
