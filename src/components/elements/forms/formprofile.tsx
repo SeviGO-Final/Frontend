@@ -168,7 +168,6 @@ const FormProfile = () => {
           </label>
         </div>
       </div>
-
       <div className="w-full md:w-2/3">
         <div className="bg-slate-200 py-2 flex justify-center rounded-lg mb-6">
           <h1>Your Profile</h1>

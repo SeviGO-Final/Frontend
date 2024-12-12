@@ -105,12 +105,14 @@ const Table: React.FC = () => {
                       className={`px-4 rounded-xl text-white ${
                         user.is_verified ? "bg-green-500" : "bg-red-500"
                       }`}
+                      data-testid={`status-${user._id}`}
                     >
                       {user.is_verified ? "Verified" : "Unverified"}
                     </span>
                   </td>
                   <td className="p-2 border-b">
                     <Button
+                      data-testid={`verify-btn-${user._id}`}
                       onClick={() => handleVerified(user._id, user.is_verified)}
                       className={`bg-orange-500 text-white px-4 py-1 rounded ${
                         user.is_verified && "opacity-50 cursor-not-allowed"

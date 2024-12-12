@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../services/api";
 import Alert from "../modal/alert/alert";
-import { AxiosError } from "axios";
 import { useNameProfile } from "../../../hooks/nameProfile";
+import Button from "../modal/button/button";
 
 interface ReportForm {
   title: string;
@@ -59,32 +59,20 @@ const CreateReport: React.FC = () => {
     formData.append("date", feedback.date);
     if (feedback.attachment) formData.append("attachment", feedback.attachment);
     formData.append("complaint", complaintId);
-
     try {
-      const endpoint =
-        selectedOption === "reject"
-          ? `/admin-feedback/${complaintId}/reject`
-          : `/admin-feedback/${complaintId}`;
+      const endpoint = `/admin-feedback/${complaintId}${
+        selectedOption === "reject" ? "/reject" : ""
+      }`;
       const response = await api.post(endpoint, formData);
-
       if ([200, 201].includes(response.status)) {
-        console.log("Response Data:", response.data);
         setIsModalOpen(true);
-      } else {
-        console.error("Response Error:", response.data);
+        return { status: "success", data: response.data };
+      }
+      if ([200, 201].includes(response.status)) {
+        setIsModalOpen(true);
       }
     } catch (error: unknown) {
-      console.error(
-        "Error Response:",
-        (error instanceof AxiosError && error.response?.data) ||
-          (error instanceof AxiosError && error.message)
-      );
-      alert(
-        `Terjadi kesalahan saat mengirim feedback: ${
-          (error instanceof AxiosError && error.response?.data?.message) ||
-          "Internal Server Error"
-        }`
-      );
+      console.error("Error Response:", error);
     }
   };
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -117,8 +105,11 @@ const CreateReport: React.FC = () => {
             <h2 className="text-lg sm:text-md font-semibold mb-4">
               New Feedback
             </h2>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              data-testId="form-submit"
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
               <div>
                 <label className="block text-xs sm:text-sm font-medium mb-0.5 lg:mb-1">
                   Title Report
@@ -143,7 +134,8 @@ const CreateReport: React.FC = () => {
                   value={feedback.date}
                   required={true}
                   onChange={handleInputChange}
-                  className="input input-bordered w-full h-8 lg:h-10 text-sm sm:text-base p-1"
+                  placeholder="Pilih Tanggal.."
+                  className="input input-bordered w-full h-8 lg:h-10 text-sm sm:text-base px-4"
                 />
               </div>
               <div>
@@ -155,7 +147,7 @@ const CreateReport: React.FC = () => {
                   value={feedback.description}
                   onChange={handleInputChange}
                   required={true}
-                  className="textarea textarea-bordered w-full text-sm sm:text-base p-2 h-20 sm:h-24 md:h-28"
+                  className="textarea textarea-bordered w-full text-sm sm:text-base px-4 h-20 sm:h-24 md:h-28"
                   placeholder="Tulis Deskripsi.."
                 />
               </div>
@@ -165,21 +157,26 @@ const CreateReport: React.FC = () => {
                 </label>
                 <select
                   name="option"
+                  data-testid="select-option"
                   value={selectedOption}
                   onChange={handleOptionChange}
                   className="input input-bordered w-full h-8 lg:h-10 text-sm sm:text-base"
                 >
                   <option value="reject">Reject</option>
-                  <option value="submit">Submit</option>
+                  <option value="submit">Finish</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-medium mb-1">
+                <label
+                  htmlFor="image-upload"
+                  className="block text-xs sm:text-sm font-medium mb-1"
+                >
                   Image
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                   <input
                     type="file"
+                    data-testid="image-upload"
                     id="image-upload"
                     accept=".jpg,.png,.jpeg"
                     onChange={handleFileChange}
@@ -214,25 +211,28 @@ const CreateReport: React.FC = () => {
               </div>
 
               <div className="flex justify-end space-x-2 sm:space-x-4 pt-2">
-                <button
+                <Button
                   type="button"
                   className="btn btn-error text-white text-xs sm:text-sm px-3 sm:px-4 py-2"
                   onClick={() => navigate(-1)}
                 >
                   CANCEL
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   className="btn btn-success text-white text-xs sm:text-sm px-3 sm:px-4 py-2"
                 >
                   SUBMIT
-                </button>
+                </Button>
               </div>
-              <Alert
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                message={errorBody ? errorBody : "Feedback telah terkirim."}
-              />
+              <div data-testid="error-body">
+                <Alert
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  message={errorBody ? errorBody : "Feedback telah terkirim."}
+                  data-testid={"error-body"}
+                />
+              </div>
             </form>
           </div>
         </div>

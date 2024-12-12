@@ -4,15 +4,24 @@ interface AlertProps {
   isOpen: boolean;
   onClose: () => void;
   message: [] | string;
+  "data-testid"?: string;
 }
 
-const Alert: React.FC<AlertProps> = ({ isOpen, onClose, message }) => {
+const Alert: React.FC<AlertProps> = ({
+  isOpen,
+  onClose,
+  message,
+  "data-testid": testId,
+}) => {
   if (!isOpen) {
     return null;
   }
 
   return (
-    <div className="fixed top-0 -left-4 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div
+      data-testid={testId}
+      className="fixed top-0 -left-4 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center"
+    >
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <p className="text-center text-gray-800">{message}</p>
         <div className="flex justify-center mt-4">
