@@ -19,8 +19,8 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
     } else {
       const fetchImage = async () => {
         try {
-          const API_URL = import.meta.env.VITE_API_URL;
-          const response = await axios.get(`${API_URL}/${image}`, {
+          const ASSET_URL = import.meta.env.VITE_ASSET_URL;
+          const response = await axios.get(`${ASSET_URL}/${image}`, {
             responseType: "blob",
           });
           url = URL.createObjectURL(response.data);
