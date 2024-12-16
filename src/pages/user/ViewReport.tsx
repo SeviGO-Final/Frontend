@@ -62,14 +62,18 @@ const ViewReport = () => {
   }, [id, categories]);
 
   if (!complaint) {
-    return <p>Loading...</p>;
+    return (
+      <div className="bg-orange-500 text-white p-4 w-1/5 flex justify-center items-center m-64 ml-96 text-2xl font-bold rounded-xl">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="lg:flex lg:flex-col lg:bg-gray-50 lg:p-8 rounded-lg mt-4">
+      <div className="lg:flex lg:flex-col lg:bg-gray-50 lg:p-8 rounded-lg">
         <SideBar isOpen={false} />
-        <h1 className="bg-orange-500 text-white text-xl font-bold text-center p-4 rounded-lg mb-8 shadow-md">
+        <h1 className="bg-orange-500 text-white text-xl font-bold text-center p-2 rounded-lg mb-4 shadow-md">
           Detail Laporan - {id}
         </h1>
         <div className="bg-transparent lg:bg-white flex flex-col items-center py-8 lg:px-8 rounded-lg lg:shadow-lg">

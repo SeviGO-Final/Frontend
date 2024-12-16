@@ -7,7 +7,7 @@ const NewReport = () => {
       <div className="flex">
         <SideBar isOpen={false} />
         <div className="w-full">
-          <div className="mt-4 flex items-center">
+          <div className="flex items-center">
             <h1 className="my-8 ml-8 text-3xl">Buat Laporan Baru</h1>
             <hr className="border border-black w-4/5" />
           </div>

@@ -9,6 +9,7 @@ interface ImagePreviewProps {
 
 const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let url: string | null = null;
@@ -16,8 +17,10 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
     if (image instanceof File) {
       url = URL.createObjectURL(image);
       setImageUrl(url);
+      setLoading(false);
     } else {
       const fetchImage = async () => {
+        setLoading(false);
         try {
           const ASSET_URL = import.meta.env.VITE_ASSET_URL;
           const response = await axios.get(`${ASSET_URL}/${image}`, {
@@ -38,6 +41,17 @@ const ImagePreviewFromAPI: React.FC<ImagePreviewProps> = ({ image, alt }) => {
       }
     };
   }, [image]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full rounded-full">
+        <div
+          className="loading loading-spinner loading-lg text-gray-500"
+          role="status"
+        ></div>
+      </div>
+    );
+  }
 
   const imagePath = typeof image === "string" ? image : null;
 

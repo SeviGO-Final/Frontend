@@ -144,8 +144,9 @@ const ComplaintDetail: React.FC = () => {
           >
             {loading ? (
               <>
-                <span className="loading loading-spinner loading-sm"></span>
-                Loading...
+                <div className="bg-orange-500 text-white p-4 w-1/5 flex justify-center items-center m-64 ml-96 text-2xl font-bold rounded-xl">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
               </>
             ) : (
               <>
